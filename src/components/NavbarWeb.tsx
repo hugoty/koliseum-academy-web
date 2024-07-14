@@ -3,9 +3,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaHouse, FaUserNinja, FaCalendarDays, FaBook, FaUser } from 'react-icons/fa6';
 
-const Navbar: React.FC = () => {
+const NavbarWeb: React.FC = () => {
   return (
-    <div className="bg-[#1f262e] text-white flex justify-around pb-2 pt-4 mb-2 shadow-top-lg md:hidden">
+    <div className="bg-[#2C3540] text-white md:flex hidden justify-center my-10 py-4 rounded-2xl w-6/12 mx-auto">
       <NavLink
         to="/"
         className={({ isActive }) =>
@@ -55,4 +55,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default NavbarWeb;

@@ -1,0 +1,71 @@
+{
+	"participants": [
+		{
+			"nom": "Skywalker",
+			"prenom": "Luke",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Potter",
+			"prenom": "Harry",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Stark",
+			"prenom": "Tony",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Wayne",
+			"prenom": "Bruce",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Kent",
+			"prenom": "Clark",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Parker",
+			"prenom": "Peter",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Banner",
+			"prenom": "Bruce",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Rogers",
+			"prenom": "Steve",
+			"profilPicture": "https://via.placeholder.com/150"
+		}
+	],
+	"coachs": [
+		{
+			"nom": "Miyagi",
+			"prenom": "Mr.",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Balboa",
+			"prenom": "Rocky",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Yoda",
+			"prenom": "Le",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Durden",
+			"prenom": "Tyler",
+			"profilPicture": "https://via.placeholder.com/150"
+		},
+		{
+			"nom": "Williams",
+			"prenom": "Serena",
+			"profilPicture": "https://via.placeholder.com/150"
+		}
+	]
+}
