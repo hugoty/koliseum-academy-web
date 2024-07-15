@@ -19,7 +19,7 @@ const CardCours: React.FC<CardCoursProps> = ({ id, nom, prenom, sport, position,
   const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   return (
-    <NavLink to={`/cours/${id}`} rel={`Cours n°${id}`} className="md:w-5/12 w-full rounded-lg bg-[#2C3540] mb-4 mx-4 p-4">
+    <NavLink to={`/cours/${id}`} rel={`Cours n°${id}`} className="md:w-5/12 w-full rounded-lg bg-[#2c3540b5] mb-4 mx-4 p-4 hover:bg-[#2c35405a]">
         <h3 className="text-center font-bold">Cours de {sport}</h3>
         <h4 className="text-center font-light text-sm mb-4">{prenom} {nom}</h4>
         <div className="w-full flex flex-row flex-wrap justify-between text-sm">
