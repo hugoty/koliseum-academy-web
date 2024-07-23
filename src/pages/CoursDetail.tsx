@@ -19,12 +19,12 @@ const CoursDetail: React.FC = () => {
 
 
     return (
-            <div className="text-white flex flex-col items-center justify-between h-full pt-4">
-                <div onClick={() => navigate(-1)} className="hover:text-red-500 w-full text-left text-2xl mb-4 cursor-pointer">
-                    <FaAngleLeft />
-                </div>
-                <CardCoursDetail id={id ? id : ""} />
+        <div className="text-white flex flex-col items-center justify-between h-full pt-4">
+            <div onClick={() => navigate(-1)} className="hover:text-red-500 w-full text-left text-2xl mb-4 cursor-pointer">
+                <FaAngleLeft />
             </div>
+            <CardCoursDetail id={id ? id : ""} />
+        </div>
     );
 };
 

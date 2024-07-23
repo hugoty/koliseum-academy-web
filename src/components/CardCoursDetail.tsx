@@ -32,23 +32,23 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({ id }) => {
                 <div className="flex-1 flex flex-row flex-nowrap items-center mb-2"><FaUsers className="mr-2" />{cours.participants.length} participants</div>
                 <div className='w-full flex flex-col mb-4'>
                     {cours.participants.map((participant: any, index: any) => (
-                        <div key={index} className="flex items-center py-2 group cursor-pointer">
+                        <NavLink to={`/user/${participant.id}`} rel={`Coach n°${participant.id}`} key={index} className="flex items-center py-2 group cursor-pointer">
                             <div className="mr-2">
                                 <ProfilPicture src={participant.profilPicture} alt={`Photo de profil de ${participant.prenom} ${participant.nom}`} />
                             </div>
                             <span className="group-hover:underline">{participant.prenom} {participant.nom}</span>
-                        </div>
+                        </NavLink>
                     ))}
                 </div>
                 <div className="flex-1 flex flex-row flex-nowrap items-center"><FaUsers className="mr-2" />{cours.coachs.length} coachs</div>
                 <div className='w-full flex flex-col'>
                     {cours.coachs.map((coach: any, index: any) => (
-                        <div key={index} className="flex items-center py-2 group cursor-pointer">
+                        <NavLink to={`/coach/${coach.id}`} rel={`Coach n°${coach.id}`} key={index} className="flex items-center py-2 group cursor-pointer">
                             <div className="mr-2">
                                 <ProfilPicture src={coach.profilPicture} alt={`Photo de profil de ${coach.prenom} ${coach.nom}`} />
                             </div>
                             <span className="group-hover:underline">{coach.prenom} {coach.nom}</span>
-                        </div>
+                        </NavLink>
                     ))}
                 </div>
             </div>

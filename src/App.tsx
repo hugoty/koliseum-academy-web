@@ -8,6 +8,8 @@ import Sports from './pages/Sports';
 import Profil from './pages/Profil';
 import NavbarWeb from './components/NavbarWeb';
 import CoursDetail from './pages/CoursDetail';
+import CoachDetail from './pages/CoachDetail';
+import ParticipantDetail from './pages/ParticipantDetail';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
                   <Route path="/sports" element={<Sports />} />
                   <Route path="/profil" element={<Profil />} />
                   <Route path="/cours/:id" element={<CoursDetail />} />
+                  <Route path="/coach/:id" element={<CoachDetail />} />
+                  <Route path="/user/:id" element={<ParticipantDetail />} />
                 </Routes>
               </div>
             </div>

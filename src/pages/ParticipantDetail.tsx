@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import coachsData from '../data/coachs.json';
+import usersData from '../data/users.json';
 import { FaAngleLeft } from "react-icons/fa6";
 import ProfilPicture from '../components/ProfilPicture';
 import CardCours from '../components/CardCours';
@@ -8,10 +8,10 @@ import CardCours from '../components/CardCours';
 const CoachDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const coach = coachsData.coachs.find(event => event.id.toString() === id);
+    const users = usersData.users.find(event => event.id.toString() === id);
         
-    if (!coach) {
-        return <div className="text-white flex flex-col items-center justify-center h-full">Cours non trouvé</div>;
+    if (!users) {
+        return <div className="text-white flex flex-col items-center justify-center h-full">Utilisateur introuvable</div>;
     }
 
     return (
@@ -21,20 +21,18 @@ const CoachDetail: React.FC = () => {
             </div>
             <div className='mb-6'>
                 <div className="w-36 h-36 overflow-hidden rounded-full">
-                    <img src={coach.profilPicture} alt={`Photo de profil de ${coach.prenom} ${coach.nom}`} className="object-cover w-full h-full" />
+                    <img src={users.profilPicture} alt={`Photo de profil de ${users.prenom} ${users.nom}`} className="object-cover w-full h-full" />
                 </div>
             </div>
-            <h2 className=" flex-1 mb-4 text-2xl">{coach.prenom} {coach.nom}</h2>
-            <h3 className=" flex-1 font-light mb-10 text-xl">Expert en {coach.sport}</h3>
-            <span className="w-full border-b-[0.5px] border-white mb-10"></span>
-            <h3 className="w-full mb-4 text-left text-lg">Prochains cours :</h3>
-            {coach.cours.map((cours, index) => (
+            <h2 className=" flex-1 mb-4 text-2xl">{users.prenom} {users.nom}</h2>
+            <h3 className=" flex-1 font-light mb-4 text-xl">Expert en {users.sport}</h3>
+            {users.cours.map((cours, index) => (
                 <CardCours
                     key={index}
                     id={cours.id}
-                    nom={coach.nom}
-                    prenom={coach.prenom}
-                    sport={coach.sport}
+                    nom={cours.nom}
+                    prenom={cours.prenom}
+                    sport={cours.sport}
                     position={cours.position}
                     dateHoraire={cours.dateHoraire}
                     places={cours.places}
