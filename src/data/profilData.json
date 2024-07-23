@@ -1,0 +1,13 @@
+{
+    "email": "example@gmail.com",
+    "password": "********",
+    "age": 23,
+    "sports": "boxe anglaise, boxe thaï, ju-jitsu",
+    "documents": [
+      "Certificat médical",
+      "Carte d'identité",
+      "Assurance civile",
+      "Diplôme, certificat de sport"
+    ]
+  }
+  

@@ -4,6 +4,7 @@ module.exports = {
 		extend: {
 			fontFamily: {
 				reggae: ['"Reggae One"', "cursive"],
+				montserrat: ['"Montserrat"', "sans-serif"],
 			},
 			boxShadow: {
 				"top-lg":
