@@ -10,6 +10,7 @@ import NavbarWeb from './components/NavbarWeb';
 import CoursDetail from './pages/CoursDetail';
 import CoachDetail from './pages/CoachDetail';
 import ParticipantDetail from './pages/ParticipantDetail';
+import CreationCours from './pages/CreationCours';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                   <Route path="/cours/:id" element={<CoursDetail />} />
                   <Route path="/coach/:id" element={<CoachDetail />} />
                   <Route path="/user/:id" element={<ParticipantDetail />} />
+                  <Route path="/cours/creation" element={<CreationCours />} />
                 </Routes>
               </div>
             </div>
