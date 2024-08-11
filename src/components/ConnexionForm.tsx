@@ -1,36 +1,30 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const ConnexionForm: React.FC = () => {
+interface ConnexionFormProps {
+    onSubmit: (email: string, password: string) => void;
+    error?: { message: string } | null; // Modifier ici pour inclure 'null'
+}
+
+const ConnexionForm: React.FC<ConnexionFormProps> = ({ onSubmit, error }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        const newUser = {
-            email,
-            password,
-        };
-
-        console.log("Nouveau cours créé :", newUser);
-        // Ajoutez ici la logique pour envoyer les données au backend ou mettre à jour l'état global
-
-        // Réinitialiser le formulaire
-        setEmail("");
-        setPassword("");
+        onSubmit(email, password);
     };
 
     return (
         <div className="w-full md:w-3/5 flex flex-col md:m-auto m-0">
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col mb-4">
-                    <label htmlFor="sport" className="mb-4">
+                    <label htmlFor="email" className="mb-4">
                         Email
                     </label>
                     <input
                         type="email"
-                        id="sport"
+                        id="email"
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -38,18 +32,19 @@ const ConnexionForm: React.FC = () => {
                     />
                 </div>
                 <div className="flex flex-col mb-8">
-                    <label htmlFor="participants" className="mb-4">
+                    <label htmlFor="password" className="mb-4">
                         Mot de passe
                     </label>
                     <input
                         type="password"
-                        id="participants"
+                        id="password"
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
+                {error && <div className="text-red-500 mb-4">{error.message}</div>}
                 <div className="w-full flex flex-row justify-between">
                     <button
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"

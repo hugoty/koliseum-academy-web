@@ -1,9 +1,20 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import ConnexionForm from "../components/ConnexionForm";
 import { FaAngleLeft } from "react-icons/fa6";
+import { useApiUser } from "../hooks/useApiUser";
 
 const Connexion: React.FC = () => {
     const navigate = useNavigate();
+    const { login, error } = useApiUser();
+
+    const handleLogin = async (email: string, password: string) => {
+        await login(email, password);
+
+        if (localStorage.getItem("token")) {
+            navigate("/profil");
+        }
+    };
 
     return (
         <div className="w-full flex flex-col text-white">
@@ -13,7 +24,7 @@ const Connexion: React.FC = () => {
             >
                 <FaAngleLeft />
             </div>
-            <ConnexionForm />
+            <ConnexionForm onSubmit={handleLogin} error={error} />
         </div>
     );
 };
