@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import sportsCombat from "../data/sportsCombat.json";
 import Select from "react-select";
-import "./SelectStyles.css";
 
 const CreationCoursForm: React.FC = () => {
     const [sport, setSport] = useState<{ value: string; label: string } | null>(
@@ -16,15 +15,13 @@ const CreationCoursForm: React.FC = () => {
 
         const newCourse = {
             sport: sport?.value,
-            participants: Number(participants), // Convertir les participants en nombre
+            participants: Number(participants),
             date,
             lieu,
         };
 
         console.log("Nouveau cours créé :", newCourse);
-        // Ajoutez ici la logique pour envoyer les données au backend ou mettre à jour l'état global
 
-        // Réinitialiser le formulaire
         setSport(null);
         setParticipants("");
         setDate("");
@@ -40,13 +37,45 @@ const CreationCoursForm: React.FC = () => {
                     </label>
                     <Select
                         id="sport"
-                        classNamePrefix="custom-select" // Applique les classes avec le préfixe custom-select
+                        classNamePrefix="custom-select"
                         value={sport}
                         onChange={(selectedOption) => setSport(selectedOption)}
                         options={sportsCombat}
                         isClearable
                         placeholder="Sélectionnez un sport de combat"
                         required
+                        styles={{
+                            control: (base) => ({
+                                ...base,
+                                backgroundColor: "#2c3540b5",
+                                borderRadius: "0.5rem",
+                                padding: "0.5rem 1rem 0.5rem 0rem",
+                                border: "none",
+                                color: "white",
+                            }),
+                            option: (base, state) => ({
+                                ...base,
+                                backgroundColor: state.isFocused ? "#3b4a5a" : "#2c3540b5",
+                                color: "white",
+                            }),
+                            singleValue: (base) => ({
+                                ...base,
+                                color: "white",
+                            }),
+                            placeholder: (base) => ({
+                                ...base,
+                                color: "white",
+                            }),
+                            menu: (base) => ({
+                                ...base,
+                                backgroundColor: "#2c3540",
+                                borderRadius: "0.5rem",
+                            }),
+                            input: (base) => ({
+                                ...base,
+                                color: "white",
+                            }),
+                        }}
                     />
                 </div>
                 <div className="flex flex-col mb-4">
@@ -56,7 +85,7 @@ const CreationCoursForm: React.FC = () => {
                     <input
                         type="number"
                         id="participants"
-                        className="rounded-lg bg-[#2c3540b5] px-4 py-2"
+                        className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         value={participants}
                         onChange={(e) => setParticipants(e.target.value)}
                         required
@@ -70,7 +99,7 @@ const CreationCoursForm: React.FC = () => {
                         type="date"
                         id="date"
                         value={date}
-                        className="rounded-lg bg-[#2c3540b5] px-4 py-2"
+                        className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDate(e.target.value)}
                         required
                     />
@@ -83,13 +112,13 @@ const CreationCoursForm: React.FC = () => {
                         type="text"
                         id="lieu"
                         value={lieu}
-                        className="rounded-lg bg-[#2c3540b5] px-4 py-2"
+                        className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setLieu(e.target.value)}
                         required
                     />
                 </div>
                 <button
-                    className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                    className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white hover:bg-[#2c35405a]"
                     type="submit"
                 >
                     Créer le cours

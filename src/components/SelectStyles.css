@@ -2,31 +2,31 @@
 
 /* Style pour le conteneur principal du Select */
 .custom-select__control {
-    @apply bg-[#2c3540b5] rounded-lg py-2 px-4 border-none text-white;
-    /* Ajoutez des styles personnalisés ici si nécessaire */
+	@apply bg-[#2c3540b5] rounded-lg py-2 px-4 border-none text-white;
+	/* Ajoutez des styles personnalisés ici si nécessaire */
 }
 
 /* Style pour les options du menu */
 .custom-select__option {
-    @apply bg-[#2c3540b5] text-white hover:bg-[#3b4a5a];
+	@apply bg-[#2c3540b5] text-white hover:bg-[#3b4a5a];
 }
 
 /* Style pour la valeur sélectionnée */
 .custom-select__single-value {
-    @apply text-white;
+	@apply text-white;
 }
 
 /* Style pour le placeholder */
 .custom-select__placeholder {
-    @apply text-white;
+	@apply text-white;
 }
 
 /* Style pour le menu déroulant */
 .custom-select__menu {
-    @apply bg-[#2c3540] rounded-lg;
+	@apply bg-[#2c3540] rounded-lg;
 }
 
 /* Style pour le texte saisi dans le champ */
 .custom-select__input {
-    @apply text-white;
+	@apply text-white;
 }

@@ -14,7 +14,25 @@ interface CardCoursProps {
 const CardCours: React.FC<CardCoursProps> = ({ id, nom, prenom, sport, position, dateHoraire, places }) => {
   // Formater la date et l'heure
   const date = new Date(dateHoraire);
-  const formattedDate = date.toLocaleDateString();
+
+  // Date actuelle
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Date de demain
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+    // Formater la date
+  let formattedDate;
+  if (date.toDateString() === today.toDateString()) {
+    formattedDate = "Aujourd'hui";
+  } else if (date.toDateString() === tomorrow.toDateString()) {
+    formattedDate = "Demain";
+  } else {
+    formattedDate = date.toLocaleDateString();
+  }
+
   const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   return (

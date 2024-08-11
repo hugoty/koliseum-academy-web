@@ -91,25 +91,7 @@ const Coaching: React.FC = () => {
             <h2 className="mb-4 font-bold w-full border-b-[0.5px] pb-2">Aujourd'hui</h2>
             {todayCourses.length > 0 ? (
               todayCourses.map((cours, index) => (
-                <CardCours
-                  key={index}
-                  id={cours.id}
-                  nom={cours.nom}
-                  prenom={cours.prenom}
-                  sport={cours.sport}
-                  position={cours.position}
-                  dateHoraire={cours.dateHoraire}
-                  places={cours.places}
-                />
-              ))
-            ) : (
-              <p className="font-light text-center mb-4 mt-4">Aucun cours aujourd'hui ..</p>
-            )}
-          </div>
-          <div className="w-full flex flex-col justify-center flex-wrap">
-            <h2 className="mt-4 mb-4 font-bold w-full border-b-[0.5px] pb-2">Demain</h2>
-              {tomorrowCourses.length > 0 ? (
-                tomorrowCourses.map((cours, index) => (
+                <div className="w-full flex justify-center">
                   <CardCours
                     key={index}
                     id={cours.id}
@@ -120,6 +102,28 @@ const Coaching: React.FC = () => {
                     dateHoraire={cours.dateHoraire}
                     places={cours.places}
                   />
+                </div>
+              ))
+            ) : (
+              <p className="font-light text-center mb-4 mt-4">Aucun cours aujourd'hui ..</p>
+            )}
+          </div>
+          <div className="w-full flex flex-col justify-center flex-wrap">
+            <h2 className="mt-4 mb-4 font-bold w-full border-b-[0.5px] pb-2">Demain</h2>
+              {tomorrowCourses.length > 0 ? (
+                tomorrowCourses.map((cours, index) => (
+                  <div className="w-full flex justify-center">
+                    <CardCours
+                      key={index}
+                      id={cours.id}
+                      nom={cours.nom}
+                      prenom={cours.prenom}
+                      sport={cours.sport}
+                      position={cours.position}
+                      dateHoraire={cours.dateHoraire}
+                      places={cours.places}
+                    />
+                  </div>
                 ))
               ) : (
               <p className="font-light text-center mb-4 mt-4">Aucun cours demain ..</p>
@@ -129,16 +133,18 @@ const Coaching: React.FC = () => {
             <h2 className="mt-4 mb-4 font-bold w-full border-b-[0.5px] pb-2">Prochainement</h2>
             {upcomingCourses.length > 0 ? (
               upcomingCourses.map((cours, index) => (
-                <CardCours
-                  key={index}
-                  id={cours.id}
-                  nom={cours.nom}
-                  prenom={cours.prenom}
-                  sport={cours.sport}
-                  position={cours.position}
-                  dateHoraire={cours.dateHoraire}
-                  places={cours.places}
-                />
+                <div className="w-full flex justify-center">
+                  <CardCours
+                    key={index}
+                    id={cours.id}
+                    nom={cours.nom}
+                    prenom={cours.prenom}
+                    sport={cours.sport}
+                    position={cours.position}
+                    dateHoraire={cours.dateHoraire}
+                    places={cours.places}
+                  />
+                </div>
               ))
             ) : (
               <p className="font-light text-center mb-4 mt-4">Aucun cours de programmés ..</p>

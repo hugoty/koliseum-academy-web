@@ -25,7 +25,7 @@ const InscriptionForm: React.FC = () => {
     };
 
     return (
-        <div className="w-full flex flex-col">
+        <div className="w-full md:w-3/5 flex flex-col md:m-auto m-0">
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col mb-4">
                     <label htmlFor="sport" className="mb-4">
