@@ -14,8 +14,11 @@ import CreationCours from "./pages/CreationCours";
 import Connexion from "./pages/Connexion";
 import Inscription from "./pages/Inscription";
 import SportDetail from "./pages/SportDetail";
+import { useAuth } from "./hooks/useAuth";
 
 function App() {
+    useAuth();
+
     return (
         <Router>
             <div className="w-full h-screen flex flex-col justify-between items-center md:bg-[#1f262e] bg-black">

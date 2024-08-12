@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FaCircleUser } from "react-icons/fa6";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userAtom, isConnectedAtom } from "../utils/atom/userAtom";
 
 const Profil: React.FC = () => {
-    const [isConnected, setIsConnected] = useState(false);
+    const user = useRecoilValue(userAtom);
+    const isConnected = useRecoilValue(isConnectedAtom);
+    const setIsConnected = useSetRecoilState(isConnectedAtom);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -13,8 +17,11 @@ const Profil: React.FC = () => {
     // Fonction pour se déconnecter
     const handleLogout = () => {
         localStorage.removeItem("token");
-        setIsConnected(false); // Met à jour l'état pour refléter la déconnexion
+        setIsConnected(false);
     };
+
+    console.log("user : ", user);
+    console.log("isConnected : ", isConnected);
 
     return (
         <div className="text-white flex flex-col items-center justify-center h-full">
