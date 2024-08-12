@@ -1,0 +1,422 @@
+[
+    {
+        "id": 1,
+        "label": "Boxe Anglaise",
+        "image": "https://img.freepik.com/photos-gratuite/vue-laterale-du-boxeur-masculin-casque-pratiquant-dans-ring_23-2148759700.jpg?t=st=1723315800~exp=1723319400~hmac=d6d860e0d854db1f466292c8805c3379c21ce2507e2b9ce0bd33adf3ed1e6c27&w=740",
+        "description": "La Boxe Anglaise est un sport de combat où les coups de poing sont les seules techniques autorisées. C'est l'une des disciplines les plus anciennes et populaires au monde.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "La Boxe Anglaise a des racines qui remontent à l'Angleterre du 17e siècle. Elle est devenue un sport organisé avec des règles codifiées au 19e siècle."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les principales techniques incluent le jab, le cross, le hook et l'uppercut. Les boxeurs utilisent également des techniques de défense telles que l'esquive, la garde et le blocage."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les compétitions de boxe anglaise sont divisées en rounds, et les combats peuvent se terminer par décision, KO, ou TKO."
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "label": "Boxe Française (Savate)",
+        "image": "https://img.freepik.com/photos-gratuite/vue-laterale-enfant-pratiquer-boxe_23-2150930390.jpg?t=st=1723315830~exp=1723319430~hmac=4653f9bcb6c7ec1b861980a0f23466485fcbe024b852dc17114683987cbb3843&w=740",
+        "description": "La Boxe Française, ou Savate, est un sport de combat français qui combine les coups de pied et les coups de poing. Elle se distingue par son élégance et ses techniques acrobatiques.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "La Savate est née en France au début du 19e siècle et a été influencée par des techniques de combat de rue et des arts martiaux traditionnels."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les combattants utilisent des coups de pied comme le fouetté et le chassé, combinés avec des coups de poing de la Boxe Anglaise."
+            },
+            {
+                "title": "Compétition",
+                "text": "La Savate est pratiquée à un haut niveau en compétition avec des règles strictes pour assurer la sécurité des combattants."
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "label": "Boxe Thaïlandaise (Muay Thaï)",
+        "image": "https://img.freepik.com/photos-gratuite/deux-boxeurs-se-battent-arts-martiaux-du-muay-thai_1150-24124.jpg?t=st=1723315859~exp=1723319459~hmac=45ce3385ae4b841936809236d1ce0cdcb92909f32bcc915ec0ac3d4490532dd4&w=740",
+        "description": "La Boxe Thaïlandaise, ou Muay Thaï, est un art martial ancestral thaïlandais qui se distingue par l'utilisation des coudes, des genoux, des poings et des pieds.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Muay Thaï remonte à plus de 500 ans et a évolué comme méthode de combat utilisée par les guerriers thaïlandais."
+            },
+            {
+                "title": "Techniques",
+                "text": "Ce sport est célèbre pour l'utilisation des 'huit membres' : coups de poing, coups de pied, coups de coude, et coups de genou."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les combats de Muay Thaï sont intenses et comprennent cinq rounds de trois minutes chacun, où les combattants cherchent à dominer par la puissance et la technique."
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "label": "Kickboxing",
+        "image": "https://img.freepik.com/photos-gratuite/mma-deux-combattants-professionnels-poinconnage-boxe-isole-mur-bleu-neon_155003-15573.jpg?t=st=1723315883~exp=1723319483~hmac=0ee00da091bfb5ca1d65f2b6edce0283af669e1e67b7f678ce862094425e373b&w=740",
+        "description": "Le Kickboxing est un sport de combat moderne qui combine les coups de poing de la boxe avec les coups de pied. Il est largement pratiqué pour le fitness, l'autodéfense et la compétition.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Kickboxing a émergé au Japon dans les années 1950, en fusionnant le karaté et la boxe occidentale."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques incluent les coups de pied circulaires, les low-kicks, les coups de poing directs et les combinaisons de boxe."
+            },
+            {
+                "title": "Compétition",
+                "text": "Le Kickboxing est pratiqué en compétition avec différentes règles, allant du light-contact au full-contact, en fonction du niveau de contact autorisé."
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "label": "Full Contact",
+        "image": "https://nathalieleroy.com/wp-content/uploads/2020/02/Kickboxing-1536x1536.jpg",
+        "description": "Le Full Contact est un sport de combat où les coups sont portés avec force, en utilisant les poings et les pieds au-dessus de la ceinture. C'est un style dérivé du karaté et du kickboxing.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Full Contact a été développé aux États-Unis dans les années 1960 comme une forme plus agressive du karaté traditionnel."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques sont similaires à celles du kickboxing, avec un accent sur les coups puissants et les enchaînements rapides."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les combats de Full Contact sont souvent organisés en rounds, et les combattants portent des protections pour minimiser les blessures."
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "label": "Arts Martiaux Mixtes (MMA)",
+        "image": "https://img.freepik.com/photos-gratuite/combattants-mma-ring-professionnel-fighting-championship_654080-1852.jpg?t=st=1723315942~exp=1723319542~hmac=68e15976ef664b0e5d059c149fae605317ce821958a4b3e6fbeb5ecedb4b2aca&w=740",
+        "description": "Le MMA est un sport de combat complet combinant diverses techniques de combat telles que le jiu-jitsu, la boxe, le kickboxing et la lutte. Il est populaire pour son approche sans restriction.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le MMA moderne a émergé dans les années 1990 avec des événements comme l'UFC, qui ont permis aux pratiquants de différents arts martiaux de s'affronter."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les combattants utilisent un mélange de techniques de frappe debout, de lutte au sol, et de soumissions pour vaincre leurs adversaires."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les combats de MMA se déroulent dans une cage octogonale et sont souvent très intenses, avec un mélange de styles et de stratégies."
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "label": "Karaté",
+        "image": "https://img.olympics.com/images/image/private/t_s_16_9_g_auto/t_s_w960/f_auto/primary/j1sfphb9tbebb5zc7vap",
+        "description": "Le Karaté est un art martial japonais qui met l'accent sur les techniques de frappe, les coups de pied et les blocages. Il est pratiqué dans le monde entier pour ses bienfaits physiques et mentaux.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Karaté est originaire d'Okinawa et a été influencé par les arts martiaux chinois et le combat indigène Ryukyu."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques de Karaté incluent les tsuki (coups de poing), les keri (coups de pied), et les kata (formes d'entraînement)."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les compétitions de Karaté se divisent en kata et kumite (combat), avec des règles strictes pour protéger les pratiquants."
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "label": "Taekwondo",
+        "image": "https://img.freepik.com/photos-gratuite/prise-vue-studio-toute-longueur-deux-femmes-athletes-taekwondo-s-entrainant-isoles-fond-noir_155003-45455.jpg?t=st=1723315961~exp=1723319561~hmac=b37363ea477a28ca24f6dd8542f8a6ba8559037daf10a1f1eceb065d716ce7b6&w=740",
+        "description": "Le Taekwondo est un art martial coréen célèbre pour ses coups de pied spectaculaires et ses techniques de frappe rapides. Il est également une discipline olympique depuis 2000.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Taekwondo a été développé en Corée dans les années 1940, combinant des techniques traditionnelles de combat coréen avec des influences modernes."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques de Taekwondo sont caractérisées par des coups de pied élevés, des coups de pied sautés, et des coups de poing rapides."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les compétitions de Taekwondo sont régies par la World Taekwondo Federation (WTF) et incluent des combats en kyorugi (combat libre) et des démonstrations de poomsae (formes)."
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "label": "Judo",
+        "image": "https://img.freepik.com/photos-gratuite/deux-judokas-combattant-hommes_155003-10228.jpg?t=st=1723316013~exp=1723319613~hmac=31fad88dc85cd6d22d70430852fda27b6e79cfd833eb531b8320ccd81090a526&w=740",
+        "description": "Le Judo est un art martial japonais axé sur les projections, les immobilisations et les soumissions. C'est également un sport olympique reconnu pour son efficacité et sa philosophie de contrôle de soi.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Judo a été fondé par Jigoro Kano en 1882, basé sur les techniques de jujitsu mais avec une philosophie de non-violence et de développement personnel."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques de Judo incluent les projections (nage-waza), les immobilisations (osae-waza), et les soumissions par étranglement ou clé de bras."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les compétitions de Judo sont strictement réglementées, avec des catégories de poids et des règles pour assurer la sécurité des judokas."
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "label": "Jiu-Jitsu Brésilien",
+        "image": "https://www.ffjudo.com/photo-contenu/233_1673449180_7303ae2ee9714501ed28.jpg",
+        "description": "Le Jiu-Jitsu Brésilien (BJJ) est un art martial axé sur le combat au sol, les soumissions, et le contrôle de l'adversaire. Il est devenu une composante essentielle du MMA.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le BJJ a été développé au Brésil au début du 20e siècle, influencé par le judo et le jiu-jitsu japonais, et popularisé par la famille Gracie."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques de BJJ incluent les clés de bras, les étranglements, et les transitions pour dominer l'adversaire au sol."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les compétitions de BJJ sont axées sur le contrôle et la soumission de l'adversaire, avec des points attribués pour les positions dominantes."
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "label": "Lutte",
+        "image": "https://img.freepik.com/photos-gratuite/hommes-demontrant-mouvements-combat-lutte_23-2149749670.jpg?t=st=1723316054~exp=1723319654~hmac=1993e750d84e6ac5059b468644789f1ac8b9a61e93c852207e5a03b052603352&w=740",
+        "description": "La Lutte est un sport de combat pratiqué depuis l'Antiquité, axé sur les techniques de préhension, les projections, et le contrôle de l'adversaire au sol.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "La Lutte est l'un des sports les plus anciens, avec des références historiques remontant à des milliers d'années, notamment dans les Jeux Olympiques antiques."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques incluent les projections, les ceintures, et les immobilisations pour maîtriser l'adversaire."
+            },
+            {
+                "title": "Compétition",
+                "text": "La lutte est divisée en deux styles principaux : la lutte libre et la lutte gréco-romaine, chacune avec ses propres règles et stratégies."
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "label": "Lutte Gréco-Romaine",
+        "image": "https://www.lexpress.fr/resizer/v2/QZASZLPVEJCBPH7TLAIWCOZ32A.jpg?auth=e6d6f09a8679f507bf065be8022b08f204e87808ad6ffe6127a6afa84ac7d1b0&width=882&quality=85",
+        "description": "La Lutte Gréco-Romaine est une forme de lutte où les prises sont limitées à la partie supérieure du corps, interdisant l'utilisation des jambes pour attaquer ou défendre.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "La Lutte Gréco-Romaine a été codifiée au 19e siècle et est inspirée des techniques de lutte utilisées dans la Grèce et la Rome antiques."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques incluent les prises de ceinture, les projections par-dessus l'épaule, et les immobilisations."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les compétitions sont divisées en catégories de poids et les matchs sont gagnés par points, projection ou immobilisation."
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "label": "Sambo",
+        "image": "https://www.fflutte.com/content/uploads/2020/02/sambo-2.jpg",
+        "description": "Le Sambo est un art martial d'origine soviétique, combinant les techniques de judo, de lutte, et de boxe. Il est pratiqué dans les disciplines de combat et de défense personnelle.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Sambo a été développé en URSS dans les années 1920 pour l'entraînement militaire, en combinant plusieurs arts martiaux pour créer un système complet de combat."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques incluent les projections, les clés, les soumissions, et les frappes, en fonction du style de Sambo pratiqué."
+            },
+            {
+                "title": "Compétition",
+                "text": "Le Sambo est pratiqué dans deux styles principaux : le Sambo sportif, axé sur les projections et les soumissions, et le Sambo de combat, qui inclut les frappes."
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "label": "Kung-Fu",
+        "image": "https://cafedesguerriers.fr/cdn/shop/articles/0d5028c6906d3f7cd4434f4b682fe702.png?v=1704727628&width=1400",
+        "description": "Le Kung-Fu est un art martial chinois millénaire, connu pour ses techniques variées, ses formes stylisées, et sa philosophie d'harmonie entre le corps et l'esprit.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Kung-Fu a des racines profondes en Chine, avec des styles variés développés dans les monastères Shaolin et les écoles martiales à travers les siècles."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques de Kung-Fu incluent les frappes, les blocages, les coups de pied, et les formes d'entraînement qui imitent les mouvements d'animaux."
+            },
+            {
+                "title": "Philosophie",
+                "text": "Le Kung-Fu intègre souvent une philosophie de discipline, de respect, et de développement personnel, en plus des compétences martiales."
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "label": "Aïkido",
+        "image": "https://cdn-s-www.dna.fr/images/5873D8E7-C540-4367-8AF0-EDF8394A4FF7/NW_detail/rentree-sportive-pour-le-club-d-aikido-de-colmar-doc-remis-1629915718.jpg",
+        "description": "L'Aïkido est un art martial japonais non-violent qui met l'accent sur la redirection de la force de l'adversaire et l'utilisation de techniques de projection et de contrôle.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "L'Aïkido a été fondé par Morihei Ueshiba au début du 20e siècle, en combinant des techniques de jujitsu, de kenjutsu, et une philosophie de paix."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques incluent les projections, les immobilisations, et les manipulations des articulations, souvent avec un minimum de force."
+            },
+            {
+                "title": "Philosophie",
+                "text": "L'Aïkido est centré sur des principes de non-agression et d'harmonie, avec un fort accent sur l'éthique et le développement personnel."
+            }
+        ]
+    },
+    {
+        "id": 16,
+        "label": "Kendo",
+        "image": "https://fightsport.fr/wp-content/uploads/2016/07/YQpdt8WI_g5F21VNKv9FVWr5i7Q-1024x576.png",
+        "description": "Le Kendo est un art martial japonais de l'escrime au sabre, où les pratiquants utilisent des sabres en bambou (shinai) et des armures protectrices pour des combats codifiés.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Kendo trouve ses origines dans les techniques de combat des samouraïs, transformées en une forme d'entraînement martial au 18e siècle."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques de Kendo incluent les coupes, les parades, et les postures spécifiques, avec un accent sur la précision et la rapidité."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les compétitions de Kendo sont strictement réglementées, avec des points attribués pour les frappes précises sur des cibles spécifiques."
+            }
+        ]
+    },
+    {
+        "id": 17,
+        "label": "Savate",
+        "image": "https://www.sports.gouv.fr/sites/default/files/2022-08/savateboxefrancaisecombat-visuel3-jpg-310.jpg",
+        "description": "La Savate, ou Boxe Française, est un sport de combat qui combine les techniques de coups de pied et de poing. Elle se distingue par sa finesse technique et son efficacité.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "La Savate a été développée en France au 19e siècle, influencée par des pratiques de combat de rue et par des styles martiaux européens."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques incluent des coups de pied comme le fouetté et le chassé, combinés avec des techniques de boxe pour créer un style fluide et efficace."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les compétitions de Savate sont organisées avec des règles strictes pour assurer la sécurité et mettre en valeur la technique."
+            }
+        ]
+    },
+    {
+        "id": 18,
+        "label": "Escrime",
+        "image": "https://www.sohealthy.fr/wp-content/uploads/2021/02/slider-escrime-2-770x560.jpg",
+        "description": "L'Escrime est un sport de combat utilisant des épées, où les compétiteurs visent à toucher leur adversaire tout en évitant d'être touché. C'est également un sport olympique depuis 1896.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "L'Escrime moderne trouve ses racines dans les techniques de combat à l'épée développées au Moyen Âge et à la Renaissance en Europe."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques d'escrime incluent les attaques, les parades, et les déplacements rapides. Les compétitions se déroulent avec trois types d'armes : le fleuret, l'épée, et le sabre."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les compétitions d'escrime sont basées sur des touches, avec des règles strictes pour déterminer les points et les victoires."
+            }
+        ]
+    },
+    {
+        "id": 19,
+        "label": "Sumo",
+        "image": "https://www.mondeasie.com/voyages-sur-mesure/images/BLOG/JAPON-SUMO/diapo-blog-japon-sumo.jpg",
+        "description": "Le Sumo est un sport de lutte japonais traditionnel où les lutteurs tentent de pousser ou de faire tomber leur adversaire hors du ring. C'est un sport profondément enraciné dans la culture japonaise.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Sumo est pratiqué au Japon depuis plus de 1500 ans, avec des rituels et des traditions qui remontent aux anciennes cérémonies religieuses shintoïstes."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques de Sumo incluent des poussées, des saisies, et des projections. Les lutteurs utilisent également des stratégies de balance et de force."
+            },
+            {
+                "title": "Compétition",
+                "text": "Les combats de Sumo se déroulent sur un ring circulaire et sont remportés par le lutteur qui parvient à faire tomber son adversaire ou à le faire sortir du ring."
+            }
+        ]
+    },
+    {
+        "id": 20,
+        "label": "Capoeira",
+        "image": "https://france3-regions.francetvinfo.fr/image/1slF1B58DULnzu1t_kwS96whcBw/600x400/regions/2020/06/09/5edf868bb1146_capoeira_1-4288316.jpg",
+        "description": "La Capoeira est une forme d'art martial brésilienne qui combine danse, musique, et techniques de combat. Elle est caractérisée par ses mouvements fluides et acrobatiques.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "La Capoeira a été développée au Brésil par des esclaves africains au 16e siècle comme une forme de résistance et de préservation culturelle."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques de Capoeira incluent des coups de pied, des esquives, et des mouvements acrobatiques. Les combats se déroulent souvent en cercle avec de la musique."
+            },
+            {
+                "title": "Philosophie",
+                "text": "La Capoeira intègre une forte composante culturelle et musicale, avec des chants et des instruments joués pendant les séances d'entraînement et les spectacles."
+            }
+        ]
+    },
+    {
+        "id": 21,
+        "label": "Krav Maga",
+        "image": "https://www.daisho.be/wp-content/uploads/2021/05/self-defense-krav-maga.png",
+        "description": "Le Krav Maga est un système d'autodéfense développé en Israël, connu pour son efficacité et sa simplicité. Il est conçu pour permettre une réponse rapide face à des situations de danger réel.",
+        "content": [
+            {
+                "title": "Origines",
+                "text": "Le Krav Maga a été développé dans les années 1930 par Imi Lichtenfeld pour les forces armées israéliennes et est basé sur des techniques de combat brutales et directes."
+            },
+            {
+                "title": "Techniques",
+                "text": "Les techniques de Krav Maga incluent des frappes, des défenses contre les armes, et des techniques de neutralisation rapide des menaces."
+            },
+            {
+                "title": "Philosophie",
+                "text": "Le Krav Maga se concentre sur l'efficacité et la simplicité, avec un accent sur la survie en situation de combat réel et la protection contre des attaques variées."
+            }
+        ]
+    }
+]

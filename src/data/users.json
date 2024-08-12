@@ -1,0 +1,109 @@
+{
+    "users": [
+        {
+            "id": "1",
+            "nom": "Skywalker",
+            "prenom": "Anakin",
+            "sport": "Sabre laser",
+            "profilPicture": "https://www.fredzone.org/wp-content/uploads/2018/12/anakin-1200x675.jpg",
+            "cours": [
+                {
+                    "id": "1",
+                    "position": "New York",
+                    "dateHoraire": "2024-07-23T09:30:00Z",
+                    "places": 20,
+                    "sport": "Boxe",
+                    "nom": "Balboa",
+                    "prenom": "Rocky",
+                    "participants": [
+                        {
+                            "id": "1",
+                            "nom": "Skywalker",
+                            "prenom": "Anakin",
+                            "profilPicture": "https://www.fredzone.org/wp-content/uploads/2018/12/anakin-1200x675.jpg"
+                        },
+                        {
+                            "id": "2",
+                            "nom": "Potter",
+                            "prenom": "Harry",
+                            "profilPicture": "https://i.pinimg.com/1200x/40/ec/65/40ec6574eb99309e787002c6a8856832.jpg"
+                        },
+                        {
+                            "id": "3",
+                            "nom": "Stark",
+                            "prenom": "Tony",
+                            "profilPicture": "https://media.gq.com.mx/photos/5cfd3873797724536f09e590/master/pass/GettyImages-98690129.jpg"
+                        }
+                    ],
+                    "coachs": [
+                        {
+                            "id": "1",
+                            "nom": "Miyagi",
+                            "prenom": "Mr.",
+                            "profilPicture": "https://fotografias.lasexta.com/clipping/cmsimages02/2022/11/09/BB9231C1-00FF-4618-9016-63EAAD9663FC/connor-mcgregor_98.jpg?crop=3000,1688,x0,y0&width=1900&height=1069&optimize=low&format=webply"
+                        },
+                        {
+                            "id": "2",
+                            "nom": "Yoda",
+                            "prenom": "",
+                            "profilPicture": "https://fotografias.lasexta.com/clipping/cmsimages02/2022/11/09/BB9231C1-00FF-4618-9016-63EAAD9663FC/connor-mcgregor_98.jpg?crop=3000,1688,x0,y0&width=1900&height=1069&optimize=low&format=webply"
+                        }
+                    ]
+                },
+                {
+                    "id": "2",
+                    "position": "Los Angeles",
+                    "dateHoraire": "2024-07-24T11:00:00Z",
+                    "places": 15,
+                    "sport": "Karate",
+                    "nom": "Miyagi",
+                    "prenom": "Mr.",
+                    "participants": [
+                        {
+                            "id": "1",
+                            "nom": "Skywalker",
+                            "prenom": "Anakin",
+                            "profilPicture": "https://www.fredzone.org/wp-content/uploads/2018/12/anakin-1200x675.jpg"
+                        },
+                        {
+                            "id": "2",
+                            "nom": "Potter",
+                            "prenom": "Harry",
+                            "profilPicture": "https://i.pinimg.com/1200x/40/ec/65/40ec6574eb99309e787002c6a8856832.jpg"
+                        },
+                        {
+                            "id": "3",
+                            "nom": "Stark",
+                            "prenom": "Tony",
+                            "profilPicture": "https://media.gq.com.mx/photos/5cfd3873797724536f09e590/master/pass/GettyImages-98690129.jpg"
+                        }
+                    ],
+                    "coachs": [
+                        {
+                            "id": "1",
+                            "nom": "Durden",
+                            "prenom": "Tyler",
+                            "profilPicture": "https://fotografias.lasexta.com/clipping/cmsimages02/2022/11/09/BB9231C1-00FF-4618-9016-63EAAD9663FC/connor-mcgregor_98.jpg?crop=3000,1688,x0,y0&width=1900&height=1069&optimize=low&format=webply"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "nom": "Potter",
+            "prenom": "Harry",
+            "sport": "Magie",
+            "profilPicture": "https://i.pinimg.com/1200x/40/ec/65/40ec6574eb99309e787002c6a8856832.jpg",
+            "cours": []
+        },
+        {
+            "id": "3",
+            "nom": "Stark",
+            "prenom": "Tony",
+            "sport": "Tech",
+            "profilPicture": "https://media.gq.com.mx/photos/5cfd3873797724536f09e590/master/pass/GettyImages-98690129.jpg",
+            "cours": []
+        }
+    ]
+}
