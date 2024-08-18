@@ -1,17 +1,9 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { userAtom } from "../utils/atom/userAtom";
 import { isTokenExpired } from "../utils/isTokenExpired";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-
-interface User {
-    id?: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string; // Ajout du champ password
-}
+import { User } from "../utils/atom/userAtom";
 
 interface ApiError {
     message: string;
@@ -54,28 +46,38 @@ export const useApiUser = () => {
                 },
                 body: JSON.stringify({ email, password }),
             });
-            if (!response.ok) throw new Error("Failed to login");
+            if (!response.ok)
+                throw new Error("Email ou mot de passe incorrect");
             const data: { token: string } = await response.json();
             localStorage.setItem("token", data.token);
+            setError(null); // Clear error on successful login
+            return { success: true };
         } catch (err) {
             setError({ message: (err as Error).message });
+            return { success: false };
         }
     };
 
     // Fetch all users (GET)
-    const fetchUsers = async () => {
+    const fetchUserProfil = async () => {
         try {
             const token = getToken();
+            if (!token) {
+                throw new Error("No token found");
+            }
             const response = await fetch(`${BASE_URL}/user/`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            if (response.status === 403)
+                throw new Error("Access forbidden: Invalid token");
             if (!response.ok) throw new Error("Failed to fetch users");
             const data = await response.json();
-            setUsers(data);
+            return data;
         } catch (err) {
-            setError({ message: (err as Error).message });
+            console.error("Error in fetchUserProfil:", err);
+            throw err;
         }
     };
 
@@ -118,10 +120,10 @@ export const useApiUser = () => {
     };
 
     // Update an existing user (PUT)
-    const updateUser = async (id: string, updatedUser: User) => {
+    const updateProfil = async (updatedUser: User) => {
         try {
             const token = getToken();
-            const response = await fetch(`${BASE_URL}/user/${id}`, {
+            const response = await fetch(`${BASE_URL}/user/`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -131,7 +133,7 @@ export const useApiUser = () => {
             });
             if (!response.ok) throw new Error("Failed to update user");
             const data = await response.json();
-            setUsers(users.map((user) => (user.id === id ? data : user)));
+            return data;
         } catch (err) {
             setError({ message: (err as Error).message });
         }
@@ -142,10 +144,10 @@ export const useApiUser = () => {
         user,
         error,
         login,
-        fetchUsers,
+        fetchUserProfil,
         fetchUserById,
         createUser,
-        updateUser,
+        updateProfil,
     };
 };
 function setIsConnected(arg0: boolean) {

@@ -15,6 +15,7 @@ import Connexion from "./pages/Connexion";
 import Inscription from "./pages/Inscription";
 import SportDetail from "./pages/SportDetail";
 import { useAuth } from "./hooks/useAuth";
+import UpdateProfil from "./pages/UpdateProfil";
 
 function App() {
     useAuth();
@@ -46,6 +47,10 @@ function App() {
                                     <Route
                                         path="/profil"
                                         element={<Profil />}
+                                    />
+                                    <Route
+                                        path="/profil-modification"
+                                        element={<UpdateProfil />}
                                     />
                                     <Route
                                         path="/cours/:id"

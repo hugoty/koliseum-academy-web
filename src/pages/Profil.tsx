@@ -1,58 +1,94 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { FaCircleUser } from "react-icons/fa6";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userAtom, isConnectedAtom } from "../utils/atom/userAtom";
+import { userAtom, isLoadingUserAtom } from "../utils/atom/userAtom";
+import Loader from "../components/Loader";
+import { MyProfilPicture } from "../components/ProfilPicture";
+import { NotConnectedBloc } from "../components/BlocNoAccessRights";
 
 const Profil: React.FC = () => {
     const user = useRecoilValue(userAtom);
-    const isConnected = useRecoilValue(isConnectedAtom);
-    const setIsConnected = useSetRecoilState(isConnectedAtom);
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        setIsConnected(!!token);
-    }, []);
+    const setUser = useSetRecoilState(userAtom);
+    const isLoadingUser = useRecoilValue(isLoadingUserAtom);
 
     // Fonction pour se déconnecter
     const handleLogout = () => {
         localStorage.removeItem("token");
-        setIsConnected(false);
+        setUser(null);
     };
 
-    console.log("user : ", user);
-    console.log("isConnected : ", isConnected);
+    if (isLoadingUser) {
+        return <Loader />; // Afficher le loader si en chargement
+    }
+
+    const dateOfBirth = user?.dateOfBirth
+        ? typeof user.dateOfBirth === "string"
+            ? new Date(user.dateOfBirth)
+            : user.dateOfBirth
+        : null;
+
+    const renderDateOfBirth = () => {
+        if (dateOfBirth) {
+            // Convertir la date en chaîne lisible pour l'affichage
+            return dateOfBirth.toLocaleDateString(); // Utilise un format de date local
+        }
+        return "Date of birth is not available.";
+    };
+
+    const nonEmptySports = user?.sports?.filter((sport) => sport.trim() !== "");
 
     return (
         <div className="text-white flex flex-col items-center justify-center h-full">
-            {isConnected ? (
-                <div>
-                    <h1>Bienvenue sur votre profil!</h1>
-                    {/* Ajoutez ici le contenu du profil */}
-                    <button
-                        onClick={handleLogout}
-                        className="mt-4 rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
-                    >
-                        Se déconnecter
-                    </button>
-                </div>
-            ) : (
-                <div className="w-full my-40 px-10">
-                    <div className="w-full flex justify-center text-4xl mb-6">
-                        <FaCircleUser />
+            {user ? (
+                <>
+                    <div className="w-full flex justify-center mb-4">
+                        <MyProfilPicture
+                            src="https://www.fredzone.org/wp-content/uploads/2018/12/anakin-1200x675.jpg"
+                            alt={`Photo de profil de ${user.firstName} ${user.lastName}`}
+                        />
                     </div>
-                    <div className="text-center text-lg mb-6">
-                        Connectez-vous pour accéder à votre profil !
+                    <h2 className=" flex-1 mb-4 text-2xl">
+                        {user?.firstName + " " + user?.lastName}
+                    </h2>
+                    {dateOfBirth != null ? (
+                        <p className="mb-3">{renderDateOfBirth()}</p>
+                    ) : (
+                        ""
+                    )}
+                    <span className="w-3/6 border-b-[0.5px] border-white mb-3"></span>
+                    <p className="my-2 font-light text-xl mb-4">Sports</p>
+                    <div className="w-full flex justify-center flex-row mb-4 flex-wrap">
+                        {nonEmptySports && nonEmptySports?.length > 0 ? (
+                            nonEmptySports.map((sport, index) => (
+                                <p
+                                    key={index}
+                                    className="max-w-1/2 mr-2 p-2 border-[2px] border-[#2c3540b5] rounded-lg mb-2"
+                                >
+                                    {sport}
+                                </p>
+                            ))
+                        ) : (
+                            <p>Aucun sport sélectionné</p> // Optionnel : afficher un message si le tableau est vide
+                        )}
                     </div>
-                    <div className="w-full flex justify-center">
+                    <div className="w-full flex items-center flex-row mt-4">
                         <NavLink
-                            to={`/connexion`}
-                            className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                            to={`/profil-modification`}
+                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mr-4"
                         >
-                            Se connecter
+                            Modifier le profil
                         </NavLink>
+                        <button
+                            onClick={handleLogout}
+                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                        >
+                            Se déconnecter
+                        </button>
                     </div>
-                </div>
+                </>
+            ) : (
+                <NotConnectedBloc />
             )}
         </div>
     );

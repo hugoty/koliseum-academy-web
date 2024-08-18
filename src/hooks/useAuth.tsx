@@ -1,22 +1,42 @@
+// src/hooks/useAuth.ts
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { isConnectedAtom } from "../utils/atom/userAtom";
-import { isTokenExpired } from "../utils/isTokenExpired";
+import { userAtom, isLoadingUserAtom } from "../utils/atom/userAtom";
+import { useApiUser } from "../hooks/useApiUser";
+import { getConnectedUserId } from "../utils/userUtils";
 
 export const useAuth = () => {
-    const setIsConnected = useSetRecoilState(isConnectedAtom);
+    const setUser = useSetRecoilState(userAtom);
+    const setIsLoading = useSetRecoilState(isLoadingUserAtom);
+    const { fetchUserProfil } = useApiUser();
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const fetchUser = async () => {
+            const token = localStorage.getItem("token");
 
-        if (token) {
-            if (isTokenExpired(token)) {
-                setIsConnected(false);
-                localStorage.removeItem("token"); // Optionnel : nettoyer le localStorage
+            if (token) {
+                const userId = getConnectedUserId(token);
+                if (userId !== null) {
+                    try {
+                        setIsLoading(true); // Démarrer le chargement
+                        const user = await fetchUserProfil();
+                        setUser(user);
+                    } catch (error) {
+                        console.error(
+                            "Erreur lors de la récupération de l'utilisateur:",
+                            error
+                        );
+                    } finally {
+                        setIsLoading(false); // Arrêter le chargement
+                    }
+                }
             } else {
-                // Optionnel : charger les données utilisateur si elles ne sont pas présentes
-                // Exemple : fetchUserById(decodedToken.userId)
+                console.log("isLoading en false car pas de token");
+
+                setIsLoading(false); // Arrêter le chargement si pas de token
             }
-        }
-    }, [setIsConnected]);
+        };
+
+        fetchUser();
+    }, [setUser, setIsLoading, fetchUserProfil]);
 };

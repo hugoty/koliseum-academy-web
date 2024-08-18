@@ -1,17 +1,32 @@
-import { useNavigate } from 'react-router-dom';
-import CreationCoursForm from '../components/CreationCoursForm'; // Assurez-vous que le chemin est correct
-import { FaAngleLeft } from 'react-icons/fa6';
+import { useNavigate } from "react-router-dom";
+import CreationCoursForm from "../components/CreationCoursForm"; // Assurez-vous que le chemin est correct
+import { FaAngleLeft } from "react-icons/fa6";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../utils/atom/userAtom";
+import { isCoach } from "../utils/userUtils";
+import { FaBan } from "react-icons/fa6";
+import { NotAuthorizedBloc } from "../components/BlocNoAccessRights";
 
 const CreationCours: React.FC = () => {
     const navigate = useNavigate();
+    const user = useRecoilValue(userAtom);
 
     return (
-        <div className="w-full flex flex-col text-white">
-            <div onClick={() => navigate(-1)} className="hover:text-red-500 w-full text-left text-2xl mb-4 cursor-pointer">
-                <FaAngleLeft />
-            </div>
-            <CreationCoursForm />
-        </div>
+        <>
+            {isCoach(user) ? (
+                <div className="w-full flex flex-col text-white">
+                    <div
+                        onClick={() => navigate(-1)}
+                        className="hover:text-red-500 w-full text-left text-2xl mb-4 cursor-pointer"
+                    >
+                        <FaAngleLeft />
+                    </div>
+                    <CreationCoursForm />
+                </div>
+            ) : (
+                <NotAuthorizedBloc />
+            )}
+        </>
     );
 };
 

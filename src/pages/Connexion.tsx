@@ -9,10 +9,13 @@ const Connexion: React.FC = () => {
     const { login, error } = useApiUser();
 
     const handleLogin = async (email: string, password: string) => {
-        await login(email, password);
+        const result = await login(email, password);
 
-        if (localStorage.getItem("token")) {
-            navigate("/profil");
+        if (result.success && localStorage.getItem("token")) {
+            window.location.assign("/profil");
+        } else if (!result.success || error) {
+            console.error("Login error:", error?.message);
+            // Optionally, show the error to the user
         }
     };
 
