@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import sportsCombat from "../data/sportsCombat.json";
-import sportDetail from "../data/sports.json";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { Course, Level } from "../utils/types/types";
+import sportDetail from "../data/sports.json";
 import { useApiCourse } from "../hooks/useApiCours";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../utils/atom/userAtom";
@@ -12,12 +11,11 @@ interface SportOption {
     label: string;
 }
 
-const CreationCoursForm: React.FC = () => {
-    const sportOptions: SportOption[] = sportDetail.map((sport) => ({
-        value: sport.id,
-        label: sport.label,
-    }));
+interface UpdateCoursFormProps {
+    course: Course;
+}
 
+const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
     const user = useRecoilValue(userAtom);
 
     const [sports, setSports] = useState<SportOption[]>([]);
@@ -31,7 +29,7 @@ const CreationCoursForm: React.FC = () => {
         label: string;
     } | null>(null);
 
-    const { createCourse, error } = useApiCourse();
+    const { updateCourse, error } = useApiCourse();
 
     // Options pour le niveau
     const niveauOptions = Object.values(Level).map((level) => ({
@@ -39,46 +37,60 @@ const CreationCoursForm: React.FC = () => {
         label: level.charAt(0).toUpperCase() + level.slice(1),
     }));
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    useEffect(() => {
+        setSports([]);
+        setParticipants(course.places.toString());
+        setDateDebut(new Date(course.startDate).toISOString().split("T")[0]);
+        setDateFin(new Date(course.endDate).toISOString().split("T")[0]);
+        setLieu(course.location);
+        setPrix(course.price.toString());
+
+        const level = course.levels[0];
+        console.log("level : ", level);
+        console.log("getLevelLabel(level) : ", getLevelLabel(level));
+        setNiveau({
+            value: level as Level,
+            label: getLevelLabel(level),
+        });
+    }, [course]);
+
+    const getLevelLabel = (level: string): string => {
+        return Object.values(Level).includes(level as Level)
+            ? Level[level as keyof typeof Level]
+            : "Unknown";
+    };
+
+    const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Extraire les IDs des sports sélectionnés
-        const sportIds = sports.map((sport) => sport.value);
-
-        const newCourse: Course = {
+        const updatedCourse: Course = {
+            ...course,
             startDate: new Date(dateDebut),
             endDate: new Date(dateFin),
             places: Number(participants),
             location: lieu,
-            levels: niveau ? [niveau.value] : [], // Niveau doit être un tableau
+            levels: niveau ? [niveau.value] : course.levels,
             price: Number(prix),
-            sportIds,
-            ownerId: Number(user?.id) ?? undefined,
+            sportIds: sports.map((sport) => sport.value),
+            ownerId: Number(user?.id) ?? course.ownerId ?? "",
         };
 
-        const success = await createCourse(newCourse);
+        const success = await updateCourse(
+            String(course.ownerId) ?? undefined,
+            updatedCourse
+        );
 
         if (success) {
             window.location.assign("/planning");
+            // Rediriger ou afficher un message de succès
         } else {
-            console.error("Erreur lors de la création du cours :", error);
+            console.error("Error updating course:", error);
         }
-
-        // Réinitialisation des champs du formulaire
-        setSports([]);
-        setParticipants("");
-        setDateDebut("");
-        setDateFin("");
-        setLieu("");
-        setPrix("");
-        setNiveau(null);
-
-        // Effectuer la requête pour ajouter le cours (votre code ici)
     };
 
     return (
         <div className="w-full flex flex-col">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleUpdate}>
                 <div className="flex flex-col mb-4">
                     <label htmlFor="sport" className="mb-4">
                         Sport
@@ -90,7 +102,10 @@ const CreationCoursForm: React.FC = () => {
                         onChange={(selectedOptions) =>
                             setSports(selectedOptions as SportOption[])
                         }
-                        options={sportOptions}
+                        options={sportDetail.map((sport) => ({
+                            value: sport.id,
+                            label: sport.label,
+                        }))}
                         isMulti
                         isClearable
                         placeholder="Sélectionnez des sports de combat"
@@ -170,7 +185,11 @@ const CreationCoursForm: React.FC = () => {
                         classNamePrefix="custom-select"
                         value={niveau}
                         onChange={(selectedOption) => setNiveau(selectedOption)}
-                        options={niveauOptions}
+                        options={Object.values(Level).map((level) => ({
+                            value: level,
+                            label:
+                                level.charAt(0).toUpperCase() + level.slice(1),
+                        }))}
                         isClearable
                         placeholder="Sélectionnez un niveau"
                         required
@@ -189,6 +208,23 @@ const CreationCoursForm: React.FC = () => {
                                     ? "#3b4a5a"
                                     : "#2c3540b5",
                                 color: "white",
+                            }),
+                            multiValue: (base) => ({
+                                ...base,
+                                backgroundColor: "#3b4a5a",
+                            }),
+                            multiValueLabel: (base) => ({
+                                ...base,
+                                backgroundColor: "#3b4a5a",
+                                color: "white",
+                            }),
+                            multiValueRemove: (base) => ({
+                                ...base,
+                                color: "white",
+                                ":hover": {
+                                    backgroundColor: "#3b4a5a",
+                                    color: "white",
+                                },
                             }),
                             singleValue: (base) => ({
                                 ...base,
@@ -266,11 +302,11 @@ const CreationCoursForm: React.FC = () => {
                     className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white hover:bg-[#2c35405a] mb-10"
                     type="submit"
                 >
-                    Créer le cours
+                    Mettre à jour le cours
                 </button>
             </form>
         </div>
     );
 };
 
-export default CreationCoursForm;
+export default UpdateCoursForm;

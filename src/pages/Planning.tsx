@@ -6,6 +6,7 @@ import Loader from "../components/Loader";
 import { FaCalendarXmark } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 import { NotConnectedBloc } from "../components/BlocNoAccessRights";
+import { isCoach } from "../utils/userUtils";
 
 interface Participant {
     id: string;
@@ -84,6 +85,17 @@ const Planning: React.FC = () => {
             {user ? (
                 <div className="text-white flex flex-col items-center justify-center h-full">
                     <>
+                        {isCoach(user) ? (
+                            <div className="w-full flex justify-end mb-6">
+                                <NavLink
+                                    to={`/cours/creation`}
+                                    rel="créer un cours"
+                                    className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                                >
+                                    Créer un cours
+                                </NavLink>
+                            </div>
+                        ) : null}
                         <div className="w-full flex flex-col justify-center flex-wrap">
                             <h2 className="mb-4 font-bold w-full border-b-[0.5px] pb-2">
                                 Aujourd'hui

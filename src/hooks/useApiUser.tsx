@@ -1,20 +1,9 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
 import { isTokenExpired } from "../utils/isTokenExpired";
-import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { User } from "../utils/atom/userAtom";
+import { User } from "../utils/types/types";
 
 interface ApiError {
     message: string;
-}
-
-interface LoginResponse {
-    token: string;
-}
-
-interface DecodedToken {
-    id: number;
 }
 
 // URL de base pour les requêtes API
@@ -29,7 +18,6 @@ export const useApiUser = () => {
         let token = localStorage.getItem("token");
 
         if (token && isTokenExpired(token)) {
-            setIsConnected(false);
             localStorage.removeItem("token");
         } else {
             return token;
@@ -150,6 +138,3 @@ export const useApiUser = () => {
         updateProfil,
     };
 };
-function setIsConnected(arg0: boolean) {
-    throw new Error("Function not implemented.");
-}

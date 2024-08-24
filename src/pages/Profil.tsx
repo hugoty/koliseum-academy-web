@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FaCircleUser } from "react-icons/fa6";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userAtom, isLoadingUserAtom } from "../utils/atom/userAtom";
 import Loader from "../components/Loader";
