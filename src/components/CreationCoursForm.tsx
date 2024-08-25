@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import sportsCombat from "../data/sportsCombat.json";
 import sportDetail from "../data/sports.json";
 import Select from "react-select";
 import { Course, Level } from "../utils/types/types";
 import { useApiCourse } from "../hooks/useApiCours";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../utils/atom/userAtom";
+import { getKeyLevel } from "../utils/userUtils";
 
 interface SportOption {
     value: number;
@@ -45,15 +45,14 @@ const CreationCoursForm: React.FC = () => {
         // Extraire les IDs des sports sélectionnés
         const sportIds = sports.map((sport) => sport.value);
 
-        const newCourse: Course = {
+        const newCourse: Partial<Course> = {
             startDate: new Date(dateDebut),
             endDate: new Date(dateFin),
             places: Number(participants),
-            location: lieu,
-            levels: niveau ? [niveau.value] : [], // Niveau doit être un tableau
+            locations: [lieu],
+            levels: niveau ? [getKeyLevel(niveau.value)] : [], // Niveau doit être un tableau
             price: Number(prix),
             sportIds,
-            ownerId: Number(user?.id) ?? undefined,
         };
 
         const success = await createCourse(newCourse);

@@ -5,6 +5,7 @@ import { userAtom, isLoadingUserAtom } from "../utils/atom/userAtom";
 import Loader from "../components/Loader";
 import { MyProfilPicture } from "../components/ProfilPicture";
 import { NotConnectedBloc } from "../components/BlocNoAccessRights";
+import { levelTraduction } from "../utils/userUtils";
 
 const Profil: React.FC = () => {
     const user = useRecoilValue(userAtom);
@@ -35,7 +36,9 @@ const Profil: React.FC = () => {
         return "Date of birth is not available.";
     };
 
-    const nonEmptySports = user?.sports?.filter((sport) => sport.trim() !== "");
+    const nonEmptySports = user?.Sports?.filter(
+        (sport) => sport.name.trim() !== ""
+    );
 
     return (
         <div className="text-white flex flex-col items-center justify-center h-full">
@@ -64,7 +67,8 @@ const Profil: React.FC = () => {
                                     key={index}
                                     className="max-w-1/2 mr-2 p-2 border-[2px] border-[#2c3540b5] rounded-lg mb-2"
                                 >
-                                    {sport}
+                                    {sport.name} :{" "}
+                                    {levelTraduction(sport.UserSport.level)}
                                 </p>
                             ))
                         ) : (

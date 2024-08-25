@@ -5,9 +5,10 @@ import sportDetail from "../data/sports.json";
 import { useApiCourse } from "../hooks/useApiCours";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../utils/atom/userAtom";
+import { getKeyLevel } from "../utils/userUtils";
 
 interface SportOption {
-    value: number;
+    value: number | undefined;
     label: string;
 }
 
@@ -38,16 +39,19 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
     }));
 
     useEffect(() => {
-        setSports([]);
+        setSports(
+            course.Sports.map((sport) => ({
+                value: sport.id,
+                label: sport.name,
+            }))
+        );
         setParticipants(course.places.toString());
         setDateDebut(new Date(course.startDate).toISOString().split("T")[0]);
         setDateFin(new Date(course.endDate).toISOString().split("T")[0]);
-        setLieu(course.location);
+        setLieu(course.locations[0]);
         setPrix(course.price.toString());
 
         const level = course.levels[0];
-        console.log("level : ", level);
-        console.log("getLevelLabel(level) : ", getLevelLabel(level));
         setNiveau({
             value: level as Level,
             label: getLevelLabel(level),
@@ -63,25 +67,26 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
     const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const updatedCourse: Course = {
+        const updatedCourse: Partial<Course> = {
             ...course,
             startDate: new Date(dateDebut),
             endDate: new Date(dateFin),
             places: Number(participants),
-            location: lieu,
-            levels: niveau ? [niveau.value] : course.levels,
+            locations: [lieu],
+            levels: niveau ? [getKeyLevel(niveau.value)] : course.levels,
             price: Number(prix),
-            sportIds: sports.map((sport) => sport.value),
-            ownerId: Number(user?.id) ?? course.ownerId ?? "",
+            sportIds: sports
+                .map((sport) => sport.value)
+                .filter((id): id is number => id !== undefined),
         };
 
         const success = await updateCourse(
-            String(course.ownerId) ?? undefined,
+            String(course.owner?.id) ?? undefined,
             updatedCourse
         );
 
         if (success) {
-            window.location.assign("/planning");
+            //window.location.assign(`/`);
             // Rediriger ou afficher un message de succès
         } else {
             console.error("Error updating course:", error);
@@ -99,9 +104,21 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         id="sport"
                         classNamePrefix="custom-select"
                         value={sports}
-                        onChange={(selectedOptions) =>
-                            setSports(selectedOptions as SportOption[])
-                        }
+                        onChange={(selectedOptions) => {
+                            const filteredOptions = (
+                                selectedOptions as {
+                                    value: number | undefined;
+                                    label: string;
+                                }[]
+                            )
+                                .filter((option) => option.value !== undefined)
+                                .map((option) => ({
+                                    value: option.value as number,
+                                    label: option.label,
+                                }));
+
+                            setSports(filteredOptions);
+                        }}
                         options={sportDetail.map((sport) => ({
                             value: sport.id,
                             label: sport.label,

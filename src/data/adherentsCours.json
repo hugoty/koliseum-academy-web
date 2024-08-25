@@ -69,3 +69,16 @@
         }
     ]
 }
+
+{
+    "coachName":null,
+    "locations":[],
+    "sports":[],
+    "minDate":null,
+    "maxDate":null,
+    "minPlaces":null,
+    "maxPlaces":null,
+    "minRemainingPlaces":null,
+    "maxRemainingPlaces":null,
+    "levels":[]
+}

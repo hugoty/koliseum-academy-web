@@ -1,33 +1,23 @@
-import { NavLink } from "react-router-dom";
 import {
-    FaLocationDot,
     FaCalendar,
+    FaLocationDot,
     FaRegClock,
     FaUsers,
 } from "react-icons/fa6";
-import sportsEvents from "../data/cours.json";
+import { Course } from "../utils/types/types";
+import { sportsNames } from "../utils/userUtils";
 import { ProfilPicture } from "./ProfilPicture";
 
 interface CardCoursDetailProps {
-    id: string;
+    cours: Course | null;
 }
 
-const CardCoursDetail: React.FC<CardCoursDetailProps> = ({ id }) => {
-    const cours = sportsEvents.cours.find(
-        (event) => event.id.toString() === id
-    );
-
+const CardCoursDetail: React.FC<CardCoursDetailProps> = ({ cours }) => {
     if (!cours) {
-        return (
-            <div className="text-white flex flex-col items-center justify-center h-full">
-                Cours non trouvé
-            </div>
-        );
+        return <div>No course data available</div>;
     }
 
-    const { nom, prenom, sport, position, dateHoraire, places } = cours;
-
-    const date = new Date(dateHoraire);
+    const date = new Date(cours.startDate);
     const formattedDate = date.toLocaleDateString();
     const formattedTime = date.toLocaleTimeString([], {
         hour: "2-digit",
@@ -36,14 +26,16 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({ id }) => {
 
     return (
         <div className="md:w-5/12 w-full rounded-lg bg-[#2C3540] mb-4 mx-4 p-6">
-            <h3 className="text-center font-bold text-2xl">Cours de {sport}</h3>
+            <h3 className="text-center font-bold text-2xl">
+                Cours de {sportsNames(cours.Sports)}
+            </h3>
             <h4 className="text-center font-light text-lg mb-6">
-                {prenom} {nom}
+                {cours.owner?.firstName} {cours.owner?.lastName}
             </h4>
             <div className="w-full flex flex-row flex-wrap justify-between text-sm">
                 <div className="w-5/12 flex flex-row flex-nowrap items-center mr-4 mb-2">
                     <FaLocationDot className="mr-2" />
-                    {position}
+                    {cours.locations[0]}
                 </div>
                 <div className="flex-1 flex flex-row flex-nowrap items-center mb-2">
                     <FaCalendar className="mr-2" />
@@ -55,51 +47,35 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({ id }) => {
                 </div>
                 <div className="flex-1 flex flex-row flex-nowrap items-center mb-2">
                     <FaUsers className="mr-2" />
-                    {cours.participants.length} participants
+                    {cours.Users?.length}{" "}
+                    {cours.Users?.length && cours.Users?.length > 1
+                        ? " participants"
+                        : "participant"}
                 </div>
-                <div className="w-full flex flex-col mb-4">
-                    {cours.participants.map((participant: any, index: any) => (
-                        <NavLink
-                            to={`/user/${participant.id}`}
-                            rel={`Coach n°${participant.id}`}
-                            key={index}
-                            className="flex items-center py-2 group cursor-pointer"
-                        >
-                            <div className="mr-2">
-                                <ProfilPicture
-                                    src={participant.profilPicture}
-                                    alt={`Photo de profil de ${participant.prenom} ${participant.nom}`}
-                                />
+                <div className="w-full flex flex-col mb-4 mt-4">
+                    {cours.Users?.length && cours.Users.length > 0 ? (
+                        cours.Users.map((user) => (
+                            <div className="w-full flex flex-row flex-nowrap items-center mb-4">
+                                <div className="mr-4">
+                                    <ProfilPicture
+                                        src={
+                                            "https://www.fredzone.org/wp-content/uploads/2018/12/anakin-1200x675.jpg"
+                                        }
+                                        alt={`Photo de profil de ${user.firstName} ${user.lastName}`}
+                                    />
+                                </div>
+                                <div>
+                                    <h4 className="text-left font-bold">
+                                        {user.firstName} {user.lastName}
+                                    </h4>
+                                </div>
                             </div>
-                            <span className="group-hover:underline">
-                                {participant.prenom} {participant.nom}
-                            </span>
-                        </NavLink>
-                    ))}
-                </div>
-                <div className="flex-1 flex flex-row flex-nowrap items-center">
-                    <FaUsers className="mr-2" />
-                    {cours.coachs.length} coachs
-                </div>
-                <div className="w-full flex flex-col">
-                    {cours.coachs.map((coach: any, index: any) => (
-                        <NavLink
-                            to={`/coach/${coach.id}`}
-                            rel={`Coach n°${coach.id}`}
-                            key={index}
-                            className="flex items-center py-2 group cursor-pointer"
-                        >
-                            <div className="mr-2">
-                                <ProfilPicture
-                                    src={coach.profilPicture}
-                                    alt={`Photo de profil de ${coach.prenom} ${coach.nom}`}
-                                />
-                            </div>
-                            <span className="group-hover:underline">
-                                {coach.prenom} {coach.nom}
-                            </span>
-                        </NavLink>
-                    ))}
+                        ))
+                    ) : (
+                        <p className="font-light text-center mb-4 mt-4">
+                            Aucun participant ..
+                        </p>
+                    )}
                 </div>
             </div>
         </div>

@@ -3,8 +3,8 @@ import { FaSearch } from "react-icons/fa";
 import Select from "react-select";
 import sportsData from "../data/sports.json";
 import { RxCross2 } from "react-icons/rx";
+import { Level } from "../utils/types/types";
 
-// Définir les types pour les options de sport
 interface SportOption {
     value: number;
     label: string;
@@ -12,14 +12,28 @@ interface SportOption {
 
 interface SearchBarWithModalProps {
     onSearch: (filters: {
-        name?: string;
-        date?: string;
-        sportIds: number[];
+        coachName?: string | null;
+        locations?: string[];
+        sports?: number[];
+        minDate?: Date | null;
+        maxDate?: Date | null;
+        minPlaces?: number | null;
+        maxPlaces?: number | null;
+        minRemainingPlaces?: number | null;
+        maxRemainingPlaces?: number | null;
+        levels?: string[];
     }) => void;
     initialFilters?: {
-        name?: string;
-        date?: string;
-        sportIds: number[];
+        coachName?: string | null;
+        locations?: string[];
+        sports?: number[];
+        minDate?: Date | null;
+        maxDate?: Date | null;
+        minPlaces?: number | null;
+        maxPlaces?: number | null;
+        minRemainingPlaces?: number | null;
+        maxRemainingPlaces?: number | null;
+        levels?: string[];
     };
     onClear: () => void;
 }
@@ -30,12 +44,15 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
     onClear,
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchDate, setSearchDate] = useState("");
+    const [coachName, setCoachName] = useState("");
+    const [searchDate, setSearchDate] = useState<string | Date>("");
     const [selectedSports, setSelectedSports] = useState<SportOption[]>([]);
+    const [minPlaces, setMinPlaces] = useState<number | null>(null);
+    const [maxPlaces, setMaxPlaces] = useState<number | null>(null);
+    const [levels, setLevels] = useState<string[]>([]);
+
     const modalRef = useRef<HTMLDivElement>(null);
 
-    // Calculer sportOptions une seule fois
     const sportOptions: SportOption[] = React.useMemo(() => {
         return sportsData.map((sport) => ({
             value: sport.id,
@@ -43,30 +60,30 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
         }));
     }, []);
 
-    // Ouvrir la modale
     const handleOpenModal = () => {
         setIsModalOpen(true);
     };
 
-    // Fermer la modale
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
 
-    // Réinitialiser les champs de recherche dans la modale
     useEffect(() => {
         if (initialFilters) {
-            setSearchTerm(initialFilters.name || "");
-            setSearchDate(initialFilters.date || "");
+            setCoachName(initialFilters.coachName || "");
+            setSearchDate(initialFilters.minDate || "");
             setSelectedSports(
                 sportOptions.filter((option) =>
-                    initialFilters.sportIds.includes(option.value)
+                    initialFilters.sports?.includes(option.value)
                 )
             );
+            setMinPlaces(initialFilters.minPlaces || null);
+            setMaxPlaces(initialFilters.maxPlaces || null);
+            console.log("initialFilters.levels : ", initialFilters.levels);
+            setLevels(initialFilters.levels || []);
         }
     }, [initialFilters, sportOptions]);
 
-    // Gérer le clic en dehors de la modale pour la fermer
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
@@ -83,9 +100,10 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
         };
     }, []);
 
-    // Gérer les changements dans les champs de recherche
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value.toLowerCase());
+    const handleCoachNameChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setCoachName(event.target.value);
     };
 
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,26 +114,61 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
         setSelectedSports(selectedOptions || []);
     };
 
+    const handleMinPlacesChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setMinPlaces(Number(event.target.value) || null);
+    };
+
+    const handleMaxPlacesChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setMaxPlaces(Number(event.target.value) || null);
+    };
+
+    const handleLevelsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const level = event.target.value;
+        setLevels((prevLevels) =>
+            prevLevels.includes(level)
+                ? prevLevels.filter((l) => l !== level)
+                : [...prevLevels, level]
+        );
+    };
+
     const handleSubmit = () => {
         const sportIds = selectedSports.map((sport) => sport.value);
-        onSearch({
-            name: searchTerm,
-            date: searchDate,
-            sportIds,
-        });
+        const levelKeys = levels.map((level) => level);
+        const filters = {
+            coachName,
+            sports: sportIds,
+            minDate: searchDate ? new Date(searchDate) : null,
+            maxDate: searchDate ? new Date(searchDate) : null,
+            minPlaces,
+            maxPlaces,
+            levels: levelKeys,
+        };
+        onSearch(filters);
         handleCloseModal();
     };
 
     const handleClear = () => {
-        setSearchTerm("");
+        setCoachName("");
         setSearchDate("");
         setSelectedSports([]);
-        onClear(); // Réinitialiser les filtres dans la page principale
+        setMinPlaces(null);
+        setMaxPlaces(null);
+        setLevels([]);
+        onClear();
         handleCloseModal();
     };
 
     const isSubmitDisabled =
-        !searchTerm && !searchDate && selectedSports.length === 0;
+        !coachName &&
+        !searchDate &&
+        selectedSports.length === 0 &&
+        minPlaces === undefined &&
+        maxPlaces === undefined &&
+        levels.length === 0;
 
     return (
         <div className="relative w-full max-w-md mt-2 mb-6">
@@ -131,11 +184,11 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <div
                         ref={modalRef}
-                        className="bg-white p-6 rounded-lg w-full max-w-md relative"
+                        className="bg-[#1f262e] p-6 rounded-lg w-full max-w-md relative mx-4"
                     >
                         <button
                             onClick={handleCloseModal}
-                            className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+                            className="absolute top-2 right-2 text-white"
                         >
                             <RxCross2 className="fill-black" />
                         </button>
@@ -144,16 +197,16 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
                         </h2>
                         <input
                             type="text"
-                            placeholder="Rechercher par nom..."
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                            className="rounded-lg bg-[#f5f5f5] px-4 py-2 w-full mb-2"
+                            placeholder="Nom du coach..."
+                            value={coachName}
+                            onChange={handleCoachNameChange}
+                            className="rounded-lg bg-[#2c3540b5] text-white px-4 py-2 w-full mb-2"
                         />
                         <input
                             type="date"
-                            value={searchDate}
+                            value={String(searchDate)}
                             onChange={handleDateChange}
-                            className="rounded-lg bg-[#f5f5f5] px-4 py-2 w-full mb-2"
+                            className="rounded-lg bg-[#2c3540b5] px-4 py-2 w-full mb-2"
                         />
                         <Select
                             className="mb-4"
@@ -162,14 +215,101 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
                             onChange={handleSportChange}
                             options={sportOptions}
                             placeholder="Sélectionner des sports..."
+                            styles={{
+                                control: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#2c3540b5",
+                                    borderRadius: "0.5rem",
+                                    padding: "0.5rem 1rem 0.5rem 0rem",
+                                    border: "none",
+                                    color: "white",
+                                }),
+                                option: (base, state) => ({
+                                    ...base,
+                                    backgroundColor: state.isFocused
+                                        ? "#3b4a5a"
+                                        : "#2c3540b5",
+                                    color: "white",
+                                }),
+                                multiValue: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#3b4a5a",
+                                }),
+                                multiValueLabel: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#3b4a5a",
+                                    color: "white",
+                                }),
+                                multiValueRemove: (base) => ({
+                                    ...base,
+                                    color: "white",
+                                    ":hover": {
+                                        backgroundColor: "#3b4a5a",
+                                        color: "white",
+                                    },
+                                }),
+                                singleValue: (base) => ({
+                                    ...base,
+                                    color: "white",
+                                }),
+                                placeholder: (base) => ({
+                                    ...base,
+                                    color: "white",
+                                }),
+                                menu: (base) => ({
+                                    ...base,
+                                    backgroundColor: "#2c3540",
+                                    borderRadius: "0.5rem",
+                                }),
+                                input: (base) => ({
+                                    ...base,
+                                    color: "white",
+                                }),
+                            }}
                         />
+                        <input
+                            type="number"
+                            placeholder="Places minimum"
+                            value={minPlaces || ""}
+                            onChange={handleMinPlacesChange}
+                            className="rounded-lg rounded-lg bg-[#2c3540b5] px-4 py-2 w-full mb-2"
+                        />
+                        <input
+                            type="number"
+                            placeholder="Places maximum"
+                            value={maxPlaces || ""}
+                            onChange={handleMaxPlacesChange}
+                            className="rounded-lg rounded-lg bg-[#2c3540b5] px-4 py-2 w-full mb-2"
+                        />
+                        <div className="mb-4">
+                            <label className="block font-medium mb-2">
+                                Niveau :
+                            </label>
+                            <div className="flex flex-wrap">
+                                {Object.keys(Level).map((level) => (
+                                    <label
+                                        key={level}
+                                        className="mr-4 flex items-center"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value={level}
+                                            checked={levels.includes(level)}
+                                            onChange={handleLevelsChange}
+                                            className="mr-2"
+                                        />
+                                        {level}
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
                         <div className="flex gap-2">
                             <button
                                 onClick={handleSubmit}
                                 disabled={isSubmitDisabled}
                                 className={`w-full rounded-lg px-4 py-2 text-white ${
                                     isSubmitDisabled
-                                        ? "bg-gray-400"
+                                        ? "bg-red-600"
                                         : "bg-[#2c3540b5] hover:bg-[#2c35405a]"
                                 }`}
                             >
@@ -177,7 +317,7 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
                             </button>
                             <button
                                 onClick={handleClear}
-                                className="w-full rounded-lg px-4 py-2 text-white bg-red-500 hover:bg-red-600"
+                                className="w-full rounded-lg px-4 py-2 text-white bg-red-600 hover:bg-red-600"
                             >
                                 Effacer
                             </button>
