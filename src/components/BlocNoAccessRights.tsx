@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FaBan, FaCalendarXmark } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 import { MyProfilPicture } from "./ProfilPicture";
 import images from "../data/notConnectedImages.json";

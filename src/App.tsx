@@ -16,6 +16,7 @@ import Inscription from "./pages/Inscription";
 import SportDetail from "./pages/SportDetail";
 import { useAuth } from "./hooks/useAuth";
 import UpdateProfil from "./pages/UpdateProfil";
+import UpdateCours from "./pages/UpdateCours";
 
 function App() {
     useAuth();
@@ -53,10 +54,6 @@ function App() {
                                         element={<UpdateProfil />}
                                     />
                                     <Route
-                                        path="/cours/:id"
-                                        element={<CoursDetail />}
-                                    />
-                                    <Route
                                         path="/coach/:id"
                                         element={<CoachDetail />}
                                     />
@@ -65,8 +62,16 @@ function App() {
                                         element={<ParticipantDetail />}
                                     />
                                     <Route
+                                        path="/cours/:id"
+                                        element={<CoursDetail />}
+                                    />
+                                    <Route
                                         path="/cours/creation"
                                         element={<CreationCours />}
+                                    />
+                                    <Route
+                                        path="/cours/modification/:courseId"
+                                        element={<UpdateCours />}
                                     />
                                     <Route
                                         path="/connexion"

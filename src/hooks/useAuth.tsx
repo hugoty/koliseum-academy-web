@@ -4,6 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { userAtom, isLoadingUserAtom } from "../utils/atom/userAtom";
 import { useApiUser } from "../hooks/useApiUser";
 import { getConnectedUserId } from "../utils/userUtils";
+import { isTokenExpired } from "../utils/isTokenExpired";
 
 export const useAuth = () => {
     const setUser = useSetRecoilState(userAtom);
@@ -13,7 +14,6 @@ export const useAuth = () => {
     useEffect(() => {
         const fetchUser = async () => {
             const token = localStorage.getItem("token");
-
             if (token) {
                 const userId = getConnectedUserId(token);
                 if (userId !== null) {

@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { User } from "./atom/userAtom";
+import { User } from "../utils/types/types";
 
 interface TokenInterface {
     id: string; // Timestamp d'expiration

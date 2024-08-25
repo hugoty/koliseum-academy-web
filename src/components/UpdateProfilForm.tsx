@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import Select from "react-select";
-import { User, userAtom } from "../utils/atom/userAtom";
+import { userAtom } from "../utils/atom/userAtom";
+import { User } from "../utils/types/types";
 import sportsCombat from "../data/sportsCombat.json";
 
 interface UpdateProfilFormProps {
@@ -173,7 +174,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                 </div>
                 <div className="w-full flex justify-center">
                     <button
-                        className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                        className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mb-10"
                         type="submit"
                     >
                         Mettre à jour le profil
