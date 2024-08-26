@@ -40,7 +40,7 @@ const CoachDetail: React.FC = () => {
             <h3 className=" flex-1 font-light mb-4 text-xl">
                 Expert en {users.sport}
             </h3>
-            {users.cours.map((cours, index) => (
+            {/* {users.cours.map((cours, index) => (
                 <CardCours
                     key={index}
                     id={cours.id}
@@ -51,7 +51,7 @@ const CoachDetail: React.FC = () => {
                     dateHoraire={cours.dateHoraire}
                     places={cours.places}
                 />
-            ))}
+            ))} */}
         </div>
     );
 };

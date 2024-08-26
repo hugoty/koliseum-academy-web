@@ -5,6 +5,7 @@ import { userAtom, isLoadingUserAtom } from "../utils/atom/userAtom";
 import Loader from "../components/Loader";
 import { MyProfilPicture } from "../components/ProfilPicture";
 import { NotConnectedBloc } from "../components/BlocNoAccessRights";
+import { levelTraduction } from "../utils/userUtils";
 
 const Profil: React.FC = () => {
     const user = useRecoilValue(userAtom);
@@ -35,10 +36,12 @@ const Profil: React.FC = () => {
         return "Date of birth is not available.";
     };
 
-    const nonEmptySports = user?.sports?.filter((sport) => sport.trim() !== "");
+    const nonEmptySports = user?.Sports?.filter(
+        (sport) => sport.name.trim() !== ""
+    );
 
     return (
-        <div className="text-white flex flex-col items-center justify-center h-full">
+        <div className="text-white flex flex-col items-center justify-center h-full px-4">
             {user ? (
                 <>
                     <div className="w-full flex justify-center mb-4">
@@ -64,23 +67,24 @@ const Profil: React.FC = () => {
                                     key={index}
                                     className="max-w-1/2 mr-2 p-2 border-[2px] border-[#2c3540b5] rounded-lg mb-2"
                                 >
-                                    {sport}
+                                    {sport.name} :{" "}
+                                    {levelTraduction(sport.UserSport.level)}
                                 </p>
                             ))
                         ) : (
                             <p>Aucun sport sélectionné</p> // Optionnel : afficher un message si le tableau est vide
                         )}
                     </div>
-                    <div className="w-full flex items-center flex-row mt-4">
+                    <div className="w-full flex items-stretch flex-row mt-4">
                         <NavLink
                             to={`/profil-modification`}
-                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mr-4"
+                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mr-4 text-sm md:text-lg"
                         >
                             Modifier le profil
                         </NavLink>
                         <button
                             onClick={handleLogout}
-                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] text-sm md:text-lg"
                         >
                             Se déconnecter
                         </button>

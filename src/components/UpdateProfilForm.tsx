@@ -28,19 +28,17 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
     const [dateOfBirth, setDateOfBirth] = useState(
         formatDate(user?.dateOfBirth || null)
     );
-    const [selectedSports, setSelectedSports] = useState(user?.sports || []);
+    const [selectedSports, setSelectedSports] = useState(user?.Sports || []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        console.log("selectedSports : ", selectedSports);
 
         const updatedUser: Partial<User> = {
             firstName,
             lastName,
             email,
             dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
-            sports: selectedSports.filter(Boolean),
+            Sports: selectedSports.filter(Boolean),
         };
 
         onSubmit(updatedUser);
@@ -109,15 +107,21 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                         classNamePrefix="custom-select"
                         value={selectedSports.map((sport) =>
                             sportsCombat.find(
-                                (option) => option.value === sport
+                                (option) => option.value === sport.name
                             )
                         )}
                         onChange={(selectedOptions) =>
                             setSelectedSports(
                                 selectedOptions
-                                    ? selectedOptions.map(
-                                          (option) => option?.value || ""
-                                      )
+                                    ? selectedOptions.map((option) => ({
+                                          name: option?.value || "", // ou remplace par la logique appropriée
+                                          description: "", // Ajouter une valeur par défaut ou extraire d'une autre source si nécessaire
+                                          createdAt: new Date(), // ou remplace par la valeur appropriée
+                                          updatedAt: new Date(), // ou remplace par la valeur appropriée
+                                          UserSport: {
+                                              level: "beginner", // Ajouter une valeur par défaut ou extraire d'une autre source si nécessaire
+                                          },
+                                      }))
                                     : []
                             )
                         }

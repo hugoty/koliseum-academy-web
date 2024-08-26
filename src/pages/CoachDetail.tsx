@@ -49,18 +49,18 @@ const CoachDetail: React.FC = () => {
                     <h3 className="w-full mb-4 text-left text-lg">
                         Prochains cours :
                     </h3>
-                    {coach.cours.map((cours, index) => (
+                    {/* {coach.cours.map((cours, index) => (
                         <CardCours
                             key={index}
                             id={cours.id}
                             nom={coach.nom}
                             prenom={coach.prenom}
-                            sport={coach.sport}
+                            sport={coach.Sport}
                             position={cours.position}
                             dateHoraire={cours.dateHoraire}
                             places={cours.places}
                         />
-                    ))}
+                    ))} */}
                 </div>
             ) : (
                 <NotConnectedBloc />

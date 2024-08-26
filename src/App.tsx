@@ -28,7 +28,7 @@ function App() {
                     <div className="text-white font-bold text-center mt-6 pb-6 font-reggae border-b-[0.1px] border-b-[#ffffff73]">
                         Koliseum Academy
                     </div>
-                    <div className="w-full h-full overflow-hidden overflow-y-scroll py-4 md:px-0 px-6 md:w-6/12 md:mx-auto">
+                    <div className="w-full h-full overflow-hidden overflow-y-auto py-4 md:px-0 px-6 md:w-6/12 md:mx-auto">
                         <div className="w-full h-full">
                             <div className="flex-grow">
                                 <Routes>
@@ -62,7 +62,7 @@ function App() {
                                         element={<ParticipantDetail />}
                                     />
                                     <Route
-                                        path="/cours/:id"
+                                        path="/cours/:courseId"
                                         element={<CoursDetail />}
                                     />
                                     <Route

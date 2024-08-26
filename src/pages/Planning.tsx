@@ -78,7 +78,7 @@ const Planning: React.FC = () => {
         return <Loader />; // Afficher le loader si en chargement
     }
 
-    console.log("utilisateur connecté : ", user);
+    console.log("user : ", user);
 
     return (
         <>
@@ -96,7 +96,7 @@ const Planning: React.FC = () => {
                                 </NavLink>
                             </div>
                         ) : null}
-                        <div className="w-full flex flex-col justify-center flex-wrap">
+                        {/* <div className="w-full flex flex-col justify-center flex-wrap">
                             <h2 className="mb-4 font-bold w-full border-b-[0.5px] pb-2">
                                 Aujourd'hui
                             </h2>
@@ -164,7 +164,7 @@ const Planning: React.FC = () => {
                                     Aucun cours de programmés ..
                                 </p>
                             )}
-                        </div>
+                        </div> */}
                     </>
                 </div>
             ) : (

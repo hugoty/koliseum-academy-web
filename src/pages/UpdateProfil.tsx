@@ -23,8 +23,6 @@ const UpdateProfil: React.FC = () => {
         window.location.assign("/profil");
     };
 
-    console.log("profil : ", user);
-
     return (
         <div className="text-white flex flex-col items-center justify-center h-full">
             {user ? (

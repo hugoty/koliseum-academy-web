@@ -14,12 +14,9 @@ const UpdateCours: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("course : ", course);
             if (courseId && course === null) {
-                console.log("courseId : ", courseId);
                 try {
                     const courseData = await fetchCourseById(Number(courseId));
-                    console.log("courseData : ", courseData);
                     if (courseData) {
                         setCourse(courseData);
                     } else {
@@ -40,8 +37,6 @@ const UpdateCours: React.FC = () => {
 
         fetchData();
     }, [course, courseId, fetchCourseById]);
-
-    console.log("courseId : ", courseId);
 
     if (loading) return <Loader />;
     if (!courseId || !course)

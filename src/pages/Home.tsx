@@ -1,44 +1,130 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import CardCours from "../components/CardCours";
-import CardCoach from "../components/CardCoach";
-import coursData from "../data/cours.json";
-import coachsData from "../data/coachs.json";
 import SearchBarWithModal from "../components/SearchBarWithModal";
+import { useApiCourse } from "../hooks/useApiCours";
+import Loader from "../components/Loader";
+import { Course } from "../utils/types/types";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../utils/atom/userAtom";
+
+interface SearchFilters {
+    coachName: string | null;
+    locations: string[];
+    sports: number[];
+    minDate: Date | null;
+    maxDate: Date | null;
+    minPlaces: number | null;
+    maxPlaces: number | null;
+    minRemainingPlaces: number | null;
+    maxRemainingPlaces: number | null;
+    levels: string[];
+}
 
 const Home: React.FC = () => {
+    const { searchCoursesByCriteria } = useApiCourse(); // Utiliser le hook
     const [showAllCours, setShowAllCours] = useState(false);
-    const [showAllCoachs, setShowAllCoachs] = useState(false);
-    const [filteredCourses, setFilteredCourses] = useState(coursData.cours);
-    const [searchFilters, setSearchFilters] = useState({
-        name: "",
-        date: "",
-        sportIds: [],
+    const [filteredCourses, setFilteredCourses] = useState<Course[]>([]); // Initialiser à un tableau vide
+    const [loading, setLoading] = useState(false); // Ajouté pour suivre l'état de chargement
+    const [fetchError, setFetchError] = useState(false);
+    const [searchFilters, setSearchFilters] = useState<SearchFilters>({
+        coachName: null,
+        locations: [],
+        sports: [],
+        minDate: null,
+        maxDate: null,
+        minPlaces: null,
+        maxPlaces: null,
+        minRemainingPlaces: null,
+        maxRemainingPlaces: null,
+        levels: [],
     });
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            setLoading(true);
+            setFetchError(false); // Réinitialiser l'erreur avant de tenter la récupération
+            try {
+                const allCourses = await searchCoursesByCriteria(searchFilters);
+
+                if (!allCourses) {
+                    throw new Error("La récupération des cours a échoué");
+                }
+
+                setFilteredCourses(allCourses);
+            } catch (error) {
+                console.error(
+                    "Erreur lors de la récupération des cours:",
+                    error
+                );
+                setFetchError(true);
+                setFilteredCourses([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (
+            !loading &&
+            !fetchError &&
+            (!filteredCourses || filteredCourses.length < 1)
+        ) {
+            fetchCourses();
+        }
+    }, [searchFilters, searchCoursesByCriteria]);
 
     const toggleShowAllCours = () => {
         setShowAllCours(!showAllCours);
     };
 
-    const toggleShowAllCoachs = () => {
-        setShowAllCoachs(!showAllCoachs);
+    // const toggleShowAllCoachs = () => {
+    //     setShowAllCoachs(!showAllCoachs);
+    // };
+
+    const parseDate = (dateString: string | null): Date | null => {
+        return dateString ? new Date(dateString) : null;
     };
 
-    const handleSearch = (filters: {
-        name?: string;
-        date?: string;
-        sportIds: number[];
-    }) => {
-        // traitement du listing de cours
+    const handleSearch = async (filters: any) => {
+        const updatedFilters: SearchFilters = {
+            ...filters,
+            minDate: parseDate(filters.minDate),
+            maxDate: parseDate(filters.maxDate),
+        };
+        setSearchFilters(updatedFilters);
+
+        try {
+            const searchedCourses = await searchCoursesByCriteria(filters);
+            setFilteredCourses(searchedCourses);
+        } catch (error) {
+            console.error("Erreur lors de la recherche des cours:", error);
+        }
     };
 
-    const handleClearFilters = () => {
-        setSearchFilters({
-            name: "",
-            date: "",
-            sportIds: [],
-        });
-        setFilteredCourses(coursData.cours); // Réinitialiser les cours affichés
+    const handleClearFilters = async () => {
+        const defaultFilters = {
+            coachName: null,
+            locations: [],
+            sports: [],
+            minDate: null,
+            maxDate: null,
+            minPlaces: null,
+            maxPlaces: null,
+            minRemainingPlaces: null,
+            maxRemainingPlaces: null,
+            levels: [],
+        };
+        setSearchFilters(defaultFilters);
+
+        try {
+            const allCourses = await searchCoursesByCriteria(defaultFilters);
+            setFilteredCourses(allCourses);
+        } catch (error) {
+            console.error(
+                "Erreur lors de la réinitialisation des filtres:",
+                error
+            );
+        }
     };
 
     return (
@@ -54,20 +140,27 @@ const Home: React.FC = () => {
                     Cours disponibles
                 </h2>
                 <div className="w-full flex justify-center flex-wrap">
-                    {filteredCourses
-                        .slice(0, showAllCours ? filteredCourses.length : 2)
-                        .map((cours, index) => (
-                            <CardCours
-                                key={index}
-                                id={cours.id}
-                                nom={cours.nom}
-                                prenom={cours.prenom}
-                                sport={cours.sport}
-                                position={cours.position}
-                                dateHoraire={cours.dateHoraire}
-                                places={cours.places}
-                            />
-                        ))}
+                    {loading ? (
+                        <Loader /> // Afficher le Loader pendant le chargement
+                    ) : filteredCourses !== null &&
+                      filteredCourses.length > 0 ? (
+                        filteredCourses
+                            .slice(0, showAllCours ? filteredCourses.length : 3)
+                            .map((cours, index) => (
+                                <CardCours
+                                    key={index}
+                                    id={cours.id}
+                                    nom={cours?.owner?.lastName}
+                                    prenom={cours?.owner?.firstName}
+                                    sport={cours?.Sports}
+                                    position={cours.locations[0]}
+                                    dateHoraire={cours.startDate}
+                                    places={cours.places}
+                                />
+                            ))
+                    ) : (
+                        <p>Aucun cours disponible</p>
+                    )}
                 </div>
                 <button
                     onClick={toggleShowAllCours}
@@ -86,7 +179,7 @@ const Home: React.FC = () => {
                     Coachs disponibles
                 </h2>
                 <div className="w-full flex justify-center flex-wrap"></div>
-                <button
+                {/* <button
                     onClick={toggleShowAllCoachs}
                     className="mt-4 rounded-lg bg-[#2c3540b5] px-4 py-2 text-white flex items-center"
                 >
@@ -96,7 +189,8 @@ const Home: React.FC = () => {
                     ) : (
                         <FaChevronDown className="ml-2" />
                     )}
-                </button>
+                </button> */}
+                <p>Section en cours de développement</p>
             </div>
         </div>
     );

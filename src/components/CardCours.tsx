@@ -5,14 +5,20 @@ import {
     FaRegClock,
     FaUsers,
 } from "react-icons/fa6";
+import { sportsNames } from "../utils/userUtils";
 
+interface Sports {
+    id?: number;
+    description?: string;
+    name?: string;
+}
 interface CardCoursProps {
-    id: string;
-    nom: string;
-    prenom: string;
-    sport: string;
-    position: string;
-    dateHoraire: string;
+    id?: number;
+    nom?: string;
+    prenom?: string;
+    sport: Sports[];
+    position?: string;
+    dateHoraire?: Date;
     places: number;
 }
 
@@ -26,7 +32,7 @@ const CardCours: React.FC<CardCoursProps> = ({
     places,
 }) => {
     // Formater la date et l'heure
-    const date = new Date(dateHoraire);
+    const date = dateHoraire ? new Date(dateHoraire) : new Date();
 
     // Date actuelle
     const today = new Date();
@@ -51,13 +57,15 @@ const CardCours: React.FC<CardCoursProps> = ({
         minute: "2-digit",
     });
 
+    const isString = (value: any): value is string => typeof value === "string";
+
     return (
         <NavLink
             to={`/cours/${id}`}
             rel={`Cours n°${id}`}
             className="md:w-5/12 w-full rounded-lg bg-[#2c3540b5] mb-4 md:mx-4 mx-0 p-4 hover:bg-[#2c35405a]"
         >
-            <h3 className="text-center font-bold">Cours de {sport}</h3>
+            <h3 className="text-center font-bold">Cours de {sport[0].name}</h3>
             <h4 className="text-center font-light text-sm mb-4">
                 {prenom} {nom}
             </h4>

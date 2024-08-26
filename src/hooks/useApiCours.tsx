@@ -21,7 +21,7 @@ export const useApiCourse = () => {
     };
 
     // Créer un cours (POST /course/create)
-    const createCourse = async (newCourse: Course) => {
+    const createCourse = async (newCourse: Partial<Course>) => {
         try {
             const token = getToken();
             const response = await fetch(`${BASE_URL}/course/create`, {
@@ -80,6 +80,7 @@ export const useApiCourse = () => {
 
     // Mettre à jour un cours (PUT /course/1)
     const updateCourse = async (id: string, updatedCourse: Partial<Course>) => {
+        console.log("updatedCours : ", updatedCourse);
         try {
             const token = getToken();
             const response = await fetch(`${BASE_URL}/course/${id}`, {
@@ -92,6 +93,7 @@ export const useApiCourse = () => {
             });
             if (!response.ok) throw new Error("Failed to update course");
             const data = await response.json();
+            console.log("data : ", data);
             setCourse(data); // Met à jour l'état local avec le cours mis à jour
             return data;
         } catch (err) {
@@ -122,24 +124,38 @@ export const useApiCourse = () => {
         }
     };
 
-    const searchCourses = async (filters: {
-        name?: string;
-        date?: string;
-        sportIds: number[];
+    // Rechercher des cours selon des critères (GET /course/search)
+    const searchCoursesByCriteria = async (filters: {
+        coachName: string | null;
+        locations: string[];
+        sports: number[];
+        minDate: Date | null;
+        maxDate: Date | null;
+        minPlaces: number | null;
+        maxPlaces: number | null;
+        minRemainingPlaces: number | null;
+        maxRemainingPlaces: number | null;
+        levels?: string[];
     }) => {
-        const queryParams = new URLSearchParams();
-
-        if (filters.name) queryParams.append("name", filters.name);
-        if (filters.date) queryParams.append("date", filters.date);
-        if (filters.sportIds.length > 0)
-            queryParams.append("sports", filters.sportIds.join(","));
-
-        const response = await fetch(
-            `${BASE_URL}/courses/search?${queryParams.toString()}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch courses");
-
-        return response.json();
+        try {
+            const token = getToken();
+            const response = await fetch(`${BASE_URL}/course/search`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(filters),
+            });
+            if (!response.ok) throw new Error("Failed to search courses");
+            const data = await response.json();
+            setCourses(data); // Mets à jour l'état avec les cours trouvés
+            return data;
+        } catch (err) {
+            console.error("Erreur lors de la recherche des cours:", err);
+            setError((err as Error).message);
+            return null;
+        }
     };
 
     return {
@@ -151,6 +167,6 @@ export const useApiCourse = () => {
         subscribeToCourse,
         updateCourse,
         addSportToCourse,
-        searchCourses,
+        searchCoursesByCriteria,
     };
 };
