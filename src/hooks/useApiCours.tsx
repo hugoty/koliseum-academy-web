@@ -152,7 +152,9 @@ export const useApiCourse = () => {
             setCourses(data); // Mets à jour l'état avec les cours trouvés
             return data;
         } catch (err) {
+            console.error("Erreur lors de la recherche des cours:", err);
             setError((err as Error).message);
+            return null;
         }
     };
 

@@ -5,6 +5,8 @@ import SearchBarWithModal from "../components/SearchBarWithModal";
 import { useApiCourse } from "../hooks/useApiCours";
 import Loader from "../components/Loader";
 import { Course } from "../utils/types/types";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../utils/atom/userAtom";
 
 interface SearchFilters {
     coachName: string | null;
@@ -22,10 +24,9 @@ interface SearchFilters {
 const Home: React.FC = () => {
     const { searchCoursesByCriteria } = useApiCourse(); // Utiliser le hook
     const [showAllCours, setShowAllCours] = useState(false);
-    const [filteredCourses, setFilteredCourses] = useState<null | Course[]>(
-        null
-    ); // Initialiser à un tableau vide
+    const [filteredCourses, setFilteredCourses] = useState<Course[]>([]); // Initialiser à un tableau vide
     const [loading, setLoading] = useState(false); // Ajouté pour suivre l'état de chargement
+    const [fetchError, setFetchError] = useState(false);
     const [searchFilters, setSearchFilters] = useState<SearchFilters>({
         coachName: null,
         locations: [],
@@ -42,24 +43,35 @@ const Home: React.FC = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             setLoading(true);
+            setFetchError(false); // Réinitialiser l'erreur avant de tenter la récupération
             try {
                 const allCourses = await searchCoursesByCriteria(searchFilters);
+
+                if (!allCourses) {
+                    throw new Error("La récupération des cours a échoué");
+                }
+
                 setFilteredCourses(allCourses);
             } catch (error) {
                 console.error(
                     "Erreur lors de la récupération des cours:",
                     error
                 );
+                setFetchError(true);
                 setFilteredCourses([]);
             } finally {
                 setLoading(false);
             }
         };
 
-        if (!loading && filteredCourses === null) {
+        if (
+            !loading &&
+            !fetchError &&
+            (!filteredCourses || filteredCourses.length < 1)
+        ) {
             fetchCourses();
         }
-    }, [searchFilters, searchCoursesByCriteria]); // Retirer 'loading' de la liste des dépendances
+    }, [searchFilters, searchCoursesByCriteria]);
 
     const toggleShowAllCours = () => {
         setShowAllCours(!showAllCours);
@@ -133,7 +145,7 @@ const Home: React.FC = () => {
                     ) : filteredCourses !== null &&
                       filteredCourses.length > 0 ? (
                         filteredCourses
-                            .slice(0, showAllCours ? filteredCourses.length : 2)
+                            .slice(0, showAllCours ? filteredCourses.length : 3)
                             .map((cours, index) => (
                                 <CardCours
                                     key={index}
@@ -162,12 +174,12 @@ const Home: React.FC = () => {
                     )}
                 </button>
             </div>
-            {/* <div className="w-full flex flex-col items-center">
+            <div className="w-full flex flex-col items-center">
                 <h2 className="w-full text-left font-light pb-2 mb-6 mt-4 border-b-[0.5px]">
                     Coachs disponibles
                 </h2>
                 <div className="w-full flex justify-center flex-wrap"></div>
-                <button
+                {/* <button
                     onClick={toggleShowAllCoachs}
                     className="mt-4 rounded-lg bg-[#2c3540b5] px-4 py-2 text-white flex items-center"
                 >
@@ -177,8 +189,9 @@ const Home: React.FC = () => {
                     ) : (
                         <FaChevronDown className="ml-2" />
                     )}
-                </button>
-            </div> */}
+                </button> */}
+                <p>Section en cours de développement</p>
+            </div>
         </div>
     );
 };

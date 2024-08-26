@@ -41,7 +41,7 @@ const Profil: React.FC = () => {
     );
 
     return (
-        <div className="text-white flex flex-col items-center justify-center h-full">
+        <div className="text-white flex flex-col items-center justify-center h-full px-4">
             {user ? (
                 <>
                     <div className="w-full flex justify-center mb-4">
@@ -75,16 +75,16 @@ const Profil: React.FC = () => {
                             <p>Aucun sport sélectionné</p> // Optionnel : afficher un message si le tableau est vide
                         )}
                     </div>
-                    <div className="w-full flex items-center flex-row mt-4">
+                    <div className="w-full flex items-stretch flex-row mt-4">
                         <NavLink
                             to={`/profil-modification`}
-                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mr-4"
+                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mr-4 text-sm md:text-lg"
                         >
                             Modifier le profil
                         </NavLink>
                         <button
                             onClick={handleLogout}
-                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                            className="flex-1 text-center rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] text-sm md:text-lg"
                         >
                             Se déconnecter
                         </button>

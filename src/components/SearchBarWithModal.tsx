@@ -4,6 +4,9 @@ import Select from "react-select";
 import sportsData from "../data/sports.json";
 import { RxCross2 } from "react-icons/rx";
 import { Level } from "../utils/types/types";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../utils/atom/userAtom";
+import { NavLink } from "react-router-dom";
 
 interface SportOption {
     value: number;
@@ -43,6 +46,8 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
     initialFilters,
     onClear,
 }) => {
+    const user = useRecoilValue(userAtom);
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [coachName, setCoachName] = useState("");
     const [searchDate, setSearchDate] = useState<string | Date>("");
@@ -188,11 +193,11 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
                     >
                         <button
                             onClick={handleCloseModal}
-                            className="absolute top-2 right-2 text-white"
+                            className="absolute top-4 right-5 text-white"
                         >
-                            <RxCross2 className="fill-black" />
+                            <RxCross2 className="fill-black text-2xl" />
                         </button>
-                        <h2 className="text-xl font-semibold mb-4">
+                        <h2 className="text-xl font-semibold mb-4 text-center">
                             Recherche Avancée
                         </h2>
                         <input
@@ -200,13 +205,13 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
                             placeholder="Nom du coach..."
                             value={coachName}
                             onChange={handleCoachNameChange}
-                            className="rounded-lg bg-[#2c3540b5] text-white px-4 py-2 w-full mb-2"
+                            className="rounded-lg bg-[#2c3540b5] text-white px-4 py-2 w-full mb-4"
                         />
                         <input
                             type="date"
                             value={String(searchDate)}
                             onChange={handleDateChange}
-                            className="rounded-lg bg-[#2c3540b5] px-4 py-2 w-full mb-2"
+                            className="rounded-lg bg-[#2c3540b5] px-4 py-2 w-full mb-4"
                         />
                         <Select
                             className="mb-4"
@@ -220,7 +225,6 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
                                     ...base,
                                     backgroundColor: "#2c3540b5",
                                     borderRadius: "0.5rem",
-                                    padding: "0.5rem 1rem 0.5rem 0rem",
                                     border: "none",
                                     color: "white",
                                 }),
@@ -272,17 +276,17 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
                             placeholder="Places minimum"
                             value={minPlaces || ""}
                             onChange={handleMinPlacesChange}
-                            className="rounded-lg rounded-lg bg-[#2c3540b5] px-4 py-2 w-full mb-2"
+                            className="rounded-lg rounded-lg bg-[#2c3540b5] px-4 py-2 w-full mb-4"
                         />
                         <input
                             type="number"
                             placeholder="Places maximum"
                             value={maxPlaces || ""}
                             onChange={handleMaxPlacesChange}
-                            className="rounded-lg rounded-lg bg-[#2c3540b5] px-4 py-2 w-full mb-2"
+                            className="rounded-lg rounded-lg bg-[#2c3540b5] px-4 py-2 w-full mb-4"
                         />
                         <div className="mb-4">
-                            <label className="block font-medium mb-2">
+                            <label className="block font-medium mb-4">
                                 Niveau :
                             </label>
                             <div className="flex flex-wrap">
@@ -303,25 +307,41 @@ const SearchBarWithModal: React.FC<SearchBarWithModalProps> = ({
                                 ))}
                             </div>
                         </div>
-                        <div className="flex gap-2">
-                            <button
-                                onClick={handleSubmit}
-                                disabled={isSubmitDisabled}
-                                className={`w-full rounded-lg px-4 py-2 text-white ${
-                                    isSubmitDisabled
-                                        ? "bg-red-600"
-                                        : "bg-[#2c3540b5] hover:bg-[#2c35405a]"
-                                }`}
-                            >
-                                Rechercher
-                            </button>
-                            <button
-                                onClick={handleClear}
-                                className="w-full rounded-lg px-4 py-2 text-white bg-red-600 hover:bg-red-600"
-                            >
-                                Effacer
-                            </button>
-                        </div>
+
+                        {user ? (
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={handleSubmit}
+                                    disabled={isSubmitDisabled}
+                                    className={`w-full rounded-lg px-4 py-2 text-white ${
+                                        isSubmitDisabled
+                                            ? "bg-red-600"
+                                            : "bg-[#2c3540b5] hover:bg-[#2c35405a]"
+                                    }`}
+                                >
+                                    Rechercher
+                                </button>
+                                <button
+                                    onClick={handleClear}
+                                    className="w-full rounded-lg px-4 py-2 text-white bg-red-600 hover:bg-red-600"
+                                >
+                                    Effacer
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col justify-center items-center">
+                                <p className="text-center mb-4">
+                                    Vous devez être connecté pour rechercher des
+                                    cours.
+                                </p>
+                                <NavLink
+                                    to={`/connexion`}
+                                    className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                                >
+                                    Se connecter
+                                </NavLink>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

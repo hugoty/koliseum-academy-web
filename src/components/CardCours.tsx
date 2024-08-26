@@ -5,6 +5,7 @@ import {
     FaRegClock,
     FaUsers,
 } from "react-icons/fa6";
+import { sportsNames } from "../utils/userUtils";
 
 interface Sports {
     id?: number;
@@ -64,7 +65,7 @@ const CardCours: React.FC<CardCoursProps> = ({
             rel={`Cours n°${id}`}
             className="md:w-5/12 w-full rounded-lg bg-[#2c3540b5] mb-4 md:mx-4 mx-0 p-4 hover:bg-[#2c35405a]"
         >
-            <h3 className="text-center font-bold">Cours de {sportsNames(cours}</h3>
+            <h3 className="text-center font-bold">Cours de {sport[0].name}</h3>
             <h4 className="text-center font-light text-sm mb-4">
                 {prenom} {nom}
             </h4>
