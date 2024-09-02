@@ -24,11 +24,12 @@ interface SearchFilters {
 
 const Home: React.FC = () => {
     const user = useRecoilValue(userAtom);
-    const { searchCoursesByCriteria } = useApiCourse(); // Utiliser le hook
+    const { searchCoursesByCriteria } = useApiCourse();
     const [showAllCours, setShowAllCours] = useState(false);
-    const [filteredCourses, setFilteredCourses] = useState<Course[]>([]); // Initialiser à un tableau vide
-    const [loading, setLoading] = useState(false); // Ajouté pour suivre l'état de chargement
+    const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
+    const [loading, setLoading] = useState(false);
     const [fetchError, setFetchError] = useState(false);
+    const [hasFetchedCourses, setHasFetchedCourses] = useState(false);
     const [searchFilters, setSearchFilters] = useState<SearchFilters>({
         coachName: null,
         locations: [],
@@ -54,6 +55,7 @@ const Home: React.FC = () => {
                 }
 
                 setFilteredCourses(allCourses);
+                setHasFetchedCourses(true);
             } catch (error) {
                 console.error(
                     "Erreur lors de la récupération des cours:",
@@ -66,12 +68,7 @@ const Home: React.FC = () => {
             }
         };
 
-        if (
-            user &&
-            !loading &&
-            !fetchError &&
-            (!filteredCourses || filteredCourses.length < 1)
-        ) {
+        if (user && !loading && !fetchError && !hasFetchedCourses) {
             fetchCourses();
         }
     }, [searchFilters, searchCoursesByCriteria]);
@@ -144,33 +141,35 @@ const Home: React.FC = () => {
                         <h2 className="w-full text-left font-light pb-2 mb-6 mt-4 border-b-[0.5px]">
                             Cours disponibles
                         </h2>
-                        <div className="w-full flex justify-center flex-wrap">
-                            {loading ? (
-                                <Loader /> // Afficher le Loader pendant le chargement
-                            ) : filteredCourses !== null &&
-                              filteredCourses.length > 0 ? (
-                                filteredCourses
-                                    .slice(
-                                        0,
-                                        showAllCours
-                                            ? filteredCourses.length
-                                            : 3
-                                    )
-                                    .map((cours, index) => (
-                                        <CardCours
-                                            key={index}
-                                            id={cours.id}
-                                            nom={cours?.owner?.lastName}
-                                            prenom={cours?.owner?.firstName}
-                                            sport={cours?.Sports}
-                                            position={cours.locations[0]}
-                                            dateHoraire={cours.startDate}
-                                            places={cours.places}
-                                        />
-                                    ))
-                            ) : (
-                                <p>Aucun cours disponible</p>
-                            )}
+                        <div className="flex justify-center items-center">
+                            <div className="w-full flex justify-start flex-wrap">
+                                {loading ? (
+                                    <Loader /> // Afficher le Loader pendant le chargement
+                                ) : filteredCourses !== null &&
+                                  filteredCourses.length > 0 ? (
+                                    filteredCourses
+                                        .slice(
+                                            0,
+                                            showAllCours
+                                                ? filteredCourses.length
+                                                : 3
+                                        )
+                                        .map((cours, index) => (
+                                            <CardCours
+                                                key={index}
+                                                id={cours.id}
+                                                nom={cours?.owner?.lastName}
+                                                prenom={cours?.owner?.firstName}
+                                                sport={cours?.Sports}
+                                                position={cours.locations[0]}
+                                                dateHoraire={cours.startDate}
+                                                places={cours.places}
+                                            />
+                                        ))
+                                ) : (
+                                    <p>Aucun cours disponible</p>
+                                )}
+                            </div>
                         </div>
                         {filteredCourses !== null &&
                         filteredCourses.length > 0 ? (
@@ -188,24 +187,6 @@ const Home: React.FC = () => {
                         ) : (
                             ""
                         )}
-                    </div>
-                    <div className="w-full flex flex-col items-center">
-                        <h2 className="w-full text-left font-light pb-2 mb-6 mt-4 border-b-[0.5px]">
-                            Coachs disponibles
-                        </h2>
-                        <div className="w-full flex justify-center flex-wrap"></div>
-                        {/* <button
-                    onClick={toggleShowAllCoachs}
-                    className="mt-4 rounded-lg bg-[#2c3540b5] px-4 py-2 text-white flex items-center"
-                >
-                    {showAllCoachs ? "Voir moins" : "Voir plus"}
-                    {showAllCoachs ? (
-                        <FaChevronUp className="ml-2" />
-                    ) : (
-                        <FaChevronDown className="ml-2" />
-                    )}
-                </button> */}
-                        <p>Section en cours de développement</p>
                     </div>
                 </div>
             ) : (

@@ -6,6 +6,7 @@ import Loader from "../components/Loader";
 import { MyProfilPicture } from "../components/ProfilPicture";
 import { NotConnectedBloc } from "../components/BlocNoAccessRights";
 import { levelTraduction } from "../utils/userUtils";
+import defaultPP from "../assets/user/default-pp.jpg";
 
 const Profil: React.FC = () => {
     const user = useRecoilValue(userAtom);
@@ -46,7 +47,7 @@ const Profil: React.FC = () => {
                 <>
                     <div className="w-full flex justify-center mb-4">
                         <MyProfilPicture
-                            src="https://www.fredzone.org/wp-content/uploads/2018/12/anakin-1200x675.jpg"
+                            src={defaultPP}
                             alt={`Photo de profil de ${user.firstName} ${user.lastName}`}
                         />
                     </div>

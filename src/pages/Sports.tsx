@@ -49,15 +49,35 @@ const Sports: React.FC = () => {
             </div>
 
             <div className="flex flex-wrap justify-center">
-                {filteredSports.map((sport) => (
-                    <CardSport
-                        key={sport.id}
-                        id={sport.id}
-                        label={sport.label}
-                        image={sport.image}
-                        description={sport.description}
-                    />
-                ))}
+                {filteredSports.map((sport) => {
+                    let imagePath = "";
+                    const imageFormats = ["avif", "jpg", "png", "jpeg"]; // Liste des formats d'image à tester
+
+                    // Tenter de charger l'image dans différents formats
+                    for (const format of imageFormats) {
+                        try {
+                            imagePath = require(`../assets/wiki/${sport.id}.${format}`);
+                            break; // Si l'image est trouvée, sortir de la boucle
+                        } catch {
+                            // Ignorer les erreurs et essayer le format suivant
+                        }
+                    }
+
+                    // Utiliser une image par défaut si aucune image spécifique n'est trouvée
+                    if (!imagePath) {
+                        imagePath = require("../assets/wiki/default-image.jpg"); // Remplace par ton image de secours
+                    }
+
+                    return (
+                        <CardSport
+                            key={sport.id}
+                            id={sport.id}
+                            label={sport.label}
+                            image={imagePath}
+                            description={sport.description}
+                        />
+                    );
+                })}
             </div>
         </div>
     );

@@ -45,6 +45,6 @@ export interface User {
     roles?: string[]; // Liste des rôles de l'utilisateur (e.g., ["student", "coach"])
     createdAt?: Date;
     updatedAt?: Date;
-    courses?: Course[]; // Liste des cours associés à l'utilisateur
+    Courses?: Course[]; // Liste des cours associés à l'utilisateur
     Sports?: Sport[];
 }

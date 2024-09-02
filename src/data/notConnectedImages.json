@@ -1,18 +1,18 @@
 [
     {
-        "src": "https://datas.masalledesport.com/prod/activity/163/images/1619010192773.jpg",
+        "src": "../assets/sports/image1.jpg",
         "alt": "Image 1"
     },
     {
-        "src": "https://www.leparisien.fr/resizer/dNDN80g5AA0ro1aF6cf1RJnI_Qw=/932x582/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/BJQ6I4XAC5D2VHS53VR7O74X6E.jpg",
+        "src": "../assets/sports/image2.jpg",
         "alt": "Image 2"
     },
     {
-        "src": "https://img.lemde.fr/2015/09/02/489/0/4956/2478/1440/720/60/0/9c9b309_26390-58l7tg.jpg",
+        "src": "../assets/sports/image3.jpg",
         "alt": "Image 3"
     },
     {
-        "src": "https://cnkendo-dr.com/wp-content/uploads/2021/08/KENDO-02-Bertrand-Schmitt.jpg",
+        "src": "../assets/sports/image4.jpg",
         "alt": "Image 4"
     }
 ]

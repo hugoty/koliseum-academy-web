@@ -11,14 +11,16 @@ import {
     FaShieldAlt,
     FaSearchPlus,
 } from "react-icons/fa";
+import { ReactComponent as Logo } from "../assets/logo/icon.svg";
 
 const LandingPage: React.FC = () => {
     return (
         <div className=" text-white min-h-screen flex flex-col items-center">
             {/* Section d'en-tête */}
             <header className="w-full p-6 flex flex-col items-center text-center ">
+                <Logo width="50" height="50" />
                 <h1 className="text-3xl font-bold mb-2 font-reggae">
-                    Koliseum Academy 🥋
+                    Koliseum Academy
                 </h1>
                 <p className="text-md max-w-2xl mb-4">
                     La plateforme ultime pour trouver, créer ou gérer des cours
