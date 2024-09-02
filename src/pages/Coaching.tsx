@@ -3,6 +3,9 @@ import CardCours from "../components/CardCours";
 import CardCoach from "../components/CardCoach";
 import coursData from "../data/cours.json";
 import coachsData from "../data/coachs.json";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../utils/atom/userAtom";
+import { NotConnectedBloc } from "../components/BlocNoAccessRights";
 
 interface Participant {
     id: string;
@@ -31,6 +34,7 @@ interface Cours {
 }
 
 const Coaching: React.FC = () => {
+    const user = useRecoilValue(userAtom);
     const [activeTab, setActiveTab] = useState<"coaching" | "cours">(
         "coaching"
     );
@@ -72,114 +76,122 @@ const Coaching: React.FC = () => {
     });
 
     return (
-        <div className="text-white flex flex-col items-center justify-center h-full">
-            <div className="flex space-x-4 mb-4">
-                <button
-                    onClick={() => setActiveTab("coaching")}
-                    className={`px-4 py-2 hover:font-bold hover:border-b-[1px] ${
-                        activeTab === "coaching"
-                            ? "border-b-[1px] font-bold"
-                            : ""
-                    }`}
-                >
-                    Coaching
-                </button>
-                <button
-                    onClick={() => setActiveTab("cours")}
-                    className={`px-4 py-2 hover:font-bold hover:border-b-[1px] ${
-                        activeTab === "cours" ? "border-b-[1px] font-bold" : ""
-                    }`}
-                >
-                    Cours
-                </button>
-            </div>
-            {activeTab === "cours" && (
-                <>
-                    <div className="w-full flex flex-col justify-center flex-wrap">
-                        <h2 className="mb-4 font-bold w-full border-b-[0.5px] pb-2">
-                            Aujourd'hui
-                        </h2>
-                        {todayCourses.length > 0 ? (
-                            todayCourses.map((cours, index) => (
-                                <div className="w-full flex justify-center">
-                                    {/* <CardCours
-                    key={index}
-                    id={cours.id}
-                    nom={cours.nom}
-                    prenom={cours.prenom}
-                    sport={cours.sport}
-                    position={cours.position}
-                    dateHoraire={cours.dateHoraire}
-                    places={cours.places}
-                  /> */}
-                                </div>
-                            ))
-                        ) : (
-                            <p className="font-light text-center mb-4 mt-4">
-                                Aucun cours aujourd'hui ..
-                            </p>
-                        )}
+        <>
+            {user ? (
+                <div className="text-white flex flex-col items-center justify-center h-full">
+                    <div className="flex space-x-4 mb-4">
+                        <button
+                            onClick={() => setActiveTab("coaching")}
+                            className={`px-4 py-2 hover:font-bold hover:border-b-[1px] ${
+                                activeTab === "coaching"
+                                    ? "border-b-[1px] font-bold"
+                                    : ""
+                            }`}
+                        >
+                            Coaching
+                        </button>
+                        <button
+                            onClick={() => setActiveTab("cours")}
+                            className={`px-4 py-2 hover:font-bold hover:border-b-[1px] ${
+                                activeTab === "cours"
+                                    ? "border-b-[1px] font-bold"
+                                    : ""
+                            }`}
+                        >
+                            Cours
+                        </button>
                     </div>
-                    <div className="w-full flex flex-col justify-center flex-wrap">
-                        <h2 className="mt-4 mb-4 font-bold w-full border-b-[0.5px] pb-2">
-                            Demain
-                        </h2>
-                        {tomorrowCourses.length > 0 ? (
-                            tomorrowCourses.map((cours, index) => (
-                                <div className="w-full flex justify-center">
-                                    {/* <CardCours
-                                        key={index}
-                                        id={cours.id}
-                                        nom={cours.nom}
-                                        prenom={cours.prenom}
-                                        sport={cours.sport}
-                                        position={cours.position}
-                                        dateHoraire={cours.dateHoraire}
-                                        places={cours.places}
-                                    /> */}
-                                </div>
-                            ))
-                        ) : (
-                            <p className="font-light text-center mb-4 mt-4">
-                                Aucun cours demain ..
-                            </p>
-                        )}
-                    </div>
-                    <div className="w-full flex flex-col justify-center flex-wrap">
-                        <h2 className="mt-4 mb-4 font-bold w-full border-b-[0.5px] pb-2">
-                            Prochainement
-                        </h2>
-                        {upcomingCourses.length > 0 ? (
-                            upcomingCourses.map((cours, index) => (
-                                <div className="w-full flex justify-center">
-                                    {/* <CardCours
-                                        key={index}
-                                        id={cours.id}
-                                        nom={cours.nom}
-                                        prenom={cours.prenom}
-                                        sport={cours.sport}
-                                        position={cours.position}
-                                        dateHoraire={cours.dateHoraire}
-                                        places={cours.places}
-                                    /> */}
-                                </div>
-                            ))
-                        ) : (
-                            <p className="font-light text-center mb-4 mt-4">
-                                Aucun cours de programmés ..
-                            </p>
-                        )}
-                    </div>
-                </>
-            )}
-            {activeTab === "coaching" && (
-                <div className="w-full flex justify-center flex-wrap">
-                    {coachsData.coachs.map((coach, index) => (
-                        <CardCoach key={index} coach={coach} />
-                    ))}
+                    {activeTab === "cours" && (
+                        <>
+                            <div className="w-full flex flex-col justify-center flex-wrap">
+                                <h2 className="mb-4 font-bold w-full border-b-[0.5px] pb-2">
+                                    Aujourd'hui
+                                </h2>
+                                {todayCourses.length > 0 ? (
+                                    todayCourses.map((cours, index) => (
+                                        <div className="w-full flex justify-center">
+                                            {/* <CardCours
+                        key={index}
+                        id={cours.id}
+                        nom={cours.nom}
+                        prenom={cours.prenom}
+                        sport={cours.sport}
+                        position={cours.position}
+                        dateHoraire={cours.dateHoraire}
+                        places={cours.places}
+                      /> */}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="font-light text-center mb-4 mt-4">
+                                        Aucun cours aujourd'hui ..
+                                    </p>
+                                )}
+                            </div>
+                            <div className="w-full flex flex-col justify-center flex-wrap">
+                                <h2 className="mt-4 mb-4 font-bold w-full border-b-[0.5px] pb-2">
+                                    Demain
+                                </h2>
+                                {tomorrowCourses.length > 0 ? (
+                                    tomorrowCourses.map((cours, index) => (
+                                        <div className="w-full flex justify-center">
+                                            {/* <CardCours
+                                            key={index}
+                                            id={cours.id}
+                                            nom={cours.nom}
+                                            prenom={cours.prenom}
+                                            sport={cours.sport}
+                                            position={cours.position}
+                                            dateHoraire={cours.dateHoraire}
+                                            places={cours.places}
+                                        /> */}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="font-light text-center mb-4 mt-4">
+                                        Aucun cours demain ..
+                                    </p>
+                                )}
+                            </div>
+                            <div className="w-full flex flex-col justify-center flex-wrap">
+                                <h2 className="mt-4 mb-4 font-bold w-full border-b-[0.5px] pb-2">
+                                    Prochainement
+                                </h2>
+                                {upcomingCourses.length > 0 ? (
+                                    upcomingCourses.map((cours, index) => (
+                                        <div className="w-full flex justify-center">
+                                            {/* <CardCours
+                                            key={index}
+                                            id={cours.id}
+                                            nom={cours.nom}
+                                            prenom={cours.prenom}
+                                            sport={cours.sport}
+                                            position={cours.position}
+                                            dateHoraire={cours.dateHoraire}
+                                            places={cours.places}
+                                        /> */}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="font-light text-center mb-4 mt-4">
+                                        Aucun cours de programmés ..
+                                    </p>
+                                )}
+                            </div>
+                        </>
+                    )}
+                    {activeTab === "coaching" && (
+                        <div className="w-full flex justify-center flex-wrap">
+                            {coachsData.coachs.map((coach, index) => (
+                                <CardCoach key={index} coach={coach} />
+                            ))}
+                        </div>
+                    )}
                 </div>
+            ) : (
+                <NotConnectedBloc />
             )}
-        </div>
+        </>
     );
 };
 
