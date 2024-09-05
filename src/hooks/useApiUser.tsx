@@ -70,9 +70,10 @@ export const useApiUser = () => {
     };
 
     // Fetch a single user by ID (GET)
-    const fetchUserById = async (id: number) => {
+    const fetchUserById = async (id: number | null) => {
         try {
             const token = getToken();
+            if (id == null) throw new Error("user id is null");
             const response = await fetch(`${BASE_URL}/user/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,

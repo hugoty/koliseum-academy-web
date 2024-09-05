@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+    useLocation,
+} from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -25,9 +30,7 @@ function App() {
         <Router>
             <div className="w-full h-screen flex flex-col justify-between items-center md:bg-[#1f262e] bg-black">
                 <div className="bg-[#1f262e] w-full md:max-w-full max-w-md h-full mx-4 flex flex-col justify-between">
-                    <div className="text-white font-bold text-center mt-6 pb-6 font-reggae border-b-[0.1px] border-b-[#ffffff73]">
-                        Koliseum Academy
-                    </div>
+                    <Header />
                     <div className="w-full h-full overflow-hidden overflow-y-auto py-4 md:px-0 px-6 md:w-6/12 md:mx-auto">
                         <div className="w-full h-full">
                             <div className="flex-grow">
@@ -96,5 +99,39 @@ function App() {
         </Router>
     );
 }
+
+const Header: React.FC = () => {
+    const location = useLocation();
+    const getTitle = () => {
+        switch (location.pathname) {
+            case "/profil":
+                return "Mon compte";
+            case "/login":
+                return "Se connecter";
+            case "/signup":
+                return "Inscription";
+            case "/coaching":
+                return "Coachs disponibles";
+            case "/planning":
+                return "Mes prochains cours";
+            case "/sports":
+                return "Wiki des sports";
+            case "/connexion":
+                return "Espace de connexion";
+            case "/inscription":
+                return "Espace d'inscription";
+            case "/":
+                return "Koliseum Academy";
+            default:
+                return "Koliseum Academy";
+        }
+    };
+
+    return (
+        <div className="text-white font-bold text-center mt-6 pb-6 font-reggae border-b-[0.1px] border-b-[#ffffff73]">
+            {getTitle()}
+        </div>
+    );
+};
 
 export default App;

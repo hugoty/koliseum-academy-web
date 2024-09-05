@@ -1,28 +1,42 @@
 import { NavLink } from "react-router-dom";
 import { FaLocationDot, FaCalendar } from "react-icons/fa6";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ProfilPicture } from "./ProfilPicture";
+import { Course, User } from "../utils/types/types";
 
-interface Cours {
-    id: string;
-    dateHoraire: string;
-    position: string;
-}
-
-interface Coach {
-    id: string;
-    nom: string;
-    prenom: string;
-    sport: string;
-    profilPicture: string;
-    cours: Cours[];
-}
+import coach1 from "../assets/coachs/coach1.jpeg";
+import coach2 from "../assets/coachs/coach2.avif";
+import coach3 from "../assets/coachs/coach3.webp";
+import coach4 from "../assets/coachs/coach4.jpg";
+import coach5 from "../assets/coachs/coach5.jpg";
+import { useApiUser } from "../hooks/useApiUser";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../utils/atom/userAtom";
 
 interface CardCoachProps {
-    coach: Coach;
+    cours: Course;
 }
 
-const CardCoach: React.FC<CardCoachProps> = ({ coach }) => {
+const CardCoach: React.FC<CardCoachProps> = ({ cours }) => {
+    const user = useRecoilValue(userAtom);
+    const { fetchUserById } = useApiUser();
+    const [image, setImage] = useState<{ src: string } | null>(null);
+    const coach = cours?.owner;
+
+    const images = [
+        { src: coach1 },
+        { src: coach2 },
+        { src: coach3 },
+        { src: coach4 },
+        { src: coach5 },
+    ];
+
+    useEffect(() => {
+        // Choisir une image aléatoire à chaque rendu
+        const randomIndex = Math.floor(Math.random() * images.length);
+        setImage(images[randomIndex]);
+    }, []);
+
     const formatDate = (dateTime: string) => {
         const date = new Date(dateTime);
         const options: Intl.DateTimeFormatOptions = {
@@ -43,50 +57,91 @@ const CardCoach: React.FC<CardCoachProps> = ({ coach }) => {
         return `${dayOfWeek} ${dayOfMonth} à ${formattedTime}`; // Format final
     };
 
+    const [coaching, setCoaching] = useState<User>();
+    const [loading, setLoading] = useState(false);
+    const [fetchError, setFetchError] = useState(false);
+    const [hasFetchedCoach, setHasFetchedCoach] = useState(false);
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            setLoading(true);
+            setFetchError(false);
+            try {
+                const coach = await fetchUserById(Number(cours.owner?.id));
+                setCoaching(coach || null);
+                setHasFetchedCoach(true);
+            } catch (error) {
+                console.error(
+                    "Erreur lors de la récupération des coachings:",
+                    error
+                );
+                setFetchError(true);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (user && !loading && !fetchError && !hasFetchedCoach) {
+            fetchCourses();
+        }
+    }, [user, fetchUserById]);
+
+    console.log("coaching : ", coaching);
+
     return (
-        <NavLink
-            to={`/coach/${coach.id}`}
-            rel={`Coach n°${coach.id}`}
-            className="md:w-5/12 w-full rounded-lg bg-[#2c3540b5] mb-4 md:mx-4 mx-0 px-4 hover:bg-[#2c35405a] pt-6 pb-4"
-        >
-            <div className="w-full flex flex-row flex-nowrap items-center mb-4">
-                <div className="mr-4">
-                    <ProfilPicture
-                        src={coach.profilPicture}
-                        size="20"
-                        alt={`Photo de profil de ${coach.prenom} ${coach.nom}`}
-                    />
-                </div>
-                <div>
-                    <h4 className="text-left font-bold">
-                        {coach.prenom} {coach.nom}
-                    </h4>
-                    <h3 className="text-left font-light text-sm">
-                        Cours de {coach.sport}
-                    </h3>
-                </div>
-            </div>
-            <p className="font-light text-sm my-4 text-center">
-                Prochains cours
-            </p>
-            <div className="w-full flex flex-row flex-nowrap overflow-x-scroll pb-4">
-                {coach.cours.map((cours) => (
-                    <div
-                        key={cours.id}
-                        className="w-full p-4 text-xs bg-[#1f262e] rounded-2xl mr-4"
-                    >
-                        <div className="w-full flex flex-row flex-nowrap items-center mr-4 mb-2">
-                            <FaLocationDot className="mr-2" />
-                            {cours.position}
+        <>
+            {coach ? (
+                <NavLink
+                    to={`/coach/${coach.id}`}
+                    rel={`Coach n°${coach.id}`}
+                    className="md:flex-1 w-full rounded-lg bg-[#2c3540b5] mb-4 md:mx-2 mx-0 px-4 hover:bg-[#2c35405a] pt-6 pb-4"
+                >
+                    <div className="w-full flex flex-row flex-nowrap items-center mb-4">
+                        <div className="mr-4">
+                            <ProfilPicture
+                                src={image?.src}
+                                size="20"
+                                alt={`Photo de profil de ${coach.firstName} ${coach.lastName}`}
+                            />
                         </div>
-                        <div className="w-full flex flex-row flex-nowrap items-center">
-                            <FaCalendar className="mr-2" />
-                            {formatDate(cours.dateHoraire)}
+                        <div>
+                            <h4 className="text-left font-bold">
+                                {coach.firstName} {coach.lastName}
+                            </h4>
+                            <h3 className="w-max text-left font-light text-sm">
+                                Cours de{" "}
+                                {cours && cours.Sports
+                                    ? cours.Sports[0].name
+                                    : ""}
+                            </h3>
                         </div>
                     </div>
-                ))}
-            </div>
-        </NavLink>
+                    <p className="font-light text-sm my-4 text-center">
+                        Prochains cours
+                    </p>
+                    <div className="w-full flex flex-row flex-nowrap overflow-x-scroll pb-4">
+                        {coaching?.Courses &&
+                            coaching?.Courses.map((cours) => (
+                                <div
+                                    key={cours.id}
+                                    className="w-full p-4 text-xs bg-[#1f262e] rounded-2xl mr-4"
+                                >
+                                    <div className="w-full flex flex-row flex-nowrap items-center mr-4 mb-2">
+                                        <FaLocationDot className="mr-2" />
+                                        {cours.locations}
+                                    </div>
+                                    <div className="w-full flex flex-row flex-nowrap items-center">
+                                        <FaCalendar className="mr-2" />
+                                        {formatDate(String(cours.startDate))}
+                                    </div>
+                                </div>
+                            ))}
+                    </div>
+                </NavLink>
+            ) : (
+                <p>Aucun coach</p>
+            )}
+        </>
     );
 };
 

@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { MyProfilPicture } from "./ProfilPicture";
-import images from "../data/notConnectedImages.json";
+
+import image1 from "../assets/sports/image1.jpg";
+import image2 from "../assets/sports/image2.jpg";
+import image3 from "../assets/sports/image3.jpg";
+import image4 from "../assets/sports/image4.jpg";
 
 const NotConnectedBloc: React.FC = () => {
     const [image, setImage] = useState<{ src: string; alt: string } | null>(
         null
     );
+
+    const images = [
+        { src: image1, alt: "Image 1" },
+        { src: image2, alt: "Image 2" },
+        { src: image3, alt: "Image 3" },
+        { src: image4, alt: "Image 4" },
+    ];
 
     useEffect(() => {
         // Choisir une image aléatoire à chaque rendu
