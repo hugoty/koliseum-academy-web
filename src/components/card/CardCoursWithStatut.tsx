@@ -69,7 +69,6 @@ const CardCoursWithStatut: React.FC<CardCoursProps> = ({
                         {/* Step 1 */}
                         <div
                             className={`flex flex-col items-center ${
-                                status === SubscriptionStatus.Pending ||
                                 status === SubscriptionStatus.Accepted
                                     ? "text-green-500"
                                     : "text-gray-400"

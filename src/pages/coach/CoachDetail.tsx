@@ -119,19 +119,42 @@ const CoachDetail: React.FC = () => {
                         Prochains cours :
                     </h3>
                     {coach.ownedCourses && coach.Sports
-                        ? coach.ownedCourses.map((cours, index) => (
-                              <CardMyCours
-                                  key={index}
-                                  id={cours.id}
-                                  nom={cours.owner?.lastName}
-                                  prenom={cours.owner?.firstName}
-                                  position={cours.locations[0]}
-                                  dateHoraire={cours.startDate}
-                                  places={cours.places}
-                                  remainingPlaces={cours.remainingPlaces}
-                                  level={cours.levels}
-                              />
-                          ))
+                        ? coach.ownedCourses
+                              .filter((cours) => {
+                                  const currentDate = new Date(); // Date actuelle
+                                  const courseStartDate = new Date(
+                                      cours.startDate
+                                  ); // Date de début du cours
+
+                                  // On compare uniquement l'année, le mois et le jour
+                                  const currentDateOnly = new Date(
+                                      currentDate.getFullYear(),
+                                      currentDate.getMonth(),
+                                      currentDate.getDate()
+                                  );
+
+                                  const courseStartDateOnly = new Date(
+                                      courseStartDate.getFullYear(),
+                                      courseStartDate.getMonth(),
+                                      courseStartDate.getDate()
+                                  );
+
+                                  return courseStartDateOnly >= currentDateOnly;
+                              })
+                              .map((cours, index) => (
+                                  <CardMyCours
+                                      key={index}
+                                      id={cours.id}
+                                      nom={cours.owner?.lastName}
+                                      prenom={cours.owner?.firstName}
+                                      position={cours.locations[0]}
+                                      dateHoraire={cours.startDate}
+                                      places={cours.places}
+                                      remainingPlaces={cours.remainingPlaces}
+                                      level={cours.levels}
+                                      isActif={true}
+                                  />
+                              ))
                         : "Aucun cours pour le moment."}
                 </div>
             ) : (
