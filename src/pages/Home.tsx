@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import CardCours from "../components/CardCours";
-import SearchBarWithModal from "../components/SearchBarWithModal";
+import CardCours from "../components/card/CardCours";
+import SearchBarWithModal from "../components/modal/SearchBarWithModal";
 import { useApiCourse } from "../hooks/useApiCours";
-import Loader from "../components/Loader";
+import Loader from "../components/common/Loader";
 import { Course } from "../utils/types/types";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../utils/atom/userAtom";
@@ -127,71 +127,73 @@ const Home: React.FC = () => {
         }
     };
 
+    if (!user && !localStorage.getItem("token")) return <LandingPage />;
+    if (!user && localStorage.getItem("token")) return <Loader />;
+
     return (
         <>
-            {user ? (
-                <div className="text-white flex md:flex-row flex-col items-center justify-between h-full md:flex-wrap flex-nowrap pb-10">
-                    <div className="w-full flex flex-col items-center">
-                        <SearchBarWithModal
-                            onSearch={handleSearch}
-                            initialFilters={searchFilters}
-                            onClear={handleClearFilters}
-                        />
+            <div className="text-white flex md:flex-row flex-col items-center justify-between h-full md:flex-wrap flex-nowrap pb-10">
+                <div className="w-full flex flex-col items-center">
+                    <SearchBarWithModal
+                        onSearch={handleSearch}
+                        initialFilters={searchFilters}
+                        onClear={handleClearFilters}
+                    />
 
-                        <h2 className="w-full text-left font-light pb-2 mb-6 mt-4 border-b-[0.5px]">
-                            Cours disponibles
-                        </h2>
-                        <div className="flex justify-center items-center">
-                            <div className="w-full flex justify-start flex-wrap">
-                                {loading ? (
-                                    <Loader /> // Afficher le Loader pendant le chargement
-                                ) : filteredCourses !== null &&
-                                  filteredCourses.length > 0 ? (
-                                    filteredCourses
-                                        .slice(
-                                            0,
-                                            showAllCours
-                                                ? filteredCourses.length
-                                                : 3
-                                        )
-                                        .map((cours, index) => (
-                                            <CardCours
-                                                key={index}
-                                                id={cours.id}
-                                                nom={cours?.owner?.lastName}
-                                                prenom={cours?.owner?.firstName}
-                                                sport={cours?.Sports}
-                                                position={cours.locations[0]}
-                                                dateHoraire={cours.startDate}
-                                                places={cours.places}
-                                            />
-                                        ))
-                                ) : (
-                                    <p>Aucun cours disponible</p>
-                                )}
-                            </div>
+                    <h2 className="w-full text-left font-light pb-2 mb-6 mt-4 border-b-[0.5px]">
+                        Cours disponibles
+                    </h2>
+                    <div className="flex justify-center items-center">
+                        <div className="w-full flex justify-start flex-wrap">
+                            {loading ? (
+                                <Loader /> // Afficher le Loader pendant le chargement
+                            ) : filteredCourses !== null &&
+                              filteredCourses.length > 0 ? (
+                                filteredCourses
+                                    .slice(
+                                        0,
+                                        showAllCours
+                                            ? filteredCourses.length
+                                            : 3
+                                    )
+                                    .map((cours, index) => (
+                                        <CardCours
+                                            key={index}
+                                            id={cours.id}
+                                            nom={cours?.owner?.lastName}
+                                            prenom={cours?.owner?.firstName}
+                                            sport={cours?.Sports}
+                                            position={cours.locations[0]}
+                                            dateHoraire={cours.startDate}
+                                            places={cours.places}
+                                            remainingPlaces={
+                                                cours.remainingPlaces
+                                            }
+                                            level={cours.levels}
+                                        />
+                                    ))
+                            ) : (
+                                <p>Aucun cours disponible</p>
+                            )}
                         </div>
-                        {filteredCourses !== null &&
-                        filteredCourses.length > 0 ? (
-                            <button
-                                onClick={toggleShowAllCours}
-                                className="mt-4 rounded-lg bg-[#2c3540b5] px-4 py-2 text-white flex items-center"
-                            >
-                                {showAllCours ? "Voir moins" : "Voir plus"}
-                                {showAllCours ? (
-                                    <FaChevronUp className="ml-2" />
-                                ) : (
-                                    <FaChevronDown className="ml-2" />
-                                )}
-                            </button>
-                        ) : (
-                            ""
-                        )}
                     </div>
+                    {filteredCourses !== null && filteredCourses.length > 0 ? (
+                        <button
+                            onClick={toggleShowAllCours}
+                            className="mt-4 rounded-lg bg-[#2c3540b5] px-4 py-2 text-white flex items-center"
+                        >
+                            {showAllCours ? "Voir moins" : "Voir plus"}
+                            {showAllCours ? (
+                                <FaChevronUp className="ml-2" />
+                            ) : (
+                                <FaChevronDown className="ml-2" />
+                            )}
+                        </button>
+                    ) : (
+                        ""
+                    )}
                 </div>
-            ) : (
-                <LandingPage />
-            )}
+            </div>
         </>
     );
 };

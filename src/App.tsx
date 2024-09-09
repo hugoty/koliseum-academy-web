@@ -5,23 +5,23 @@ import {
     useLocation,
 } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/header/Navbar";
 import Home from "./pages/Home";
-import Coaching from "./pages/Coaching";
-import Planning from "./pages/Planning";
-import Sports from "./pages/Sports";
-import Profil from "./pages/Profil";
-import NavbarWeb from "./components/NavbarWeb";
-import CoursDetail from "./pages/CoursDetail";
-import CoachDetail from "./pages/CoachDetail";
-import ParticipantDetail from "./pages/ParticipantDetail";
-import CreationCours from "./pages/CreationCours";
-import Connexion from "./pages/Connexion";
-import Inscription from "./pages/Inscription";
-import SportDetail from "./pages/SportDetail";
+import Coaching from "./pages/coach/Coaching";
+import Planning from "./pages/user/Planning";
+import Sports from "./pages/sports/Sports";
+import Profil from "./pages/user/Profil";
+import NavbarWeb from "./components/header/NavbarWeb";
+import CoursDetail from "./pages/cours/CoursDetail";
+import CoachDetail from "./pages/coach/CoachDetail";
+import ParticipantDetail from "./pages/user/ParticipantDetail";
+import CreationCours from "./pages/cours/CreationCours";
+import Connexion from "./pages/user/Connexion";
+import Inscription from "./pages/user/Inscription";
+import SportDetail from "./pages/sports/SportDetail";
 import { useAuth } from "./hooks/useAuth";
-import UpdateProfil from "./pages/UpdateProfil";
-import UpdateCours from "./pages/UpdateCours";
+import UpdateProfil from "./pages/user/UpdateProfil";
+import UpdateCours from "./pages/cours/UpdateCours";
 
 function App() {
     useAuth();
@@ -57,7 +57,7 @@ function App() {
                                         element={<UpdateProfil />}
                                     />
                                     <Route
-                                        path="/coach/:id"
+                                        path="/coach/:coachId"
                                         element={<CoachDetail />}
                                     />
                                     <Route

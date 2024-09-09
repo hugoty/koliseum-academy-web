@@ -90,7 +90,6 @@ export const useApiUser = () => {
     // Create a new user (POST)
     const createUser = async (newUser: User) => {
         try {
-            const token = getToken();
             const response = await fetch(`${BASE_URL}/user/create`, {
                 method: "POST",
                 headers: {
@@ -109,7 +108,7 @@ export const useApiUser = () => {
     };
 
     // Update an existing user (PUT)
-    const updateProfil = async (updatedUser: User) => {
+    const updateProfil = async (updatedUser: Partial<User>) => {
         try {
             const token = getToken();
             const response = await fetch(`${BASE_URL}/user/`, {
