@@ -1,6 +1,6 @@
 // src/hooks/useApiCourse.ts
 import { useState } from "react";
-import { Course } from "../utils/types/types"; // Assure-toi que le type Course est bien importé
+import { Course, SubscriptionStatus } from "../utils/types/types"; // Assure-toi que le type Course est bien importé
 import { isTokenExpired } from "../utils/isTokenExpired";
 
 const BASE_URL = "http://localhost:3333";
@@ -80,7 +80,6 @@ export const useApiCourse = () => {
 
     // Mettre à jour un cours (PUT /course/1)
     const updateCourse = async (id: string, updatedCourse: Partial<Course>) => {
-        console.log("updatedCours : ", updatedCourse);
         try {
             const token = getToken();
             const response = await fetch(`${BASE_URL}/course/${id}`, {
@@ -93,7 +92,6 @@ export const useApiCourse = () => {
             });
             if (!response.ok) throw new Error("Failed to update course");
             const data = await response.json();
-            console.log("data : ", data);
             setCourse(data); // Met à jour l'état local avec le cours mis à jour
             return data;
         } catch (err) {
@@ -158,6 +156,48 @@ export const useApiCourse = () => {
         }
     };
 
+    const updateSubscriptionStatus = async (
+        userId: string,
+        newStatus: SubscriptionStatus
+    ) => {
+        try {
+            const token = getToken();
+            let endpoint = "";
+
+            switch (newStatus) {
+                case SubscriptionStatus.Accepted:
+                    endpoint = `/subscription/${userId}/accept`;
+                    break;
+                case SubscriptionStatus.Rejected:
+                    endpoint = `/subscription/${userId}/reject`;
+                    break;
+                case SubscriptionStatus.Canceled:
+                    endpoint = `/subscription/${userId}/cancel`;
+                    break;
+                default:
+                    throw new Error("Invalid status");
+            }
+
+            const response = await fetch(`${BASE_URL}${endpoint}`, {
+                method: "POST", // POST car tu modifies un statut
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok)
+                throw new Error(
+                    `Failed to update subscription status: ${newStatus}`
+                );
+            return true;
+        } catch (err) {
+            console.error("Error updating subscription status:", err);
+            setError((err as Error).message);
+            return false;
+        }
+    };
+
     return {
         courses,
         course,
@@ -168,5 +208,6 @@ export const useApiCourse = () => {
         updateCourse,
         addSportToCourse,
         searchCoursesByCriteria,
+        updateSubscriptionStatus,
     };
 };

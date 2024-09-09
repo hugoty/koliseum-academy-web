@@ -60,3 +60,7 @@ export const getKeyLevel = (translatedLevel: string): string => {
 export const sportsNames = (sports: Sport[]): string => {
     return sports.map((sport) => sport.name).join(", ");
 };
+
+export const isOwner = (userId: string, coursOwnerId: string): boolean => {
+    return userId === coursOwnerId;
+};

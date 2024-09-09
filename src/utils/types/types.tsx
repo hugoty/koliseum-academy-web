@@ -4,6 +4,7 @@ export interface Course {
     startDate: Date;
     endDate: Date;
     places: number;
+    remainingPlaces: number;
     locations: string[];
     levels: string[];
     price: number;
@@ -11,6 +12,7 @@ export interface Course {
     owner?: User;
     sportIds?: number[];
     Users?: User[];
+    Subscription: Subscription;
 }
 
 // User Types
@@ -19,6 +21,18 @@ export enum Level {
     advanced = "advanced",
     veteran = "veteran",
     expert = "expert",
+}
+
+export enum SubscriptionStatus {
+    Pending = "pending",
+    Accepted = "accepted",
+    Rejected = "rejected",
+    Canceled = "canceled",
+}
+
+export interface Subscription {
+    id?: number;
+    status: string;
 }
 
 export interface UserSport {
@@ -46,5 +60,8 @@ export interface User {
     createdAt?: Date;
     updatedAt?: Date;
     Courses?: Course[]; // Liste des cours associés à l'utilisateur
+    ownedCourses?: Course[]; // Liste des cours créés par cet utilisateur
     Sports?: Sport[];
+    sports?: { id: number }[];
+    Subscription?: Subscription;
 }
