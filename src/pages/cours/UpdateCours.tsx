@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useApiCourse } from "../../hooks/useApiCours";
 import UpdateCoursForm from "../../components/form/UpdateCoursForm";
 import Loader from "../../components/common/Loader";
 import { Course } from "../../utils/types/types";
+import { FaAngleLeft } from "react-icons/fa6";
 
 const UpdateCours: React.FC = () => {
+    const navigate = useNavigate();
     const { courseId } = useParams<{ courseId: string }>();
 
     const [course, setCourse] = useState<Course | null>(null);
@@ -44,6 +46,12 @@ const UpdateCours: React.FC = () => {
 
     return (
         <div className="w-full flex flex-col text-white">
+            <div
+                onClick={() => navigate(-1)}
+                className="hover:text-red-500 w-full text-left text-2xl mb-4 cursor-pointer"
+            >
+                <FaAngleLeft />
+            </div>
             <UpdateCoursForm course={course} />
         </div>
     );

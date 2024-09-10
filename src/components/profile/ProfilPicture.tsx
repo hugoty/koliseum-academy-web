@@ -12,7 +12,7 @@ const ProfilPicture: React.FC<RoundedImageProps> = ({ src, alt, size }) => {
             className={
                 size
                     ? `w-20 h-20 overflow-hidden rounded-full`
-                    : `w-10 h-10 overflow-hidden rounded-full`
+                    : `w-16 h-16 overflow-hidden rounded-full`
             }
         >
             <img src={src!} alt={alt} className="object-cover w-full h-full" />

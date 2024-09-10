@@ -198,6 +198,54 @@ export const useApiCourse = () => {
         }
     };
 
+    const getSubscription = async (coursId: string) => {
+        try {
+            const token = getToken();
+            const response = await fetch(
+                `${BASE_URL}/course/${coursId}/subscribe`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            const data = await response.json();
+
+            if (!response.ok) throw new Error(data.error);
+            return true;
+        } catch (err) {
+            console.error("Error subscribe :", err);
+            setError((err as Error).message);
+            return (err as Error).message;
+        }
+    };
+
+    const removeSubscription = async (coursId: string) => {
+        try {
+            const token = getToken();
+            const response = await fetch(
+                `${BASE_URL}/course/${coursId}/subscribe`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            const data = await response.json();
+
+            if (!response.ok) throw new Error(data.error);
+            return true;
+        } catch (err) {
+            console.error("Error removing subscribtion :", err);
+            setError((err as Error).message);
+            return (err as Error).message;
+        }
+    };
+
     return {
         courses,
         course,
@@ -209,5 +257,7 @@ export const useApiCourse = () => {
         addSportToCourse,
         searchCoursesByCriteria,
         updateSubscriptionStatus,
+        getSubscription,
+        removeSubscription,
     };
 };

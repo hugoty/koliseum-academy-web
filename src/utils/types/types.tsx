@@ -1,6 +1,7 @@
 // User Types
 export interface Course {
     id?: number;
+    detail?: string;
     startDate: Date;
     endDate: Date;
     places: number;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { NavLink } from "react-router-dom";
 import { userAtom, isLoadingUserAtom } from "../../utils/atom/userAtom";
@@ -12,9 +12,17 @@ import { Course } from "../../utils/types/types";
 const Planning: React.FC = () => {
     const user = useRecoilValue(userAtom);
     const isLoadingUser = useRecoilValue(isLoadingUserAtom);
-    const [activeTab, setActiveTab] = useState<"inscrit" | "mesCours">(
-        "inscrit"
-    );
+    const [activeTab, setActiveTab] = useState<"inscrit" | "mesCours">(() => {
+        return (
+            (localStorage.getItem("activeTab") as "inscrit" | "mesCours") ||
+            "inscrit"
+        );
+    });
+
+    // Sauvegarder l'onglet actif dans localStorage lorsqu'il change
+    useEffect(() => {
+        localStorage.setItem("activeTab", activeTab);
+    }, [activeTab]);
 
     if (isLoadingUser) {
         return <Loader />;
@@ -76,6 +84,17 @@ const Planning: React.FC = () => {
         <div className="text-white flex flex-col items-center justify-center h-full">
             {user ? (
                 <>
+                    {isCoach(user) ? (
+                        <div className="w-full flex justify-end mb-6">
+                            <NavLink
+                                to={`/cours/creation`}
+                                rel="créer un cours"
+                                className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                            >
+                                Créer un cours
+                            </NavLink>
+                        </div>
+                    ) : null}
                     {/* Nav for tabs */}
                     <div className="flex space-x-4 mb-4">
                         <button
@@ -118,7 +137,10 @@ const Planning: React.FC = () => {
                                             position={cours.locations[0]}
                                             dateHoraire={cours.startDate}
                                             places={cours.places}
-                                            subscription={cours.Subscription}
+                                            remainingPlaces={
+                                                cours.remainingPlaces
+                                            }
+                                            subscription={cours?.Subscription}
                                             isActif={true}
                                         />
                                     ))
@@ -144,7 +166,10 @@ const Planning: React.FC = () => {
                                             position={cours.locations[0]}
                                             dateHoraire={cours.startDate}
                                             places={cours.places}
-                                            subscription={cours.Subscription}
+                                            remainingPlaces={
+                                                cours.remainingPlaces
+                                            }
+                                            subscription={cours?.Subscription}
                                             isActif={true}
                                         />
                                     ))
@@ -170,7 +195,10 @@ const Planning: React.FC = () => {
                                             position={cours.locations[0]}
                                             dateHoraire={cours.startDate}
                                             places={cours.places}
-                                            subscription={cours.Subscription}
+                                            remainingPlaces={
+                                                cours.remainingPlaces
+                                            }
+                                            subscription={cours?.Subscription}
                                         />
                                     ))
                                 ) : (
@@ -180,7 +208,7 @@ const Planning: React.FC = () => {
                                 )}
                             </div>
                         </>
-                    ) : (
+                    ) : isCoach(user) ? (
                         <>
                             {/* Cours d'aujourd'hui */}
                             <div className="w-full flex flex-col justify-center flex-wrap">
@@ -268,6 +296,11 @@ const Planning: React.FC = () => {
                                 )}
                             </div>
                         </>
+                    ) : (
+                        <div className="my-20 px-10">
+                            Vous devez avoir le statut de coach pour accéder à
+                            vos cours créés
+                        </div>
                     )}
                 </>
             ) : (

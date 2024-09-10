@@ -5,6 +5,7 @@ import {
     FaCalendar,
     FaRegClock,
     FaUsers,
+    FaUserClock,
 } from "react-icons/fa6";
 import { Subscription, SubscriptionStatus } from "../../utils/types/types";
 
@@ -15,7 +16,8 @@ interface CardCoursProps {
     position?: string;
     dateHoraire?: Date;
     places: number;
-    subscription: Subscription;
+    remainingPlaces: number;
+    subscription: Subscription | undefined;
     isActif?: boolean;
 }
 
@@ -26,6 +28,7 @@ const CardCoursWithStatut: React.FC<CardCoursProps> = ({
     position,
     dateHoraire,
     places,
+    remainingPlaces,
     subscription,
     isActif = false,
 }) => {
@@ -57,7 +60,7 @@ const CardCoursWithStatut: React.FC<CardCoursProps> = ({
 
     // Stepper for subscription status
     const renderStepper = () => {
-        const status = subscription.status;
+        const status = subscription?.status;
 
         if (
             status === SubscriptionStatus.Pending ||
@@ -128,7 +131,7 @@ const CardCoursWithStatut: React.FC<CardCoursProps> = ({
         <NavLink
             to={`/cours/${id}`}
             rel={`Cours n°${id}`}
-            className="md:flex-1 w-full rounded-lg bg-[#2c3540b5] mb-4 md:mx-2 mx-0 p-4 hover:bg-[#2c35405a]"
+            className="md:flex-1 w-full rounded-lg bg-[#2c3540b5] mb-4 mx-0 p-4 hover:bg-[#2c35405a]"
         >
             {isActif === false ? (
                 <span className="flex w-full justify-center mb-4">
@@ -149,13 +152,17 @@ const CardCoursWithStatut: React.FC<CardCoursProps> = ({
                     <FaCalendar className="mr-2" />
                     {formattedDate}
                 </div>
-                <div className="flex items-center mb-4">
+                <div className="flex items-center">
                     <FaRegClock className="mr-2" />
                     {formattedTime}
                 </div>
-                <div className="sm:col-start-2 flex items-center mb-4">
+                <div className="col-span-2 flex items-center">
                     <FaUsers className="mr-2" />
-                    {places} participants
+                    {places - remainingPlaces} participants
+                </div>
+                <div className="col-span-2 flex items-center mb-4">
+                    <FaUserClock className="mr-2" />
+                    {remainingPlaces} places restantes
                 </div>
                 <div className="col-span-2 text-center">
                     <p>Statut de l'inscription</p>

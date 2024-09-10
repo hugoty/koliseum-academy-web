@@ -20,6 +20,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
     const user = useRecoilValue(userAtom);
 
     const [sports, setSports] = useState<SportOption[]>([]);
+    const [detail, setDetail] = useState("");
     const [participants, setParticipants] = useState("");
     const [dateDebut, setDateDebut] = useState("");
     const [dateFin, setDateFin] = useState("");
@@ -45,6 +46,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                 label: sport.name,
             }))
         );
+        setDetail(course.detail?.toString() ? course.detail?.toString() : "");
         setParticipants(course.places.toString());
         setDateDebut(new Date(course.startDate).toISOString().split("T")[0]);
         setDateFin(new Date(course.endDate).toISOString().split("T")[0]);
@@ -69,6 +71,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
 
         const updatedCourse: Partial<Course> = {
             ...course,
+            detail: detail ? detail : "",
             startDate: new Date(dateDebut),
             endDate: new Date(dateFin),
             places: Number(participants),
@@ -177,6 +180,19 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                                 color: "white",
                             }),
                         }}
+                    />
+                </div>
+                <div className="flex flex-col mb-8">
+                    <label htmlFor="detail" className="mb-4">
+                        Details
+                    </label>
+                    <input
+                        type="text"
+                        id="detail"
+                        value={detail}
+                        className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
+                        onChange={(e) => setDetail(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="flex flex-col mb-4">

@@ -4,7 +4,6 @@ import { FaAngleLeft } from "react-icons/fa6";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../utils/atom/userAtom";
 import { isCoach } from "../../utils/userUtils";
-import { FaBan } from "react-icons/fa6";
 import { NotAuthorizedBloc } from "../../components/access/BlocNoAccessRights";
 
 const CreationCours: React.FC = () => {
