@@ -127,6 +127,26 @@ export const useApiUser = () => {
         }
     };
 
+    const searchCoachs = async () => {
+        try {
+            const token = getToken();
+            const response = await fetch(`${BASE_URL}/user/search-coaches`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) throw new Error("Failed to search courses");
+            const data = await response.json();
+            return data;
+        } catch (err) {
+            console.error("Erreur lors de la recherche des cours:", err);
+            setError({ message: (err as Error).message });
+            return null;
+        }
+    };
+
     return {
         users,
         user,
@@ -136,5 +156,6 @@ export const useApiUser = () => {
         fetchUserById,
         createUser,
         updateProfil,
+        searchCoachs,
     };
 };

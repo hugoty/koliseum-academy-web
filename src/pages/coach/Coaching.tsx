@@ -1,46 +1,31 @@
 import React, { useEffect, useState } from "react";
-import CardCours from "../../components/card/CardCours";
 import CardCoach from "../../components/card/CardCoach";
-import { useApiCourse } from "../../hooks/useApiCours";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../utils/atom/userAtom";
 import { NotConnectedBloc } from "../../components/access/BlocNoAccessRights";
 import Loader from "../../components/common/Loader";
-import { Course } from "../../utils/types/types";
+import { User } from "../../utils/types/types";
 import { useApiUser } from "../../hooks/useApiUser";
 
 const Coaching: React.FC = () => {
     const user = useRecoilValue(userAtom);
-    const { searchCoursesByCriteria } = useApiCourse();
-    const [activeTab, setActiveTab] = useState<"coaching" | "cours">(
-        "coaching"
-    );
-    const [courses, setCourses] = useState<Course[]>([]);
+    const { searchCoachs } = useApiUser();
+    const [coachs, setCoachs] = useState<User[]>([]);
     const [loading, setLoading] = useState(false);
     const [fetchError, setFetchError] = useState(false);
-    const [hasFetchedCourses, setHasFetchedCourses] = useState(false);
+    const [hasFetchedCourses, setHasFetchedCoachs] = useState(false);
 
     useEffect(() => {
         const fetchCourses = async () => {
             setLoading(true);
             setFetchError(false);
             try {
-                const allCourses = await searchCoursesByCriteria({
-                    coachName: null,
-                    locations: [],
-                    sports: [],
-                    minDate: null,
-                    maxDate: null,
-                    minPlaces: null,
-                    maxPlaces: null,
-                    minRemainingPlaces: null,
-                    maxRemainingPlaces: null,
-                });
-                setCourses(allCourses || []);
-                setHasFetchedCourses(true);
+                const allCoachs = await searchCoachs();
+                setCoachs(allCoachs);
+                setHasFetchedCoachs(true);
             } catch (error) {
                 console.error(
-                    "Erreur lors de la récupération des coachings:",
+                    "Erreur lors de la récupération des coachs:",
                     error
                 );
                 setFetchError(true);
@@ -52,7 +37,7 @@ const Coaching: React.FC = () => {
         if (user && !loading && !fetchError && !hasFetchedCourses) {
             fetchCourses();
         }
-    }, [user, searchCoursesByCriteria]);
+    }, [user, searchCoachs]);
 
     if (!user && !localStorage.getItem("token")) return <NotConnectedBloc />;
     if (!user && localStorage.getItem("token")) return <Loader />;
@@ -70,9 +55,9 @@ const Coaching: React.FC = () => {
                         <p className="font-light text-center mb-4 mt-4">
                             Erreur lors du chargement des coachings.
                         </p>
-                    ) : courses.length > 0 ? (
-                        courses.map((cours, index) => (
-                            <CardCoach key={index} cours={cours} />
+                    ) : coachs.length > 0 ? (
+                        coachs.map((coach, index) => (
+                            <CardCoach key={index} coach={coach} />
                         ))
                     ) : (
                         <p className="font-light text-center mb-4 mt-4">

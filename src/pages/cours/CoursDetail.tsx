@@ -9,6 +9,7 @@ import { NotConnectedBloc } from "../../components/access/BlocNoAccessRights";
 import { useApiCourse } from "../../hooks/useApiCours";
 import { Course } from "../../utils/types/types";
 import Loader from "../../components/common/Loader";
+import { isAdmin, isCoach, isOwner } from "../../utils/userUtils";
 
 const CoursDetail: React.FC = () => {
     const user = useRecoilValue(userAtom);
@@ -18,6 +19,9 @@ const CoursDetail: React.FC = () => {
     const [fetchError, setFetchError] = useState(false);
     const [hasFetchedCours, setHasFetchedCours] = useState(false);
     const { courseId } = useParams<{ courseId: string }>();
+    const { getSubscription, removeSubscription } = useApiCourse();
+    const [fetchSubscriptionError, setFetchSubscriptionError] =
+        useState<String | null>(null);
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -59,6 +63,32 @@ const CoursDetail: React.FC = () => {
         });
     }
 
+    const handleSubscribe = async (coursId: string) => {
+        const response = await getSubscription(coursId ?? "");
+
+        if (response === true) {
+            navigate("/planning");
+        } else {
+            console.error(
+                "Erreur lors de la mise à jour du statut d'un utilisateur"
+            );
+            setFetchSubscriptionError(`Erreur : ${response}`);
+        }
+    };
+
+    const handleUnsubscribe = async (coursId: string) => {
+        const response = await removeSubscription(coursId ?? "");
+
+        if (response !== true) {
+            navigate("/planning");
+        } else {
+            console.error(
+                "Erreur lors de la mise à jour du statut d'un utilisateur"
+            );
+            setFetchSubscriptionError(`Erreur : ${response}`);
+        }
+    };
+
     if (!user && !localStorage.getItem("token")) return <NotConnectedBloc />;
     if (!user && localStorage.getItem("token")) return <Loader />;
 
@@ -66,14 +96,49 @@ const CoursDetail: React.FC = () => {
         <>
             {cours != null ? (
                 <div className="text-white flex flex-col items-center justify-between h-full pt-4">
-                    <div className="w-full flex justify-between mb-4">
+                    <div className="w-full flex justify-between items-center mb-4">
                         <div
                             onClick={() => navigate(-1)}
-                            className="hover:text-red-500 w-full text-left text-2xl mb-4 cursor-pointer"
+                            className="hover:text-red-500 w-full text-left text-2xl cursor-pointer"
                         >
                             <FaAngleLeft />
                         </div>
-                        {user?.id === cours?.owner?.id ? (
+                        {cours.id !== undefined &&
+                        !isOwner(user?.id ?? "", cours.owner?.id ?? "") ? (
+                            <div>
+                                <button
+                                    onClick={() =>
+                                        handleSubscribe(String(cours.id))
+                                    }
+                                    className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mr-2"
+                                >
+                                    S'inscrire
+                                </button>
+                            </div>
+                        ) : (
+                            ""
+                        )}
+                        {/* En attente du correctif d'affichage du statut de subscription dans la liste des cours */}
+                        {/* {isSubscribed() ? (
+                            <>
+                                <button
+                                    onClick={() =>
+                                        handleUnsubscribe(String(cours.id))
+                                    }
+                                    className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mr-2"
+                                >
+                                    S'inscrire
+                                </button>
+                                {fetchSubscriptionError !== null ? (
+                                    <>{fetchSubscriptionError}</>
+                                ) : (
+                                    ""
+                                )}
+                            </>
+                        ) : (
+                            ""
+                        )} */}
+                        {user?.id === cours?.owner?.id || isAdmin(user) ? (
                             <div>
                                 <NavLink
                                     to={`/cours/modification/${cours?.id}`}
@@ -94,6 +159,14 @@ const CoursDetail: React.FC = () => {
                             ""
                         )}
                     </div>
+
+                    {fetchSubscriptionError !== null ? (
+                        <span className="text-red-600 mb-4">
+                            {fetchSubscriptionError}
+                        </span>
+                    ) : (
+                        ""
+                    )}
                     {user?.id && cours.owner?.id ? (
                         <CardCoursDetail
                             cours={cours}

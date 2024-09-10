@@ -9,19 +9,12 @@ import coach2 from "../../assets/coachs/coach2.avif";
 import coach3 from "../../assets/coachs/coach3.webp";
 import coach4 from "../../assets/coachs/coach4.jpg";
 import coach5 from "../../assets/coachs/coach5.jpg";
-import { useApiUser } from "../../hooks/useApiUser";
-import { useRecoilValue } from "recoil";
-import { userAtom } from "../../utils/atom/userAtom";
-
 interface CardCoachProps {
-    cours: Course;
+    coach: User;
 }
 
-const CardCoach: React.FC<CardCoachProps> = ({ cours }) => {
-    const user = useRecoilValue(userAtom);
-    const { fetchUserById } = useApiUser();
+const CardCoach: React.FC<CardCoachProps> = ({ coach }) => {
     const [image, setImage] = useState<{ src: string } | null>(null);
-    const coach = cours?.owner;
 
     const images = [
         { src: coach1 },
@@ -57,35 +50,6 @@ const CardCoach: React.FC<CardCoachProps> = ({ cours }) => {
         return `${dayOfWeek} ${dayOfMonth} à ${formattedTime}`; // Format final
     };
 
-    const [coaching, setCoaching] = useState<User>();
-    const [loading, setLoading] = useState(false);
-    const [fetchError, setFetchError] = useState(false);
-    const [hasFetchedCoach, setHasFetchedCoach] = useState(false);
-
-    useEffect(() => {
-        const fetchCourses = async () => {
-            setLoading(true);
-            setFetchError(false);
-            try {
-                const coach = await fetchUserById(Number(cours.owner?.id));
-                setCoaching(coach || null);
-                setHasFetchedCoach(true);
-            } catch (error) {
-                console.error(
-                    "Erreur lors de la récupération des coachings:",
-                    error
-                );
-                setFetchError(true);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (user && !loading && !fetchError && !hasFetchedCoach) {
-            fetchCourses();
-        }
-    }, [user, fetchUserById]);
-
     return (
         <>
             {coach ? (
@@ -107,9 +71,10 @@ const CardCoach: React.FC<CardCoachProps> = ({ cours }) => {
                                 {coach.firstName} {coach.lastName}
                             </h4>
                             <h3 className="w-max text-left font-light text-sm">
-                                Cours de{" "}
-                                {cours && cours.Sports
-                                    ? cours.Sports[0].name
+                                {coach &&
+                                coach.Sports &&
+                                coach.Sports.length > 0
+                                    ? `Cours de ${coach.Sports[0].name}`
                                     : ""}
                             </h3>
                         </div>
@@ -118,8 +83,9 @@ const CardCoach: React.FC<CardCoachProps> = ({ cours }) => {
                         Prochains cours
                     </p>
                     <div className="w-full flex flex-row flex-nowrap overflow-x-scroll pb-4">
-                        {coaching?.Courses &&
-                            coaching?.Courses.map((cours) => (
+                        {coach?.ownedCourses &&
+                        coach?.ownedCourses.length > 0 ? (
+                            coach?.ownedCourses.map((cours) => (
                                 <div
                                     key={cours.id}
                                     className="w-full p-4 text-xs bg-[#1f262e] rounded-2xl mr-4"
@@ -133,7 +99,12 @@ const CardCoach: React.FC<CardCoachProps> = ({ cours }) => {
                                         {formatDate(String(cours.startDate))}
                                     </div>
                                 </div>
-                            ))}
+                            ))
+                        ) : (
+                            <span className="w-full text-center text-xs">
+                                Aucun cours prévus
+                            </span>
+                        )}
                     </div>
                 </NavLink>
             ) : (

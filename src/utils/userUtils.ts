@@ -37,6 +37,28 @@ export const isCoach = (user: User | null): boolean => {
     return false;
 };
 
+export const isAdmin = (user: User | null): boolean => {
+    if (user && user.roles) {
+        let roles: string[];
+
+        // Si roles est une chaîne, on la parse en tableau
+        if (typeof user.roles === "string") {
+            try {
+                roles = JSON.parse(user.roles);
+            } catch (error) {
+                console.error("Error parsing roles:", error);
+                return false; // Si le parsing échoue, on retourne false
+            }
+        } else {
+            roles = user.roles;
+        }
+
+        const userAdmin = roles.filter((role) => role === "admin");
+        return userAdmin.length > 0;
+    }
+    return false;
+};
+
 export const levelTraduction = (level: string): string => {
     let levelTraduction = "niveau inconnu";
     if (level) {

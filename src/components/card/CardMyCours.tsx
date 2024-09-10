@@ -61,7 +61,7 @@ const CardMyCours: React.FC<CardCoursProps> = ({
         <NavLink
             to={`/cours/${id}`}
             rel={`Cours n°${id}`}
-            className="md:flex-1 w-full rounded-lg bg-[#2c3540b5] mb-4 md:mx-2 mx-0 p-4 hover:bg-[#2c35405a]"
+            className="md:flex-1 w-full rounded-lg bg-[#2c3540b5] mb-4 mx-0 p-4 hover:bg-[#2c35405a]"
         >
             {isActif === false ? (
                 <span className="flex w-full justify-center mb-4">

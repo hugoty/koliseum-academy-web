@@ -21,6 +21,7 @@ const CreationCoursForm: React.FC = () => {
     const user = useRecoilValue(userAtom);
 
     const [sports, setSports] = useState<SportOption[]>([]);
+    const [detail, setDetail] = useState("");
     const [participants, setParticipants] = useState("");
     const [dateDebut, setDateDebut] = useState("");
     const [dateFin, setDateFin] = useState("");
@@ -46,6 +47,7 @@ const CreationCoursForm: React.FC = () => {
         const sportIds = sports.map((sport) => sport.value);
 
         const newCourse: Partial<Course> = {
+            detail: detail ? detail : "",
             startDate: new Date(dateDebut),
             endDate: new Date(dateFin),
             places: Number(participants),
@@ -65,6 +67,7 @@ const CreationCoursForm: React.FC = () => {
 
         // Réinitialisation des champs du formulaire
         setSports([]);
+        setDetail("");
         setParticipants("");
         setDateDebut("");
         setDateFin("");
@@ -74,6 +77,8 @@ const CreationCoursForm: React.FC = () => {
 
         // Effectuer la requête pour ajouter le cours (votre code ici)
     };
+
+    const today = new Date().toISOString().split("T")[0];
 
     return (
         <div className="w-full flex flex-col">
@@ -145,6 +150,18 @@ const CreationCoursForm: React.FC = () => {
                                 color: "white",
                             }),
                         }}
+                    />
+                </div>
+                <div className="flex flex-col mb-8">
+                    <label htmlFor="detail" className="mb-4">
+                        Details
+                    </label>
+                    <textarea
+                        id="detail"
+                        value={detail}
+                        className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white resize-none"
+                        onChange={(e) => setDetail(e.target.value)}
+                        required
                     />
                 </div>
                 <div className="flex flex-col mb-4">
@@ -220,6 +237,7 @@ const CreationCoursForm: React.FC = () => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDateDebut(e.target.value)}
                         required
+                        min={today}
                     />
                 </div>
                 <div className="flex flex-col mb-4">
@@ -233,6 +251,7 @@ const CreationCoursForm: React.FC = () => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDateFin(e.target.value)}
                         required
+                        min={today}
                     />
                 </div>
                 <div className="flex flex-col mb-4">
