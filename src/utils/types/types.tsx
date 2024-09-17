@@ -51,6 +51,8 @@ export interface Sport {
 }
 
 export interface User {
+    uploadedDocs?: string[];
+    profilePicture: string;
     id?: string;
     firstName?: string;
     lastName?: string;
