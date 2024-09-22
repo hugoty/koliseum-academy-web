@@ -45,13 +45,10 @@ jobs:
             - name: Set up Node.js (>= 20.8.1)
               uses: actions/setup-node@v3
               with:
-                  node-version: "20.8.1" # Met à jour Node.js vers la version compatible
+                  node-version: "20.8.1"
 
             - name: Install dependencies
               run: npm install
-
-            - name: Install @semantic-release/gitmoji
-              run: npm install --save-dev semantic-release-gitmoji
 
             - name: Configure Git User
               run: |
