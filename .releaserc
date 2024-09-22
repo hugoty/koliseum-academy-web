@@ -12,7 +12,8 @@
                     ":sparkles:": "minor",
                     ":bug:": "patch"
                 },
-                "releaseNotes": true
+                "releaseNotes": true,
+                "semver": true
             }
         ],
         "@semantic-release/github",
