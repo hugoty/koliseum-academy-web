@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Course, SubscriptionStatus } from "../utils/types/types"; // Assure-toi que le type Course est bien importé
 import { isTokenExpired } from "../utils/isTokenExpired";
 
-const BASE_URL = "http://localhost:3333";
+const BASE_URL = process.env.REACT_APP_BACK_URL || "http://localhost:3333";
 
 export const useApiCourse = () => {
     const [courses, setCourses] = useState<Course[]>([]);
