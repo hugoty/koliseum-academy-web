@@ -50,11 +50,12 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Install semver
-              run: npm install --save-dev semantic-release
-
             - name: Install plugins
-              run: npm install --save-dev semantic-release-gitmoji@latest
+              run: |
+                  npm install --save-dev semantic-release 
+                  npm install --save-dev semantic-release-gitmoji@latest 
+                  npm install --save-dev @semantic-release/git
+                  npm install --save-dev @semantic-release/github
 
             - name: Configure Git User
               run: |
