@@ -52,9 +52,14 @@
     ]
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.3.5",
     "@types/react-lottie": "^1.2.10",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.39",
+    "semantic-release": "^24.1.1",
+    "semantic-release-gitmoji": "^1.6.8",
     "tailwindcss": "^3.4.4"
   }
 }
