@@ -1,7 +1,5 @@
 {
-    "branches": [
-        "main"
-    ],
+    "branches": ["main"],
     "repositoryUrl": "https://github.com/IPtitLu/koliseum-academy-web",
     "plugins": [
         [
@@ -20,11 +18,7 @@
         [
             "@semantic-release/git",
             {
-                "assets": [
-                    "package.json",
-                    "package-lock.json",
-                    "CHANGELOG.md"
-                ],
+                "assets": ["package.json", "package-lock.json", "CHANGELOG.md"],
                 "message": ":bookmark: Release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
             }
         ]
