@@ -9,8 +9,7 @@
                     ":boom:": "major",
                     ":sparkles:": "minor",
                     ":bug:": "patch"
-                },
-                "releaseNotes": true
+                }
             }
         ],
         "@semantic-release/github",
