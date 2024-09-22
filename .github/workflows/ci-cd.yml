@@ -47,7 +47,7 @@ jobs:
               run: npm install
 
             - name: Install @semantic-release/gitmoji
-              run: npm install --save-dev @semantic-release/gitmoji
+              run: npm install --save-dev semantic-release-gitmoji
 
             - name: Configure Git User
               run: |
