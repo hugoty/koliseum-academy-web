@@ -6,6 +6,7 @@ import { useApiCourse } from "../../hooks/useApiCours";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../utils/atom/userAtom";
 import { getKeyLevel } from "../../utils/userUtils";
+import { validateUpdateCoursForm } from "../../utils/formErrorUtils";
 
 interface SportOption {
     value: number | undefined;
@@ -30,6 +31,16 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
         value: Level;
         label: string;
     } | null>(null);
+    const [errors, setErrors] = useState<{
+        sports?: string;
+        participants?: string;
+        dateDebut?: string;
+        dateFin?: string;
+        lieu?: string;
+        prix?: string;
+        niveau?: string;
+        sqlInjection?: string;
+    }>({});
 
     const { updateCourse, error } = useApiCourse();
 
@@ -69,38 +80,61 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
     const handleUpdate = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const updatedCourse: Partial<Course> = {
-            ...course,
-            detail: detail ? detail : "",
-            startDate: new Date(dateDebut),
-            endDate: new Date(dateFin),
-            places: Number(participants),
-            locations: [lieu],
-            levels: niveau ? [getKeyLevel(niveau.value)] : course.levels,
-            price: Number(prix),
-            sportIds: sports
-                .map((sport) => sport.value)
-                .filter((id): id is number => id !== undefined),
+        const validSports = sports
+            .filter((sport) => sport.value !== undefined)
+            .map((sport) => ({
+                value: sport.value as number, // On force `value` à être un `number`
+                label: sport.label,
+            }));
+
+        const formValues = {
+            sports: validSports,
+            participants,
+            dateDebut,
+            dateFin,
+            lieu,
+            prix,
+            niveau,
         };
 
-        const success = await updateCourse(
-            String(course.owner?.id) ?? undefined,
-            updatedCourse
-        );
+        const validationErrors = validateUpdateCoursForm(formValues);
 
-        if (success) {
-            window.location.assign(`/cours/${course.id}`);
+        if (Object.keys(validationErrors).length === 0) {
+            const updatedCourse: Partial<Course> = {
+                ...course,
+                detail: detail ? detail : "",
+                startDate: new Date(dateDebut),
+                endDate: new Date(dateFin),
+                places: Number(participants),
+                locations: [lieu],
+                levels: niveau ? [getKeyLevel(niveau.value)] : course.levels,
+                price: Number(prix),
+                sportIds: sports
+                    .map((sport) => sport.value)
+                    .filter((id): id is number => id !== undefined),
+            };
+
+            const success = await updateCourse(
+                String(course.owner?.id) ?? undefined,
+                updatedCourse
+            );
+
+            if (success) {
+                window.location.assign(`/cours/${course.id}`);
+            } else {
+                console.error("Error updating course:", error);
+            }
         } else {
-            console.error("Error updating course:", error);
+            setErrors(validationErrors);
         }
     };
 
     return (
         <div className="w-full flex flex-col">
-            <form onSubmit={handleUpdate}>
+            <form onSubmit={handleUpdate} noValidate>
                 <div className="flex flex-col mb-4">
                     <label htmlFor="sport" className="mb-4">
-                        Sport
+                        Sport *
                     </label>
                     <Select
                         id="sport"
@@ -181,6 +215,11 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                             }),
                         }}
                     />
+                    {errors.sports && (
+                        <span className="text-red-500 mt-2">
+                            {errors.sports}
+                        </span>
+                    )}
                 </div>
                 <div className="flex flex-col mb-8">
                     <label htmlFor="detail" className="mb-4">
@@ -197,7 +236,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                 </div>
                 <div className="flex flex-col mb-4">
                     <label htmlFor="participants" className="mb-4">
-                        Nombre de participants
+                        Nombre de participants *
                     </label>
                     <input
                         type="number"
@@ -206,11 +245,16 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         value={participants}
                         onChange={(e) => setParticipants(e.target.value)}
                         required
-                    />
+                    />{" "}
+                    {errors.participants && (
+                        <span className="text-red-500 mt-2">
+                            {errors.participants}
+                        </span>
+                    )}
                 </div>
                 <div className="flex flex-col mb-4">
                     <label htmlFor="niveau" className="mb-4">
-                        Niveau
+                        Niveau *
                     </label>
                     <Select
                         id="niveau"
@@ -276,11 +320,16 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                                 color: "white",
                             }),
                         }}
-                    />
+                    />{" "}
+                    {errors.niveau && (
+                        <span className="text-red-500 mt-2">
+                            {errors.niveau}
+                        </span>
+                    )}
                 </div>
                 <div className="flex flex-col mb-4">
                     <label htmlFor="dateDebut" className="mb-4">
-                        Date de début
+                        Date de début *
                     </label>
                     <input
                         type="date"
@@ -289,11 +338,16 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDateDebut(e.target.value)}
                         required
-                    />
+                    />{" "}
+                    {errors.dateDebut && (
+                        <span className="text-red-500 mt-2">
+                            {errors.dateDebut}
+                        </span>
+                    )}
                 </div>
                 <div className="flex flex-col mb-4">
                     <label htmlFor="dateFin" className="mb-4">
-                        Date de fin
+                        Date de fin *
                     </label>
                     <input
                         type="date"
@@ -302,11 +356,16 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDateFin(e.target.value)}
                         required
-                    />
+                    />{" "}
+                    {errors.dateFin && (
+                        <span className="text-red-500 mt-2">
+                            {errors.dateFin}
+                        </span>
+                    )}
                 </div>
                 <div className="flex flex-col mb-4">
                     <label htmlFor="prix" className="mb-4">
-                        Prix
+                        Prix *
                     </label>
                     <input
                         type="number"
@@ -315,11 +374,14 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         value={prix}
                         onChange={(e) => setPrix(e.target.value)}
                         required
-                    />
+                    />{" "}
+                    {errors.prix && (
+                        <span className="text-red-500 mt-2">{errors.prix}</span>
+                    )}
                 </div>
                 <div className="flex flex-col mb-8">
                     <label htmlFor="lieu" className="mb-4">
-                        Lieu
+                        Lieu *
                     </label>
                     <input
                         type="text"
@@ -328,7 +390,13 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setLieu(e.target.value)}
                         required
-                    />
+                    />{" "}
+                    {errors.lieu && (
+                        <span className="text-red-500 mt-2">{errors.lieu}</span>
+                    )}
+                </div>
+                <div className="text-xs font-thin mb-6">
+                    (*) Champs obligatoires
                 </div>
                 <button
                     className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white hover:bg-[#2c35405a] mb-10"

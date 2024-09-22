@@ -22,6 +22,7 @@ import SportDetail from "./pages/sports/SportDetail";
 import { useAuth } from "./hooks/useAuth";
 import UpdateProfil from "./pages/user/UpdateProfil";
 import UpdateCours from "./pages/cours/UpdateCours";
+import NotFound from "./pages/NotFound";
 
 function App() {
     useAuth();
@@ -88,6 +89,7 @@ function App() {
                                         path="/sport/:id"
                                         element={<SportDetail />}
                                     />
+                                    <Route path="*" element={<NotFound />} />
                                 </Routes>
                             </div>
                         </div>
