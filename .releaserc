@@ -4,7 +4,7 @@
     ],
     "plugins": [
         [
-            "@semantic-release/gitmoji",
+            "semantic-release-gitmoji",
             {
                 "releaseRules": {
                     ":boom:": "major",
