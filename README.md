@@ -1,46 +1,89 @@
-# Getting Started with Create React App
+# Koliseum Academy Front-End
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ce dépôt est dédié au frontend de l'application Koliseum Academy, une plateforme innovante de gestion d'entraînement pour les sports de combat, offrant une expérience personnalisée pour les utilisateurs, similaire à Doctolib. Le projet utilise React et Tailwind CSS pour une interface utilisateur moderne, rapide et responsive.
 
-## Available Scripts
+## Commencer
 
-In the project directory, you can run:
+Ces instructions vous guideront pour obtenir une copie du projet et le faire fonctionner sur votre machine locale pour le développement ou les tests.
 
-### `npm start`
+### Prérequis
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Pour exécuter ce projet, vous aurez besoin de **Node.js** et **npm** installés sur votre machine. Visitez [nodejs.org](https://nodejs.org/) pour télécharger et installer ces outils.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Installation
 
-### `npm test`
+Après avoir cloné le dépôt avec `git clone`, suivez ces étapes pour installer les dépendances et exécuter le projet.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Installez les dépendances NPM :
 
-### `npm run build`
+    ```bash
+    npm install
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Lancez le serveur de développement :
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    ```bash
+    npm run start
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Si voulez deployer
 
-### `npm run eject`
+    ```bash
+    npm run build
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Architecture du projet
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+L'application Koliseum Academy Front-End suit une architecture modulaire, centrée autour de React avec une utilisation efficace de Recoil pour la gestion de l'état global et Tailwind CSS pour le style. Voici un aperçu des principales parties du projet :
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Pages
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Le répertoire pages contient les différentes pages de l'application, organisées en fonction des différentes sections, telles que les profils utilisateur, les détails des cours, la page d'accueil, etc. Chaque page est un composant React complet qui rend les informations spécifiques à la section associée.
 
-## Learn More
+Exemple : pages/Home.tsx, pages/user/Profil.tsx, pages/cours/CoursDetail.tsx
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Composants
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Le répertoire components contient des composants réutilisables, comme la barre de navigation (Navbar), les formulaires (Form), et d'autres éléments d'interface utilisateur. Ces composants sont conçus pour être facilement intégrés dans les différentes pages de l'application.
+
+Exemple : components/header/Navbar.tsx, components/form/CreationCoursForm.tsx
+
+### Hooks
+
+Le répertoire hooks contient des hooks personnalisés comme useAuth pour gérer l'authentification des utilisateurs ou useApiCourse pour interagir avec l'API de gestion des cours. Ces hooks facilitent la réutilisation de la logique à travers l'application.
+
+Exemple : hooks/useAuth.ts, hooks/useApiCours.ts
+
+### Atoms
+
+La gestion de l'état global est réalisée avec Recoil. Le répertoire utils/atom contient les atomes qui représentent l'état partagé entre les composants, comme les informations de l'utilisateur connecté ou la sélection des sports.
+
+Exemple : utils/atom/userAtom.ts
+
+### Styles
+
+Le projet utilise Tailwind CSS pour un style rapide et réactif. Les classes Tailwind sont utilisées directement dans les composants pour appliquer les styles dynamiquement. Cela permet une gestion simplifiée du style sans nécessiter de fichiers CSS externes.
+
+### Routes
+
+Le routage est géré avec react-router-dom. Le fichier principal App.tsx configure les différentes routes de l'application, en associant chaque route à une page spécifique. Une route 404 est également incluse pour gérer les pages non trouvées.
+
+Exemple : App.tsx contient la configuration des routes pour les pages comme /profil, /sports, /connexion, etc.
+
+### Utilisation
+
+Une fois que l'application est en cours d'exécution, vous pouvez y accéder localement à l'adresse suivante :
+
+    ```bash
+    http://localhost:3000
+    ```
+
+### Auteurs
+
+-   **Lucas Perez**
+-   **Hugo Raoult**
+-   **Damien Forafo**
+
+Ces contributeurs ont apporté leur passion et leur expertise à l'élaboration de Koliseum Academy.
+
+Ce front-end fait partie du projet Koliseum Academy, qui inclut également une API back-end accessible dans le dépôt [Koliseum Academy Back-End](https://github.com/IPtitLu/koliseum-academy)
