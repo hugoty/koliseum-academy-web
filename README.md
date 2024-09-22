@@ -86,4 +86,4 @@ Une fois que l'application est en cours d'exécution, vous pouvez y accéder loc
 
 Ces contributeurs ont apporté leur passion et leur expertise à l'élaboration de Koliseum Academy.
 
-Ce front-end fait partie du projet Koliseum Academy, qui inclut également une API back-end accessible dans le dépôt [Koliseum Academy Back-End](https://github.com/IPtitLu/koliseum-academy)
+Ce front-end fait partie du projet Koliseum Academy, qui inclut également une API back-end accessible dans le dépôt [Koliseum Academy Back-End](https://github.com/IPtitLu/koliseum-academy).
