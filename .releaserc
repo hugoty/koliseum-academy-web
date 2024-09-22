@@ -2,6 +2,7 @@
     "branches": [
         "main"
     ],
+    "repositoryUrl": "https://github.com/IPtitLu/koliseum-academy-web",
     "plugins": [
         [
             "semantic-release-gitmoji",
