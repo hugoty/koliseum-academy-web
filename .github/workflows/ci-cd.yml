@@ -29,29 +29,29 @@ jobs:
               run: npm run build
 
     release:
-        name: Semantic Release
-        runs-on: ubuntu-latest
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-              with:
-                  persist-credentials: false
+    name: Semantic Release
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+          with:
+              persist-credentials: false
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: "16"
+        - name: Set up Node.js (>= 20.8.1)
+          uses: actions/setup-node@v3
+          with:
+              node-version: "20.8.1" # Met à jour Node.js vers la version compatible
 
-            - name: Install dependencies
-              run: npm install
+        - name: Install dependencies
+          run: npm install
 
-            - name: Configure Git User
-              run: |
-                  git config --global user.name "github-actions[bot]"
-                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        - name: Configure Git User
+          run: |
+              git config --global user.name "github-actions[bot]"
+              git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-            - name: Semantic Release
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: npx semantic-release
+        - name: Semantic Release
+          env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: npx semantic-release
