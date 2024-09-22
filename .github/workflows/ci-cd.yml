@@ -63,3 +63,19 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: npx semantic-release
+
+            - name: Update version in package.json and package-lock.json
+              if: steps.release.outputs.nextRelease != ''
+              run: |
+                  VERSION=$(jq -r '.nextRelease.version' <<< "${{ steps.release.outputs.nextRelease }}")
+                  jq --arg newVersion "$VERSION" '.version = $newVersion' package.json > tmp.json && mv tmp.json package.json
+                  jq --arg newVersion "$VERSION" '.version = $newVersion' package-lock.json > tmp.json && mv tmp.json package-lock.json
+
+            - name: Commit and push version bump
+              if: steps.release.outputs.nextRelease != ''
+              run: |
+                  git add package.json package-lock.json
+                  git commit -m "chore: update package version to $VERSION"
+                  git push origin main
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
