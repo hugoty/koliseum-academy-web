@@ -1,0 +1,30 @@
+{
+    "branches": [
+        "main"
+    ],
+    "plugins": [
+        [
+            "@semantic-release/gitmoji",
+            {
+                "releaseRules": {
+                    ":boom:": "major",
+                    ":sparkles:": "minor",
+                    ":bug:": "patch"
+                },
+                "releaseNotes": true
+            }
+        ],
+        "@semantic-release/github",
+        [
+            "@semantic-release/git",
+            {
+                "assets": [
+                    "package.json",
+                    "package-lock.json",
+                    "CHANGELOG.md"
+                ],
+                "message": ":bookmark: Release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+            }
+        ]
+    ]
+}
