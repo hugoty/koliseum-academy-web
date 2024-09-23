@@ -125,7 +125,10 @@ export const validateUpdateProfilForm = (formValues: {
     }
 
     // Validation du mot de passe
-    if (!validatePassword(formValues.password)) {
+    if (
+        isNotEmpty(formValues.password) &&
+        !validatePassword(formValues.password)
+    ) {
         errors.password =
             "Le mot de passe doit contenir au moins 8 caractères, un chiffre et un caractère spécial.";
     }
@@ -295,7 +298,8 @@ export const validateEmail = (email: string): boolean => {
 };
 
 export const validatePassword = (password: string): boolean => {
-    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    const passwordRegex =
+        /^(?=.*[0-9])(?=.*[!@#$%^&*._-])[A-Za-z\d!@#$%^&*]{8,}$/;
     return passwordRegex.test(password);
 };
 

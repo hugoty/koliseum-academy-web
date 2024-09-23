@@ -222,11 +222,11 @@ export const useApiCourse = () => {
         }
     };
 
-    const removeSubscription = async (coursId: string) => {
+    const removeSubscription = async (userId: string) => {
         try {
             const token = getToken();
             const response = await fetch(
-                `${BASE_URL}/course/${coursId}/subscribe`,
+                `${BASE_URL}/subscription/${userId}/cancel`,
                 {
                     method: "POST",
                     headers: {

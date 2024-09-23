@@ -15,14 +15,25 @@ export const getConnectedUserId = (token: string): number => {
     }
 };
 
+const cleanRoleString = (roleString: string): string => {
+    try {
+        // Supprime les guillemets échappés et les backslashes inutiles
+        return roleString.replace(/\\/g, "").replace(/^"|"$/g, "");
+    } catch (error) {
+        console.error("Error cleaning role string:", error);
+        return roleString; // Retourne la chaîne brute si la transformation échoue
+    }
+};
+
 export const isCoach = (user: User | null): boolean => {
     if (user && user.roles) {
         let roles: string[];
 
-        // Si roles est une chaîne, on la parse en tableau
+        // Si roles est une chaîne, on la nettoie avant de la parser en tableau
         if (typeof user.roles === "string") {
+            const cleanedRoles = cleanRoleString(user.roles);
             try {
-                roles = JSON.parse(user.roles);
+                roles = JSON.parse(cleanedRoles);
             } catch (error) {
                 console.error("Error parsing roles:", error);
                 return false; // Si le parsing échoue, on retourne false
@@ -41,10 +52,11 @@ export const isAdmin = (user: User | null): boolean => {
     if (user && user.roles) {
         let roles: string[];
 
-        // Si roles est une chaîne, on la parse en tableau
+        // Si roles est une chaîne, on la nettoie avant de la parser en tableau
         if (typeof user.roles === "string") {
+            const cleanedRoles = cleanRoleString(user.roles);
             try {
-                roles = JSON.parse(user.roles);
+                roles = JSON.parse(cleanedRoles);
             } catch (error) {
                 console.error("Error parsing roles:", error);
                 return false; // Si le parsing échoue, on retourne false

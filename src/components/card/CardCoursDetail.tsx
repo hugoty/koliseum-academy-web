@@ -31,6 +31,8 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({
 }) => {
     const { updateSubscriptionStatus } = useApiCourse();
     const [fetchError, setFetchError] = useState<String | null>(null);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [selectedUserDocs, setSelectedUserDocs] = useState<string[]>([]);
 
     if (!cours) {
         return <div>No course data available</div>;
@@ -42,6 +44,16 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({
         hour: "2-digit",
         minute: "2-digit",
     });
+
+    const handleOpenModal = (uploadedDocs: string[]) => {
+        setSelectedUserDocs(uploadedDocs);
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setSelectedUserDocs([]);
+    };
 
     const handleStatusChange = async (
         userSubscriptionId: number | undefined,
@@ -136,9 +148,7 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({
                                     >
                                         <div className="mr-4">
                                             <ProfilPicture
-                                                src={
-                                                    "https://www.fredzone.org/wp-content/uploads/2018/12/anakin-1200x675.jpg"
-                                                }
+                                                src={user.profilePicture}
                                                 alt={`Photo de profil de ${user.firstName} ${user.lastName}`}
                                             />
                                         </div>
@@ -239,24 +249,50 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({
                                                                     >
                                                                         Rejeter
                                                                     </button>
+                                                                    <button
+                                                                        className="text-blue-500 underline"
+                                                                        onClick={() =>
+                                                                            handleOpenModal(
+                                                                                user.uploadedDocs ??
+                                                                                    []
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        Voir
+                                                                        documents
+                                                                    </button>
                                                                 </>
                                                             )}
                                                             {user.Subscription
                                                                 .status ===
                                                                 SubscriptionStatus.Accepted && (
-                                                                <button
-                                                                    className="text-red-500 underline"
-                                                                    onClick={() =>
-                                                                        handleStatusChange(
-                                                                            user
-                                                                                .Subscription
-                                                                                ?.id,
-                                                                            SubscriptionStatus.Rejected
-                                                                        )
-                                                                    }
-                                                                >
-                                                                    Rejeter
-                                                                </button>
+                                                                <>
+                                                                    <button
+                                                                        className="text-red-500 underline"
+                                                                        onClick={() =>
+                                                                            handleStatusChange(
+                                                                                user
+                                                                                    .Subscription
+                                                                                    ?.id,
+                                                                                SubscriptionStatus.Rejected
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        Rejeter
+                                                                    </button>
+                                                                    <button
+                                                                        className="text-blue-500 underline"
+                                                                        onClick={() =>
+                                                                            handleOpenModal(
+                                                                                user.uploadedDocs ??
+                                                                                    []
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        Voir
+                                                                        documents
+                                                                    </button>
+                                                                </>
                                                             )}
                                                         </div>
                                                     )}
@@ -280,6 +316,43 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({
                     ""
                 )}
             </div>
+            {showModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-[#1f262e] rounded-lg p-6 w-96 flex flex-col gap-4">
+                        <h4 className="text-lg font-bold mb-4">
+                            Documents téléchargés
+                        </h4>
+                        <div className="grid grid-cols-2 gap-2">
+                            {selectedUserDocs.length > 0 ? (
+                                selectedUserDocs.map((docUrl, index) => (
+                                    <a
+                                        key={index}
+                                        href={docUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <img
+                                            src={docUrl}
+                                            alt={`Document ${index + 1}`}
+                                            className="w-full h-32 object-cover"
+                                        />
+                                    </a>
+                                ))
+                            ) : (
+                                <p className="col-span-2">
+                                    Aucun document disponible
+                                </p>
+                            )}
+                        </div>
+                        <button
+                            onClick={handleCloseModal}
+                            className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] text-white"
+                        >
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

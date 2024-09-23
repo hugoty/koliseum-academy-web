@@ -3,6 +3,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import CloudinaryWidget from "../CloudinaryWidget/CloudinaryWidget";
 import { User } from "../../utils/types/types";
 import { useApiUser } from "../../hooks/useApiUser";
+import defaultPP from "../../assets/user/default-pp.jpg";
 
 interface RoundedImageProps {
     src?: string | null;
@@ -87,7 +88,7 @@ const MyProfilPicture: React.FC<RoundedImageProps> = ({
         <div className=" flex flex-col  gap-2 justify-center items-center ">
             <div className="w-48 h-48 overflow-hidden rounded-full">
                 <img
-                    src={imageSrc || ""}
+                    src={imageSrc || defaultPP}
                     alt={alt}
                     className="object-cover w-full h-full"
                 />

@@ -129,7 +129,7 @@ const CardCoursWithStatut: React.FC<CardCoursProps> = ({
 
     return (
         <NavLink
-            to={`/cours/${id}`}
+            to={`/cours/${id}?souscrit=true`}
             rel={`Cours n°${id}`}
             className="md:flex-1 w-full rounded-lg bg-[#2c3540b5] mb-4 mx-0 p-4 hover:bg-[#2c35405a]"
         >

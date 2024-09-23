@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, NavLink } from "react-router-dom";
+import {
+    useParams,
+    useNavigate,
+    NavLink,
+    useSearchParams,
+} from "react-router-dom";
 import sportsEvents from "../../data/cours.json";
 import { FaAngleLeft } from "react-icons/fa6";
 import CardCoursDetail from "../../components/card/CardCoursDetail";
@@ -24,6 +29,10 @@ const CoursDetail: React.FC = () => {
         useState<String | null>(null);
 
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams(); // Utilisation de useSearchParams pour récupérer les paramètres d'URL
+    const souscrit = searchParams.get("souscrit") === "true"; // Récupérer le paramètre 'souscrit'
+
     useEffect(() => {
         const fetchCours = async () => {
             setLoading(true);
@@ -76,16 +85,14 @@ const CoursDetail: React.FC = () => {
         }
     };
 
-    const handleUnsubscribe = async (coursId: string) => {
-        const response = await removeSubscription(coursId ?? "");
+    const handleUnsubscribe = async (userId: string) => {
+        const response = await removeSubscription(userId ?? "");
 
         if (response !== true) {
             navigate("/planning");
         } else {
-            console.error(
-                "Erreur lors de la mise à jour du statut d'un utilisateur"
-            );
-            setFetchSubscriptionError(`Erreur : ${response}`);
+            console.error(`${response}`);
+            navigate("/planning");
         }
     };
 
@@ -104,13 +111,14 @@ const CoursDetail: React.FC = () => {
                             <FaAngleLeft />
                         </div>
                         {cours.id !== undefined &&
-                        !isOwner(user?.id ?? "", cours.owner?.id ?? "") ? (
+                        !isOwner(user?.id ?? "", cours.owner?.id ?? "") &&
+                        !souscrit ? (
                             <div>
                                 <button
                                     onClick={() =>
                                         handleSubscribe(String(cours.id))
                                     }
-                                    className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mr-2"
+                                    className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
                                 >
                                     S'inscrire
                                 </button>
@@ -118,16 +126,16 @@ const CoursDetail: React.FC = () => {
                         ) : (
                             ""
                         )}
-                        {/* En attente du correctif d'affichage du statut de subscription dans la liste des cours */}
-                        {/* {isSubscribed() ? (
+                        {!isOwner(user?.id ?? "", cours.owner?.id ?? "") &&
+                        souscrit ? (
                             <>
                                 <button
                                     onClick={() =>
-                                        handleUnsubscribe(String(cours.id))
+                                        handleUnsubscribe(String(user?.id))
                                     }
-                                    className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mr-2"
+                                    className="rounded-lg bg-[#2c3540b5] px-6 py-2 hover:bg-[#2c35405a] whitespace-nowrap"
                                 >
-                                    S'inscrire
+                                    Se désinscrire
                                 </button>
                                 {fetchSubscriptionError !== null ? (
                                     <>{fetchSubscriptionError}</>
@@ -137,7 +145,7 @@ const CoursDetail: React.FC = () => {
                             </>
                         ) : (
                             ""
-                        )} */}
+                        )}
                         {user?.id === cours?.owner?.id || isAdmin(user) ? (
                             <div>
                                 <NavLink
