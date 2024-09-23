@@ -31,7 +31,7 @@ const NotConnectedBloc: React.FC = () => {
             <div className="w-full flex justify-center mb-4">
                 {image && (
                     <div>
-                        <div className="w-full h-auto overflow-hidden rounded-xl">
+                        <div className="w-4/5 m-auto h-auto overflow-hidden rounded-xl">
                             <img
                                 src={image.src || ""}
                                 alt={"no-access-right"}
@@ -59,7 +59,7 @@ const NotConnectedBloc: React.FC = () => {
 const NotAuthorizedBloc: React.FC = () => {
     return (
         <div className="w-full h-[400px] flex items-center justify-center text-white text-center flex-col">
-            <div className="w-full flex justify-center mb-4">
+            <div className="w-4/5 m-auto flex justify-center mb-4">
                 <div>
                     <div className="w-full h-auto overflow-hidden rounded-xl">
                         <img

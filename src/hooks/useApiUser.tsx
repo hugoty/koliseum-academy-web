@@ -109,6 +109,9 @@ export const useApiUser = () => {
 
     // Update an existing user (PUT)
     const updateProfil = async (updatedUser: Partial<User>) => {
+        if (updatedUser.password === "") {
+            delete updatedUser.password;
+        }
         try {
             const token = getToken();
             const response = await fetch(`${BASE_URL}/user/`, {

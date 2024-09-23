@@ -61,7 +61,7 @@ const CardCoach: React.FC<CardCoachProps> = ({ coach }) => {
                     <div className="w-full flex flex-row flex-nowrap items-center mb-4">
                         <div className="mr-4">
                             <ProfilPicture
-                                src={image?.src}
+                                src={coach.profilePicture}
                                 size="20"
                                 alt={`Photo de profil de ${coach.firstName} ${coach.lastName}`}
                             />
