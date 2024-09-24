@@ -137,171 +137,181 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({
                 )}
                 {isOwner(userId ?? "", cours.owner?.id ?? "") ? (
                     <>
-                        <div className="w-full flex flex-col mb-4 mt-4">
+                        <div className="w-full flex flex-col mt-4">
                             {cours.Users?.length && cours.Users.length > 0 ? (
                                 cours.Users.map((user, index) => (
-                                    <div
-                                        key={index}
-                                        className="w-full flex flex-row flex-nowrap items-center mb-4"
-                                    >
-                                        <div className="mr-4">
-                                            <ProfilPicture
-                                                src={user.profilePicture}
-                                                alt={`Photo de profil de ${user.firstName} ${user.lastName}`}
-                                            />
-                                        </div>
-                                        <div className="w-full">
-                                            <h4 className="text-left font-bold">
-                                                {user.firstName} {user.lastName}
-                                            </h4>
-
-                                            <div className="w-full flex flex-col justify-between">
-                                                <div className="flex flex-row items-center">
-                                                    <span className="mr-2">
-                                                        Statut :
-                                                    </span>{" "}
-                                                    {user.Subscription &&
-                                                    user.Subscription.status ===
-                                                        SubscriptionStatus.Pending ? (
-                                                        <div className="flex items-center">
-                                                            <span className="font-thin text-xs mr-1">
-                                                                En attente
-                                                            </span>
-                                                            <FaHourglassHalf className="text-orange-500" />
-                                                        </div>
-                                                    ) : (
-                                                        ""
-                                                    )}
-                                                    {user.Subscription &&
-                                                    user.Subscription.status ===
-                                                        SubscriptionStatus.Accepted ? (
-                                                        <div className="flex items-center">
-                                                            <span className="font-thin text-xs mr-1">
-                                                                Validé
-                                                            </span>
-                                                            <FaCheck className="text-green-500" />
-                                                        </div>
-                                                    ) : (
-                                                        ""
-                                                    )}
-                                                    {user.Subscription &&
-                                                    user.Subscription.status ===
-                                                        SubscriptionStatus.Rejected ? (
-                                                        <div className="flex items-center">
-                                                            <span className="font-thin text-xs mr-1">
-                                                                Refusé
-                                                            </span>
-                                                            <RxCross2 className="text-red-500" />
-                                                        </div>
-                                                    ) : (
-                                                        ""
-                                                    )}
-                                                    {user.Subscription &&
-                                                    user.Subscription.status ===
-                                                        SubscriptionStatus.Canceled ? (
-                                                        <div className="flex items-center">
-                                                            <span className="font-thin text-xs mr-1">
-                                                                Abandon
-                                                            </span>
-                                                            <FaDoorOpen className="text-red-500" />
-                                                        </div>
-                                                    ) : (
-                                                        ""
-                                                    )}
-                                                </div>
-                                                {/* Afficher la gestion de l'inscription si l'utilisateur est le propriétaire du cours */}
-                                                {isOwner(
-                                                    userId,
-                                                    coursOwnerId
-                                                ) &&
-                                                    user.Subscription &&
-                                                    user.id && (
-                                                        <div className="flex space-x-4">
-                                                            {user.Subscription
-                                                                .status ===
-                                                                SubscriptionStatus.Pending && (
-                                                                <>
-                                                                    <button
-                                                                        className="text-green-500 underline"
-                                                                        onClick={() =>
-                                                                            handleStatusChange(
-                                                                                user
-                                                                                    .Subscription
-                                                                                    ?.id,
-                                                                                SubscriptionStatus.Accepted
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        Accepter
-                                                                    </button>
-                                                                    <button
-                                                                        className="text-red-500 underline"
-                                                                        onClick={() =>
-                                                                            handleStatusChange(
-                                                                                user
-                                                                                    .Subscription
-                                                                                    ?.id,
-                                                                                SubscriptionStatus.Rejected
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        Rejeter
-                                                                    </button>
-                                                                    <button
-                                                                        className="text-blue-500 underline"
-                                                                        onClick={() =>
-                                                                            handleOpenModal(
-                                                                                user.uploadedDocs ??
-                                                                                    []
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        Voir
-                                                                        documents
-                                                                    </button>
-                                                                </>
-                                                            )}
-                                                            {user.Subscription
-                                                                .status ===
-                                                                SubscriptionStatus.Accepted && (
-                                                                <>
-                                                                    <button
-                                                                        className="text-red-500 underline"
-                                                                        onClick={() =>
-                                                                            handleStatusChange(
-                                                                                user
-                                                                                    .Subscription
-                                                                                    ?.id,
-                                                                                SubscriptionStatus.Rejected
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        Rejeter
-                                                                    </button>
-                                                                    <button
-                                                                        className="text-blue-500 underline"
-                                                                        onClick={() =>
-                                                                            handleOpenModal(
-                                                                                user.uploadedDocs ??
-                                                                                    []
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        Voir
-                                                                        documents
-                                                                    </button>
-                                                                </>
-                                                            )}
-                                                        </div>
-                                                    )}
+                                    <>
+                                        <div
+                                            key={index}
+                                            className="w-full flex flex-row flex-nowrap items-center mb-4"
+                                        >
+                                            <div className="mr-4">
+                                                <ProfilPicture
+                                                    src={user.profilePicture}
+                                                    alt={`Photo de profil de ${user.firstName} ${user.lastName}`}
+                                                />
                                             </div>
-                                            {fetchError ? (
-                                                <span>{fetchError}</span>
-                                            ) : (
-                                                ""
-                                            )}
+                                            <div className="w-full">
+                                                <h4 className="text-left font-bold">
+                                                    {user.firstName}{" "}
+                                                    {user.lastName}
+                                                </h4>
+
+                                                <div className="w-full flex flex-col justify-between">
+                                                    <div className="flex flex-row items-center">
+                                                        <span className="mr-2">
+                                                            Statut :
+                                                        </span>{" "}
+                                                        {user.Subscription &&
+                                                        user.Subscription
+                                                            .status ===
+                                                            SubscriptionStatus.Pending ? (
+                                                            <div className="flex items-center">
+                                                                <span className="font-thin text-xs mr-1">
+                                                                    En attente
+                                                                </span>
+                                                                <FaHourglassHalf className="text-orange-500" />
+                                                            </div>
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                        {user.Subscription &&
+                                                        user.Subscription
+                                                            .status ===
+                                                            SubscriptionStatus.Accepted ? (
+                                                            <div className="flex items-center">
+                                                                <span className="font-thin text-xs mr-1">
+                                                                    Validé
+                                                                </span>
+                                                                <FaCheck className="text-green-500" />
+                                                            </div>
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                        {user.Subscription &&
+                                                        user.Subscription
+                                                            .status ===
+                                                            SubscriptionStatus.Rejected ? (
+                                                            <div className="flex items-center">
+                                                                <span className="font-thin text-xs mr-1">
+                                                                    Refusé
+                                                                </span>
+                                                                <RxCross2 className="text-red-500" />
+                                                            </div>
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                        {user.Subscription &&
+                                                        user.Subscription
+                                                            .status ===
+                                                            SubscriptionStatus.Canceled ? (
+                                                            <div className="flex items-center">
+                                                                <span className="font-thin text-xs mr-1">
+                                                                    Abandon
+                                                                </span>
+                                                                <FaDoorOpen className="text-red-500" />
+                                                            </div>
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                    </div>
+                                                    {/* Afficher la gestion de l'inscription si l'utilisateur est le propriétaire du cours */}
+                                                    {isOwner(
+                                                        userId,
+                                                        coursOwnerId
+                                                    ) &&
+                                                        user.Subscription &&
+                                                        user.id && (
+                                                            <div className="flex flex-wrap">
+                                                                {user
+                                                                    .Subscription
+                                                                    .status ===
+                                                                    SubscriptionStatus.Pending && (
+                                                                    <>
+                                                                        <button
+                                                                            className="text-green-500 underline mr-4"
+                                                                            onClick={() =>
+                                                                                handleStatusChange(
+                                                                                    user
+                                                                                        .Subscription
+                                                                                        ?.id,
+                                                                                    SubscriptionStatus.Accepted
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            Accepter
+                                                                        </button>
+                                                                        <button
+                                                                            className="text-red-500 underline mr-4"
+                                                                            onClick={() =>
+                                                                                handleStatusChange(
+                                                                                    user
+                                                                                        .Subscription
+                                                                                        ?.id,
+                                                                                    SubscriptionStatus.Rejected
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            Rejeter
+                                                                        </button>
+                                                                        <button
+                                                                            className="w-full text-left text-blue-500 underline"
+                                                                            onClick={() =>
+                                                                                handleOpenModal(
+                                                                                    user.uploadedDocs ??
+                                                                                        []
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            Voir
+                                                                            documents
+                                                                        </button>
+                                                                    </>
+                                                                )}
+                                                                {user
+                                                                    .Subscription
+                                                                    .status ===
+                                                                    SubscriptionStatus.Accepted && (
+                                                                    <>
+                                                                        <button
+                                                                            className="text-red-500 underline mr-4"
+                                                                            onClick={() =>
+                                                                                handleStatusChange(
+                                                                                    user
+                                                                                        .Subscription
+                                                                                        ?.id,
+                                                                                    SubscriptionStatus.Rejected
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            Rejeter
+                                                                        </button>
+                                                                        <button
+                                                                            className="text-blue-500 underline mr-4"
+                                                                            onClick={() =>
+                                                                                handleOpenModal(
+                                                                                    user.uploadedDocs ??
+                                                                                        []
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            Voir
+                                                                            documents
+                                                                        </button>
+                                                                    </>
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                </div>
+                                                {fetchError ? (
+                                                    <span>{fetchError}</span>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
+                                        <span className="w-full border-b-[0.1px] border-white mb-4"></span>
+                                    </>
                                 ))
                             ) : (
                                 <p className="font-light text-center mb-4 mt-4">

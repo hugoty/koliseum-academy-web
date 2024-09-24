@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { MyProfilPicture, ProfilPicture } from "../profile/ProfilPicture";
 
 import image1 from "../../assets/sports/image1.jpg";
 import image2 from "../../assets/sports/image2.jpg";

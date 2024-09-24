@@ -28,7 +28,7 @@ const ProfilPicture: React.FC<MyRoundedImageProps> = ({
                 className={
                     size
                         ? `w-20 h-20 overflow-hidden rounded-full`
-                        : `w-10 h-10 overflow-hidden rounded-full`
+                        : `w-14 h-14 overflow-hidden rounded-full`
                 }
             >
                 <img

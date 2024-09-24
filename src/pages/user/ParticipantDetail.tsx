@@ -1,8 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import usersData from "../../data/users.json";
 import { FaAngleLeft } from "react-icons/fa6";
-import { ProfilPicture } from "../../components/profile/ProfilPicture";
-import CardCours from "../../components/card/CardCours";
 
 const CoachDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();

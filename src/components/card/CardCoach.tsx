@@ -70,7 +70,7 @@ const CardCoach: React.FC<CardCoachProps> = ({ coach }) => {
                             <h4 className="text-left font-bold">
                                 {coach.firstName} {coach.lastName}
                             </h4>
-                            <h3 className="w-max text-left font-light text-sm">
+                            <h3 className="text-left font-light text-sm">
                                 {coach &&
                                 coach.Sports &&
                                 coach.Sports.length > 0
