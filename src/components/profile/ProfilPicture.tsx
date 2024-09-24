@@ -41,11 +41,7 @@ const ProfilPicture: React.FC<MyRoundedImageProps> = ({
     );
 };
 
-const MyProfilPicture: React.FC<RoundedImageProps> = ({
-    src = "",
-    user,
-    alt,
-}) => {
+const MyProfilPicture: React.FC<RoundedImageProps> = ({ src, user, alt }) => {
     const [imageSrc, setImageSrc] = useState<string | null>(
         user.profilePicture
     );
@@ -72,7 +68,6 @@ const MyProfilPicture: React.FC<RoundedImageProps> = ({
             const updatedUser = {
                 profilePicture: imageUrl,
             };
-            console.log(updatedUser);
 
             await apiUser.updateProfil(updatedUser);
             setImageSrc(imageUrl);
@@ -98,6 +93,7 @@ const MyProfilPicture: React.FC<RoundedImageProps> = ({
                     const publicId = info.public_id; // Extraire le publicId de l'info de téléversement
                     handleUploadSuccess(publicId, info);
                 }}
+                isPP={true}
             />
         </div>
     );

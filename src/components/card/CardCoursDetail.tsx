@@ -79,8 +79,6 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({
         }
     };
 
-    console.log("infos supp : ", cours);
-
     return (
         <div className="w-full rounded-lg bg-[#2C3540] mb-4 mx-4 p-6">
             <h3 className="text-center font-bold text-2xl">

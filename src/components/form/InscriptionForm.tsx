@@ -196,6 +196,7 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({ onSubmit }) => {
                             const publicId = info.public_id;
                             handleUploadSuccess(publicId, info); // Gère l'upload des PDF
                         }}
+                        isPP={false}
                     />
                 </div>
                 {/* Prévisualisation des documents */}

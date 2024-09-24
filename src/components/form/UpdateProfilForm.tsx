@@ -103,6 +103,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
         if (Object.keys(validationErrors).length === 0) {
             setIsSubmitting(true);
             const updatedUser: Partial<User> = {
+                profilePicture: user?.profilePicture,
                 firstName,
                 lastName,
                 email,
@@ -323,6 +324,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                             const publicId = info.public_id;
                             handleUploadSuccess(publicId, info);
                         }}
+                        isPP={false}
                     />
                 </div>
                 {uploadedDocs.length > 0 && (

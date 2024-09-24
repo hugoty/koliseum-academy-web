@@ -27,7 +27,7 @@ const NotConnectedBloc: React.FC = () => {
     }, []);
 
     return (
-        <div className="w-full my-20 px-10 text-white">
+        <div className="w-full mt-20 px-10 text-white">
             <div className="w-full flex justify-center mb-4">
                 {image && (
                     <div>

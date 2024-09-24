@@ -112,8 +112,6 @@ export const useApiUser = () => {
         if (updatedUser.password === "") {
             delete updatedUser.password;
         }
-
-        console.log("updated user : ", updatedUser);
         try {
             const token = getToken();
             const response = await fetch(`${BASE_URL}/user/`, {

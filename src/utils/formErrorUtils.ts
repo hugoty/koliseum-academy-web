@@ -299,7 +299,7 @@ export const validateEmail = (email: string): boolean => {
 
 export const validatePassword = (password: string): boolean => {
     const passwordRegex =
-        /^(?=.*[0-9])(?=.*[!@#$%^&*._-])[A-Za-z\d!@#$%^&*]{8,}$/;
+        /^(?=.*[0-9])(?=.*[!@#$%^&*._-])[A-Za-z\d!@#$%^&*._-]{8,}$/;
     return passwordRegex.test(password);
 };
 
