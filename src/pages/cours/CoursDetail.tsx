@@ -14,7 +14,7 @@ import { NotConnectedBloc } from "../../components/access/BlocNoAccessRights";
 import { useApiCourse } from "../../hooks/useApiCours";
 import { Course } from "../../utils/types/types";
 import Loader from "../../components/common/Loader";
-import { isAdmin, isCoach, isOwner } from "../../utils/userUtils";
+import { isAdmin, isOwner } from "../../utils/userUtils";
 
 const CoursDetail: React.FC = () => {
     const user = useRecoilValue(userAtom);
@@ -86,13 +86,22 @@ const CoursDetail: React.FC = () => {
     };
 
     const handleUnsubscribe = async (userId: string) => {
-        const response = await removeSubscription(userId ?? "");
+        if (user && cours?.id) {
+            const userCours = user.Courses?.filter(
+                (uCours) => uCours.id === cours.id
+            );
+            if (userCours) {
+                const response = await removeSubscription(
+                    String(userCours[0].Subscription.id) ?? ""
+                );
 
-        if (response !== true) {
-            navigate("/planning");
-        } else {
-            console.error(`${response}`);
-            navigate("/planning");
+                if (response !== true) {
+                    navigate("/planning");
+                } else {
+                    console.error(`${response}`);
+                    navigate("/planning");
+                }
+            }
         }
     };
 

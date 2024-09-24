@@ -113,10 +113,6 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({
                     <FaRegClock className="mr-2" />
                     {formattedTime}
                 </div>
-                <div className="flex-1 flex items-center justify-end mb-2">
-                    <FaCertificate className="mr-2" />
-                    niveau {cours.levels[0]}
-                </div>
                 <div className="col-span-2 md:w-full flex items-center mb-2">
                     <FaUsers className="mr-2" />
                     {cours.places - cours.remainingPlaces} participants
@@ -124,6 +120,10 @@ const CardCoursDetail: React.FC<CardCoursDetailProps> = ({
                 <div className="col-span-2 md:w-full flex items-center mb-4">
                     <FaUserClock className="mr-2" />
                     {cours.remainingPlaces} places restantes
+                </div>
+                <div className="flex-1 flex items-center justify-end mb-2">
+                    <FaCertificate className="mr-2" />
+                    niveau {cours.levels[0]}
                 </div>
                 {!isOwner(userId ?? "", cours.owner?.id ?? "") ? (
                     <div className="w-full flex justify-center">

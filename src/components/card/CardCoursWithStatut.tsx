@@ -99,8 +99,8 @@ const CardCoursWithStatut: React.FC<CardCoursProps> = ({
                                 : "text-white-400"
                         }`}
                     >
-                        <span>Pending</span>
-                        <span>Accepted</span>
+                        <span>En attente</span>
+                        <span>Accepté</span>
                     </div>
                 </div>
             );
@@ -111,12 +111,12 @@ const CardCoursWithStatut: React.FC<CardCoursProps> = ({
             status === SubscriptionStatus.Canceled
         ) {
             return (
-                <div className="flex items-center mt-4">
+                <div className="flex justify-center items-center mt-4">
                     <div className="flex items-center text-red-500">
                         <div className="h-4 w-4 rounded-full border-2 border-red-500 bg-red-500"></div>
                         <span className="ml-2">
                             {status === SubscriptionStatus.Rejected
-                                ? "Rejected"
+                                ? "Rejeté"
                                 : "Canceled"}
                         </span>
                     </div>
