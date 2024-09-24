@@ -61,22 +61,20 @@ const MyProfilPicture: React.FC<RoundedImageProps> = ({
     });
 
     const handleUploadSuccess = async (publicId: string, info: any) => {
-        setPublicId(publicId); // Met à jour le publicId avec celui fourni après le téléversement
+        setPublicId(publicId);
 
         const myImage = cld.image(publicId);
         const imageUrl = myImage.toURL();
         console.log("Image uploaded to Cloudinary:", imageUrl);
-        setImageSrc(imageUrl); // Met à jour l'image affichée avec l'URL Cloudinary
+        setImageSrc(imageUrl);
 
-        // Appel à updateProfil pour mettre à jour l'utilisateur avec l'URL de la nouvelle image
         try {
             const updatedUser = {
-                ...user, // Garde les autres champs inchangés
-                profilePicture: imageUrl, // Met à jour uniquement l'image de profil
+                profilePicture: imageUrl,
             };
             console.log(updatedUser);
 
-            await apiUser.updateProfil(updatedUser); // Utilise apiUser ici
+            await apiUser.updateProfil(updatedUser);
             setImageSrc(imageUrl);
             console.log("Profil mis à jour avec succès");
         } catch (err) {

@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Cloudinary } from "@cloudinary/url-gen";
 import CloudinaryWidget from "../CloudinaryWidget/CloudinaryWidget";
 import { validateInscriptionForm } from "../../utils/formErrorUtils";
+import ButtonLoader from "../common/ButtonLoader";
 
 interface InscriptionFormProps {
     onSubmit: (
@@ -29,6 +30,7 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({ onSubmit }) => {
         lastName?: string;
         sqlInjection?: string;
     }>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const cloudName = "djz1yrhvb";
     const cld = new Cloudinary({
@@ -52,7 +54,7 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({ onSubmit }) => {
         setUploadedDocs((prevDocs) => prevDocs.filter((doc) => doc !== docUrl));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (uploading) {
@@ -70,7 +72,18 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({ onSubmit }) => {
         const validationErrors = validateInscriptionForm(formValues);
 
         if (Object.keys(validationErrors).length === 0) {
-            onSubmit(email, password, firstName, lastName, uploadedDocs);
+            setIsSubmitting(true);
+            try {
+                await onSubmit(
+                    email,
+                    password,
+                    firstName,
+                    lastName,
+                    uploadedDocs
+                );
+            } finally {
+                setIsSubmitting(false); // Remettre à false après la soumission
+            }
         } else {
             setErrors(validationErrors);
         }
@@ -91,6 +104,7 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({ onSubmit }) => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        disabled={isSubmitting || uploading}
                     />
                     {errors.email && (
                         <span className="text-red-500 mt-2">
@@ -109,6 +123,7 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({ onSubmit }) => {
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         required
+                        disabled={isSubmitting || uploading}
                     />
                     {errors.firstName && (
                         <span className="text-red-500 mt-2">
@@ -127,6 +142,7 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({ onSubmit }) => {
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         required
+                        disabled={isSubmitting || uploading}
                     />
                     {errors.lastName && (
                         <span className="text-red-500 mt-2">
@@ -149,6 +165,7 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({ onSubmit }) => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            disabled={isSubmitting || uploading}
                         />
                         <div
                             className="absolute right-5 top-2.5 cursor-pointer"
@@ -221,10 +238,18 @@ const InscriptionForm: React.FC<InscriptionFormProps> = ({ onSubmit }) => {
                     <button
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
                         type="submit"
+                        disabled={isSubmitting || uploading}
                     >
-                        {uploading
-                            ? "Téléchargement en cours..."
-                            : "S'inscrire"}
+                        {isSubmitting || uploading ? (
+                            <div className="flex flex-row flex-nowrap">
+                                <ButtonLoader />
+                                <span className="ml-2">
+                                    Veuillez patienter...
+                                </span>{" "}
+                            </div>
+                        ) : (
+                            "S'inscrire"
+                        )}
                     </button>
                 </div>
             </form>

@@ -143,13 +143,37 @@ const Home: React.FC = () => {
                     <h2 className="w-full text-left font-light pb-2 mb-6 mt-4 border-b-[0.5px]">
                         Cours disponibles
                     </h2>
-                    <div className="flex justify-center items-center">
+                    <div className="w-full flex justify-center items-center">
                         <div className="w-full flex justify-start flex-wrap">
                             {loading ? (
                                 <Loader /> // Afficher le Loader pendant le chargement
                             ) : filteredCourses !== null &&
                               filteredCourses.length > 0 ? (
                                 filteredCourses
+                                    .filter((cours) => {
+                                        const currentDate = new Date(); // Date actuelle
+                                        const courseStartDate = new Date(
+                                            cours.startDate
+                                        ); // Date de début du cours
+
+                                        // On compare uniquement l'année, le mois et le jour
+                                        const currentDateOnly = new Date(
+                                            currentDate.getFullYear(),
+                                            currentDate.getMonth(),
+                                            currentDate.getDate()
+                                        );
+
+                                        const courseStartDateOnly = new Date(
+                                            courseStartDate.getFullYear(),
+                                            courseStartDate.getMonth(),
+                                            courseStartDate.getDate()
+                                        );
+
+                                        return (
+                                            courseStartDateOnly >=
+                                            currentDateOnly
+                                        );
+                                    })
                                     .slice(
                                         0,
                                         showAllCours
@@ -177,7 +201,7 @@ const Home: React.FC = () => {
                             )}
                         </div>
                     </div>
-                    {filteredCourses !== null && filteredCourses.length > 0 ? (
+                    {filteredCourses !== null && filteredCourses.length > 3 ? (
                         <button
                             onClick={toggleShowAllCours}
                             className="mt-4 rounded-lg bg-[#2c3540b5] px-4 py-2 text-white flex items-center"

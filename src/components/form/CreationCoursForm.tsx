@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "../../utils/atom/userAtom";
 import { getKeyLevel } from "../../utils/userUtils";
 import { validateCreateCoursForm } from "../../utils/formErrorUtils";
+import ButtonLoader from "../common/ButtonLoader";
 
 interface SportOption {
     value: number;
@@ -42,6 +43,7 @@ const CreationCoursForm: React.FC = () => {
         niveau?: string;
         sqlInjection?: string;
     }>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { createCourse, error } = useApiCourse();
 
@@ -67,6 +69,8 @@ const CreationCoursForm: React.FC = () => {
         const validationErrors = validateCreateCoursForm(formValues);
 
         if (Object.keys(validationErrors).length === 0) {
+            setIsSubmitting(true);
+
             const sportIds = sports.map((sport) => sport.value);
 
             const newCourse: Partial<Course> = {
@@ -81,6 +85,8 @@ const CreationCoursForm: React.FC = () => {
             };
 
             const success = await createCourse(newCourse);
+
+            setIsSubmitting(false);
 
             if (success) {
                 window.location.assign("/planning");
@@ -123,6 +129,7 @@ const CreationCoursForm: React.FC = () => {
                         isClearable
                         placeholder="Sélectionnez des sports de combat"
                         required
+                        isDisabled={isSubmitting}
                         styles={{
                             control: (base) => ({
                                 ...base,
@@ -191,6 +198,7 @@ const CreationCoursForm: React.FC = () => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white resize-none"
                         onChange={(e) => setDetail(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />
                 </div>
                 <div className="flex flex-col mb-4">
@@ -204,6 +212,7 @@ const CreationCoursForm: React.FC = () => {
                         value={participants}
                         onChange={(e) => setParticipants(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />
                     {errors.participants && (
                         <span className="text-red-500 mt-2">
@@ -224,6 +233,7 @@ const CreationCoursForm: React.FC = () => {
                         isClearable
                         placeholder="Sélectionnez un niveau"
                         required
+                        isDisabled={isSubmitting}
                         styles={{
                             control: (base) => ({
                                 ...base,
@@ -276,6 +286,7 @@ const CreationCoursForm: React.FC = () => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDateDebut(e.target.value)}
                         required
+                        disabled={isSubmitting}
                         min={today}
                     />{" "}
                     {errors.dateDebut && (
@@ -295,6 +306,7 @@ const CreationCoursForm: React.FC = () => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDateFin(e.target.value)}
                         required
+                        disabled={isSubmitting}
                         min={today}
                     />{" "}
                     {errors.dateFin && (
@@ -314,6 +326,7 @@ const CreationCoursForm: React.FC = () => {
                         value={prix}
                         onChange={(e) => setPrix(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />{" "}
                     {errors.prix && (
                         <span className="text-red-500 mt-2">{errors.prix}</span>
@@ -330,6 +343,7 @@ const CreationCoursForm: React.FC = () => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setLieu(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />{" "}
                     {errors.lieu && (
                         <span className="text-red-500 mt-2">{errors.lieu}</span>
@@ -341,8 +355,18 @@ const CreationCoursForm: React.FC = () => {
                 <button
                     className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white hover:bg-[#2c35405a] mb-10"
                     type="submit"
+                    disabled={isSubmitting}
                 >
-                    Créer le cours
+                    {isSubmitting ? (
+                        <div className="flex flex-row flex-nowrap">
+                            <ButtonLoader />
+                            <span className="ml-2">
+                                Création en cours...
+                            </span>{" "}
+                        </div>
+                    ) : (
+                        "Créer le cours"
+                    )}
                 </button>
             </form>
         </div>

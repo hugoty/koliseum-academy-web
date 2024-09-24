@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { validateConnexionForm } from "../../utils/formErrorUtils";
+import ButtonLoader from "../common/ButtonLoader";
 
 interface ConnexionFormProps {
     onSubmit: (email: string, password: string) => void;
@@ -17,8 +18,9 @@ const ConnexionForm: React.FC<ConnexionFormProps> = ({ onSubmit, error }) => {
         password?: string;
         sqlInjection?: string;
     }>({});
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formValues = { email, password };
@@ -26,7 +28,12 @@ const ConnexionForm: React.FC<ConnexionFormProps> = ({ onSubmit, error }) => {
 
         if (Object.keys(validationErrors).length === 0) {
             // Si pas d'erreurs, soumettre le formulaire
-            onSubmit(email, password);
+            setIsSubmitting(true);
+            try {
+                await onSubmit(email, password);
+            } finally {
+                setIsSubmitting(false); // Remettre à false après la soumission
+            }
         } else {
             // Si erreurs, les afficher
             setErrors(validationErrors);
@@ -47,6 +54,7 @@ const ConnexionForm: React.FC<ConnexionFormProps> = ({ onSubmit, error }) => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />
                     {errors.email && (
                         <span className="text-red-500 mt-2">
@@ -67,6 +75,7 @@ const ConnexionForm: React.FC<ConnexionFormProps> = ({ onSubmit, error }) => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            disabled={isSubmitting}
                         />
                         <div
                             className="absolute right-5 top-2.5 cursor-pointer"
@@ -102,16 +111,28 @@ const ConnexionForm: React.FC<ConnexionFormProps> = ({ onSubmit, error }) => {
                     <button
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
                         type="submit"
+                        disabled={isSubmitting}
                     >
-                        Se connecter
+                        {isSubmitting ? (
+                            <div className="flex flex-row flex-nowrap">
+                                <ButtonLoader />
+                                <span className="ml-2">
+                                    Connexion en cours...
+                                </span>{" "}
+                            </div>
+                        ) : (
+                            "Se connecter"
+                        )}
                     </button>
-                    <NavLink
-                        to={`/inscription`}
-                        rel="s'inscrire"
-                        className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
-                    >
-                        S'inscrire
-                    </NavLink>
+                    {!isSubmitting && (
+                        <NavLink
+                            to={`/inscription`}
+                            rel="s'inscrire"
+                            className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a]"
+                        >
+                            S'inscrire
+                        </NavLink>
+                    )}
                 </div>
             </form>
         </div>

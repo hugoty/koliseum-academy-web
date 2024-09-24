@@ -18,6 +18,7 @@ import coach5 from "../../assets/coachs/coach5.jpg";
 import { sportsNames } from "../../utils/userUtils";
 import Sports from "../sports/Sports";
 import CardMyCours from "../../components/card/CardMyCours";
+import defaultPP from "../../assets/user/default-pp.jpg";
 
 const CoachDetail: React.FC = () => {
     const user = useRecoilValue(userAtom);
@@ -98,7 +99,7 @@ const CoachDetail: React.FC = () => {
                     <div className="mb-6">
                         <div className="w-36 h-36 overflow-hidden rounded-full">
                             <img
-                                src={image?.src}
+                                src={coach.profilePicture || defaultPP}
                                 alt={`Photo de profil de ${coach.firstName} ${coach.lastName}`}
                                 className="object-cover w-full h-full"
                             />
@@ -107,7 +108,7 @@ const CoachDetail: React.FC = () => {
                     <h2 className=" flex-1 mb-4 text-2xl">
                         {coach.firstName} {coach.lastName}
                     </h2>
-                    {coach.Sports ? (
+                    {coach.Sports && coach.Sports.length > 0 ? (
                         <h3 className=" flex-1 font-light mb-10 text-xl">
                             Expert en {sportsNames(coach.Sports)}
                         </h3>

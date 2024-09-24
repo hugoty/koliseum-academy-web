@@ -8,6 +8,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import CloudinaryWidget from "../CloudinaryWidget/CloudinaryWidget";
 import { validateUpdateProfilForm } from "../../utils/formErrorUtils";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import ButtonLoader from "../common/ButtonLoader";
 
 interface SportOption {
     value: number | undefined;
@@ -52,6 +53,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
         dateOfBirth?: string;
         sqlInjection?: string;
     }>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const cloudName = "djz1yrhvb";
     const cld = new Cloudinary({
@@ -81,7 +83,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
         setUploadedDocs((prevDocs) => prevDocs.filter((doc) => doc !== docUrl));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (uploading) {
@@ -99,7 +101,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
         const validationErrors = validateUpdateProfilForm(formValues);
 
         if (Object.keys(validationErrors).length === 0) {
-            // Si pas d'erreurs, soumettre le formulaire
+            setIsSubmitting(true);
             const updatedUser: Partial<User> = {
                 firstName,
                 lastName,
@@ -113,7 +115,11 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                 uploadedDocs,
                 dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
             };
-            onSubmit(updatedUser);
+            try {
+                await onSubmit(updatedUser);
+            } finally {
+                setIsSubmitting(false); // Reset isSubmitting after submission
+            }
         } else {
             // Si erreurs, les afficher
             setErrors(validationErrors);
@@ -134,6 +140,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                         required
+                        disabled={isSubmitting || uploading}
                     />
                     {errors.firstName && (
                         <span className="text-red-500 mt-2">
@@ -152,6 +159,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         required
+                        disabled={isSubmitting || uploading}
                     />
                     {errors.lastName && (
                         <span className="text-red-500 mt-2">
@@ -170,6 +178,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        disabled={isSubmitting || uploading}
                     />
                     {errors.email && (
                         <span className="text-red-500 mt-2">
@@ -191,7 +200,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                             className="rounded-lg bg-[#2c3540b5] px-4 py-2 w-full"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required
+                            disabled={isSubmitting || uploading}
                         />
                         <div
                             className="absolute right-5 top-2.5 cursor-pointer"
@@ -220,6 +229,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2"
                         value={dateOfBirth}
                         onChange={(e) => setDateOfBirth(e.target.value)}
+                        disabled={isSubmitting || uploading}
                     />
                     {errors.dateOfBirth && (
                         <span className="text-red-500 mt-2">
@@ -255,6 +265,7 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                         isClearable
                         placeholder="Sélectionnez un ou plusieurs sports"
                         required
+                        isDisabled={isSubmitting || uploading}
                         styles={{
                             control: (base) => ({
                                 ...base,
@@ -353,8 +364,18 @@ const UpdateProfilForm: React.FC<UpdateProfilFormProps> = ({ onSubmit }) => {
                     <button
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 hover:bg-[#2c35405a] mb-10"
                         type="submit"
+                        disabled={isSubmitting || uploading}
                     >
-                        Mettre à jour le profil
+                        {isSubmitting || uploading ? (
+                            <div className="flex flex-row flex-nowrap">
+                                <ButtonLoader />
+                                <span className="ml-2">
+                                    Veuillez patienter...
+                                </span>{" "}
+                            </div>
+                        ) : (
+                            "Mettre à jour le profil"
+                        )}
                     </button>
                 </div>
             </form>

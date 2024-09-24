@@ -84,22 +84,67 @@ const CardCoach: React.FC<CardCoachProps> = ({ coach }) => {
                     </p>
                     <div className="w-full flex flex-row flex-nowrap overflow-x-scroll pb-4">
                         {coach?.ownedCourses &&
-                        coach?.ownedCourses.length > 0 ? (
-                            coach?.ownedCourses.map((cours) => (
-                                <div
-                                    key={cours.id}
-                                    className="w-full p-4 text-xs bg-[#1f262e] rounded-2xl mr-4"
-                                >
-                                    <div className="w-full flex flex-row flex-nowrap items-center mr-4 mb-2">
-                                        <FaLocationDot className="mr-2" />
-                                        {cours.locations}
+                        coach?.ownedCourses.length > 0 &&
+                        coach?.ownedCourses.filter((cours) => {
+                            const currentDate = new Date(); // Date actuelle
+                            const courseStartDate = new Date(cours.startDate); // Date de début du cours
+
+                            // On compare uniquement l'année, le mois et le jour
+                            const currentDateOnly = new Date(
+                                currentDate.getFullYear(),
+                                currentDate.getMonth(),
+                                currentDate.getDate()
+                            );
+
+                            const courseStartDateOnly = new Date(
+                                courseStartDate.getFullYear(),
+                                courseStartDate.getMonth(),
+                                courseStartDate.getDate()
+                            );
+
+                            return courseStartDateOnly >= currentDateOnly;
+                        }).length > 0 ? (
+                            coach?.ownedCourses
+                                .filter((cours) => {
+                                    const currentDate = new Date(); // Date actuelle
+                                    const courseStartDate = new Date(
+                                        cours.startDate
+                                    ); // Date de début du cours
+
+                                    // On compare uniquement l'année, le mois et le jour
+                                    const currentDateOnly = new Date(
+                                        currentDate.getFullYear(),
+                                        currentDate.getMonth(),
+                                        currentDate.getDate()
+                                    );
+
+                                    const courseStartDateOnly = new Date(
+                                        courseStartDate.getFullYear(),
+                                        courseStartDate.getMonth(),
+                                        courseStartDate.getDate()
+                                    );
+
+                                    return (
+                                        courseStartDateOnly >= currentDateOnly
+                                    );
+                                })
+                                .map((cours) => (
+                                    <div
+                                        key={cours.id}
+                                        className="w-full p-4 text-xs bg-[#1f262e] rounded-2xl mr-4"
+                                    >
+                                        <div className="w-full flex flex-row flex-nowrap items-center mr-4 mb-2">
+                                            <FaLocationDot className="mr-2" />
+                                            {cours.locations}
+                                        </div>
+                                        <div className="w-full flex flex-row flex-nowrap items-center">
+                                            <FaCalendar className="mr-2" />
+                                            {formatDate(
+                                                String(cours.startDate)
+                                            )}
+                                        </div>
                                     </div>
-                                    <div className="w-full flex flex-row flex-nowrap items-center">
-                                        <FaCalendar className="mr-2" />
-                                        {formatDate(String(cours.startDate))}
-                                    </div>
-                                </div>
-                            ))
+                                ))
                         ) : (
                             <span className="w-full text-center text-xs">
                                 Aucun cours prévus

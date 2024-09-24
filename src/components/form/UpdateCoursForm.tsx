@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "../../utils/atom/userAtom";
 import { getKeyLevel } from "../../utils/userUtils";
 import { validateUpdateCoursForm } from "../../utils/formErrorUtils";
+import ButtonLoader from "../common/ButtonLoader";
 
 interface SportOption {
     value: number | undefined;
@@ -41,6 +42,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
         niveau?: string;
         sqlInjection?: string;
     }>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { updateCourse, error } = useApiCourse();
 
@@ -100,6 +102,8 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
         const validationErrors = validateUpdateCoursForm(formValues);
 
         if (Object.keys(validationErrors).length === 0) {
+            setIsSubmitting(true);
+
             const updatedCourse: Partial<Course> = {
                 ...course,
                 detail: detail ? detail : "",
@@ -118,6 +122,8 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                 String(course.owner?.id) ?? undefined,
                 updatedCourse
             );
+
+            setIsSubmitting(false);
 
             if (success) {
                 window.location.assign(`/cours/${course.id}`);
@@ -163,6 +169,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         isClearable
                         placeholder="Sélectionnez des sports de combat"
                         required
+                        isDisabled={isSubmitting}
                         styles={{
                             control: (base) => ({
                                 ...base,
@@ -231,7 +238,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         value={detail}
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDetail(e.target.value)}
-                        required
+                        disabled={isSubmitting}
                     />
                 </div>
                 <div className="flex flex-col mb-4">
@@ -245,6 +252,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         value={participants}
                         onChange={(e) => setParticipants(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />{" "}
                     {errors.participants && (
                         <span className="text-red-500 mt-2">
@@ -269,6 +277,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         isClearable
                         placeholder="Sélectionnez un niveau"
                         required
+                        isDisabled={isSubmitting}
                         styles={{
                             control: (base) => ({
                                 ...base,
@@ -338,6 +347,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDateDebut(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />{" "}
                     {errors.dateDebut && (
                         <span className="text-red-500 mt-2">
@@ -356,6 +366,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setDateFin(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />{" "}
                     {errors.dateFin && (
                         <span className="text-red-500 mt-2">
@@ -374,6 +385,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         value={prix}
                         onChange={(e) => setPrix(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />{" "}
                     {errors.prix && (
                         <span className="text-red-500 mt-2">{errors.prix}</span>
@@ -390,6 +402,7 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                         className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white"
                         onChange={(e) => setLieu(e.target.value)}
                         required
+                        disabled={isSubmitting}
                     />{" "}
                     {errors.lieu && (
                         <span className="text-red-500 mt-2">{errors.lieu}</span>
@@ -401,8 +414,18 @@ const UpdateCoursForm: React.FC<UpdateCoursFormProps> = ({ course }) => {
                 <button
                     className="rounded-lg bg-[#2c3540b5] px-4 py-2 text-white hover:bg-[#2c35405a] mb-10"
                     type="submit"
+                    disabled={isSubmitting}
                 >
-                    Mettre à jour le cours
+                    {isSubmitting ? (
+                        <div className="flex flex-row flex-nowrap">
+                            <ButtonLoader />
+                            <span className="ml-2">
+                                Mise à jour en cours...
+                            </span>{" "}
+                        </div>
+                    ) : (
+                        "Mettre à jour le cours"
+                    )}
                 </button>
             </form>
         </div>
